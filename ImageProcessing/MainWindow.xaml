@@ -1,0 +1,23 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="ImageProcessing.MainWindow"
+        Title="MainWindow" Height="350" Width="700">
+    <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Grid.Row="0" Source="trout0000.jpeg" Name="img1"/>
+        <Image Grid.Column="1" Grid.Row="0" Source="trout0000.jpeg" Name="img2"/>
+        <StackPanel VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+        	<TextBox Style="{DynamicResource SimpleTextBox}" TextWrapping="Wrap" Text="C:\Users\valeku\Documents\Visual Studio 2010\Projects\KinectFish\trout\trout0000.jpeg" HorizontalAlignment="Left" VerticalAlignment="Bottom" Name="txtBox"/>
+        	<Button Content="..." HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+        	<Button Content="Process" Margin="0,0,25,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
