@@ -151,6 +151,7 @@ namespace ImageProcessing
             Bitmap SampleImage = (Bitmap)System.Drawing.Image.FromFile(filename);
             Bitmap rChannel = processImageCenterline(filename);
             Bitmap bChannel = processImageContour(filename);
+
             ReplaceChannel replaceRFilter = new ReplaceChannel(RGB.R, rChannel);
             ReplaceChannel replaceGFilter = new ReplaceChannel(RGB.G, rChannel);
             ReplaceChannel replaceBFilter = new ReplaceChannel(RGB.B, bChannel);
@@ -160,6 +161,7 @@ namespace ImageProcessing
 
             replaceBFilter.ApplyInPlace(SampleImage);
             return SampleImage;
+            //comment
         }
 
     }
