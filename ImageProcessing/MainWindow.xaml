@@ -15,7 +15,7 @@
         <Image Grid.Column="0" Grid.Row="0" Source="trout0000.jpeg" Name="img1"/>
         <Image Grid.Column="1" Grid.Row="0" Source="trout0000.jpeg" Name="img2"/>
         <StackPanel VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-        	<TextBox Style="{DynamicResource SimpleTextBox}" TextWrapping="Wrap" Text="C:\Users\valeku\Documents\Visual Studio 2010\Projects\KinectFish\trout\trout0000.jpeg" HorizontalAlignment="Left" VerticalAlignment="Bottom" Name="txtBox"/>
+        	<TextBox Style="{DynamicResource SimpleTextBox}" TextWrapping="Wrap" Text="..\..\..\trout\trout0000.jpeg" HorizontalAlignment="Left" VerticalAlignment="Bottom" Name="txtBox" TextChanged="txtBox_TextChanged" />
         	<Button Content="..." HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
         	<Button Content="Process" Margin="0,0,25,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click" />
         </StackPanel>

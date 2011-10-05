@@ -164,5 +164,10 @@ namespace ImageProcessing
             //comment
         }
 
+        private void txtBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
     }
 }
