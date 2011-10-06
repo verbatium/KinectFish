@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageProcessing", "ImagePro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishControl", "FishControl\FishControl.csproj", "{5311BE55-5AFA-4DC8-AABE-23467356AC36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeGame", "ShapeGame\ShapeGame.csproj", "{E61846BF-FE80-4B50-A7FF-CFCD9E4A4815}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,6 +21,10 @@ Global
 		{5311BE55-5AFA-4DC8-AABE-23467356AC36}.Debug|x86.Build.0 = Debug|x86
 		{5311BE55-5AFA-4DC8-AABE-23467356AC36}.Release|x86.ActiveCfg = Release|x86
 		{5311BE55-5AFA-4DC8-AABE-23467356AC36}.Release|x86.Build.0 = Release|x86
+		{E61846BF-FE80-4B50-A7FF-CFCD9E4A4815}.Debug|x86.ActiveCfg = Debug|x86
+		{E61846BF-FE80-4B50-A7FF-CFCD9E4A4815}.Debug|x86.Build.0 = Debug|x86
+		{E61846BF-FE80-4B50-A7FF-CFCD9E4A4815}.Release|x86.ActiveCfg = Release|x86
+		{E61846BF-FE80-4B50-A7FF-CFCD9E4A4815}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
