@@ -11,25 +11,23 @@ namespace ShapeGame
 {
     public class PolyFish
     {
-       public  Polyline polyline2= new Polyline();
-        double _angle;
-        RotateTransform rotateTransform2 = new RotateTransform();
-        TranslateTransform translate = new TranslateTransform();
+        public Polyline polyline2 = new Polyline();
+        RotateTransform rotateTransform = new RotateTransform();
+        TranslateTransform translateTransform = new TranslateTransform();
         TransformGroup transformations = new TransformGroup();
+
         public double angle
         {
             get
             {
-                return _angle;
+                return rotateTransform.Angle;
             }
             set
             {
-                _angle = value;
-                rotateTransform2.Angle = value;
-                //polyline2.RenderTransform = rotateTransform2;
+                rotateTransform.Angle = value;
             }
         }
-        
+
         public PolyFish()
         {
             // Create a Polyline.
@@ -41,15 +39,20 @@ namespace ShapeGame
             polyline2.Points.Add(new Point(25, 0));
             polyline2.Stroke = Brushes.Blue;
             polyline2.StrokeThickness = 10;
-            _angle = 0;
+
+
             // Create a RotateTransform to rotate
             // the Polyline 45 degrees about the
             // point (25,50).
-            rotateTransform2.CenterX = 25;
-            rotateTransform2.CenterY = 50;
-            transformations.Children.Add(rotateTransform2);
-            transformations.Children.Add(translate);
-            polyline2.RenderTransform = transformations;;  
+            rotateTransform.CenterX = 25;
+            rotateTransform.CenterY = 50;
+            transformations.Children.Add(rotateTransform);
+            //TODO: here we can add scale transformation
+
+            //Move it to position on the screen
+            transformations.Children.Add(translateTransform);
+            //apply all transformations  to the shape
+            polyline2.RenderTransform = transformations; ;
         }
         public void Draw(UIElementCollection children)
         {
@@ -58,9 +61,8 @@ namespace ShapeGame
 
         public void resizePlayfield(int width, int height)
         {
-
-            translate.X = width / 2;
-            translate.Y = height /2;
+            translateTransform.X = width / 2;
+            translateTransform.Y = height / 2;
         }
     }
 }
