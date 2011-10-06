@@ -218,6 +218,7 @@ namespace ShapeGame
         bool nuiInitialized = false;
         FallingThings fallingThings = null;
         Fishbone fishbone = new Fishbone(200, 200);
+        PolyFish fish = new PolyFish();
         int playersAlive = 0;
         SoundPlayer popSound = new SoundPlayer();
         SoundPlayer hitSound = new SoundPlayer();
@@ -371,6 +372,7 @@ namespace ShapeGame
         {
             UpdatePlayfieldSize();
             fishbone.resizePlayfield(Convert.ToInt16(e.NewSize.Width), Convert.ToInt16(e.NewSize.Height));
+            fish.resizePlayfield(Convert.ToInt16(e.NewSize.Width), Convert.ToInt16(e.NewSize.Height));
         }
 
         private void UpdatePlayfieldSize()
@@ -507,6 +509,9 @@ namespace ShapeGame
             FlyingText.Draw(playfield.Children);
             fishbone.Draw(playfield.Children);
 
+
+            fish.Draw(playfield.Children);
+
             CheckPlayers();
         }
 
@@ -527,6 +532,7 @@ namespace ShapeGame
         private void angleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             fishbone.ChangeAngle(e.NewValue);
+            fish.angle = e.NewValue;
         }
     }
 }
