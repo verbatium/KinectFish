@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ShapeGame
+namespace ImageProcessing
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
@@ -23,9 +23,11 @@ namespace ShapeGame
         public static readonly DependencyProperty HeadAngleProperty
     = DependencyProperty.Register("HeadAngle", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
-
-
-        public static readonly DependencyProperty BodyAngle1Property
+        
+        //public static readonly DependencyProperty BodyAngleProperty
+        //    = DependencyProperty.Register("BodyAngle", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+        
+        public static readonly DependencyProperty BodyAngle1Property 
             = DependencyProperty.Register("BodyAngle1", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty BodyAngle2Property
             = DependencyProperty.Register("BodyAngle2", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
@@ -34,7 +36,15 @@ namespace ShapeGame
     = DependencyProperty.Register("TailAngle", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
 
+        //public double BodyAngle
+        //{
+        //    get { return (double)GetValue(BodyAngleProperty); }
+        //    set
+        //    {
+        //        SetValue(BodyAngleProperty, value);
+        //    }
 
+        //}
 
         public double HeadAngle
         {
@@ -70,7 +80,11 @@ namespace ShapeGame
         static UserControl1()
         {
 
-        }
+         }
+        
+        
+
+
 
     }
 }

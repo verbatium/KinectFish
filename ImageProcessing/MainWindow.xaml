@@ -1,11 +1,16 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="ImageProcessing.MainWindow"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+        x:Class="ImageProcessing.MainWindow"
+        xmlns:local="clr-namespace:ImageProcessing;assembly="
+    
         Title="MainWindow" Height="350" Width="700">
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -19,5 +24,14 @@
         	<Button Content="..." HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
         	<Button Content="Process" Margin="0,0,25,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click" />
         </StackPanel>
+        <StackPanel VerticalAlignment="Top" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Slider  Height="27" HorizontalAlignment="Center" Margin="0,0,0,0" Name="angleSlider1" VerticalAlignment="Top" Width="222" Minimum="-30" Maximum="30"  />
+            <Slider Height="27" HorizontalAlignment="Center" Margin="0,0,0,0" Name="angleSlider2" VerticalAlignment="Top" Width="222" Minimum="-30" Maximum="30"  />
+            <Slider  Height="27" HorizontalAlignment="Center" Margin="0,0,0,0" Name="angleSlider3" VerticalAlignment="Top" Width="222" Minimum="-30" Maximum="30"  />
+            <Slider  Height="27" HorizontalAlignment="Center" Margin="0,0,0,0" Name="angleSlider4" VerticalAlignment="Top" Width="222" Minimum="-30" Maximum="30"  />
+        </StackPanel>
+        <local:UserControl1 BodyAngle1="{Binding ElementName=angleSlider2, Path=Value}" BodyAngle2="{Binding ElementName=angleSlider3, Path=Value}" HeadAngle="{Binding ElementName=angleSlider1, Path=Value}" TailAngle="{Binding ElementName=angleSlider4, Path=Value}" x:Name="UCFish1">
+            
+        </local:UserControl1>
     </Grid>
 </Window>
