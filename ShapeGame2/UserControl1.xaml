@@ -5,6 +5,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+	<UserControl.Resources>
+		<Storyboard x:Key="Wiggle">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="Body1">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="24.28"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="Body1">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="51.326"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="Body1">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="-56.768"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="Body2">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="-59.768"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="-16.768"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:3" Value="-2.768"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="Body2">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="37.326"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="-12.674"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:3" Value="-25.674"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="Body2">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="-16.618"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="1.688"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:3" Value="6.777"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="Tail">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="-26.001"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="-26.001"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:3" Value="23.338"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="Tail">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="-88.275"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="-117.275"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:3" Value="77.725"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="Tail">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="74.359"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="81.359"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:3" Value="-49.641"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</UserControl.Resources>
+	<UserControl.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource Wiggle}"/>
+		</EventTrigger>
+	</UserControl.Triggers>
     <Canvas>
         <Path Stroke="Red" StrokeThickness="2" Data="M150,0 L150,50" Name="Head">
             <Path.RenderTransform>
@@ -19,28 +67,32 @@
         </Path>
         <Path Stroke="Blue" StrokeThickness="2" Data="M150,50 L150,150" Name="Body1">
             <Path.RenderTransform>
-                <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="150" Angle="10" />
-                    <!--Body Angle /2-->
-                </TransformGroup>
+            	<TransformGroup>
+            		<ScaleTransform ScaleY="0.99999999999999989" ScaleX="0.99999999999999989"/>
+            		<SkewTransform/>
+            		<RotateTransform Angle="10"/>
+            		<TranslateTransform X="28.32606369820834" Y="-23.768389601870762"/>
+            	</TransformGroup>
             </Path.RenderTransform>
         </Path>
         <Path Stroke="Yellow" StrokeThickness="2" Data="M150,150 L150,250" Name="Body2">
             <Path.RenderTransform>
-                <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="150" Angle="-10" />
-                    <!--Body Angle /2-->
-                </TransformGroup>
+            	<TransformGroup>
+            		<ScaleTransform ScaleY="0.99999999999999989" ScaleX="0.99999999999999989"/>
+            		<SkewTransform/>
+            		<RotateTransform Angle="-10"/>
+            		<TranslateTransform X="-23.768389601870762" Y="28.32606369820834"/>
+            	</TransformGroup>
             </Path.RenderTransform>
         </Path>
         <Path Stroke="Green" StrokeThickness="2" Data="M150,250 L150,300" Name="Tail">
             <Path.RenderTransform>
-                <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="250" Angle="15" />
-                    <!--Tail Angle-->
-                    <RotateTransform CenterX="150" CenterY="150" Angle="-10" />
-                    <!-- -Head Angle /2-->
-                </TransformGroup>
+            	<TransformGroup>
+            		<ScaleTransform ScaleY="0.99999999999999989" ScaleX="0.99999999999999989"/>
+            		<SkewTransform/>
+            		<RotateTransform Angle="4.9999999999999991"/>
+            		<TranslateTransform X="39.724548739845744" Y="-13.641260633864302"/>
+            	</TransformGroup>
             </Path.RenderTransform>
         </Path>
     </Canvas>
