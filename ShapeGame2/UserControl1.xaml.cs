@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ShapeGame
+namespace ShapeGame2
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml

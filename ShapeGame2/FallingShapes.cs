@@ -97,7 +97,7 @@ namespace ShapeGame_Utils
         {
             segLast = seg;
             seg = s;
-            
+
             DateTime cur = DateTime.Now;
             double fMs = cur.Subtract(timeLastUpdated).TotalMilliseconds;
             if (fMs < 10.0)
@@ -143,16 +143,16 @@ namespace ShapeGame_Utils
 
     public enum PolyType
     {
-        None        = 0x00,
-        Triangle    = 0x01,
-        Square      = 0x02,
-        Star        = 0x04,
-        Pentagon    = 0x08,
-        Hex         = 0x10,
-        Star7       = 0x20,
-        Circle      = 0x40,
-        Bubble      = 0x80,
-        All         = 0x7f
+        None = 0x00,
+        Triangle = 0x01,
+        Square = 0x02,
+        Star = 0x04,
+        Pentagon = 0x08,
+        Hex = 0x10,
+        Star7 = 0x20,
+        Circle = 0x40,
+        Bubble = 0x80,
+        All = 0x7f
     }
 
     public enum HitType
@@ -211,7 +211,7 @@ namespace ShapeGame_Utils
                 else
                     label.FontSize = Math.Min(Math.Max(10, boundsRect.Width * 2 / text.Length),
                                               Math.Max(10, boundsRect.Height / 20));
-                label.VerticalContentAlignment= VerticalAlignment.Bottom;
+                label.VerticalContentAlignment = VerticalAlignment.Bottom;
                 label.HorizontalContentAlignment = (doScroll) ? HorizontalAlignment.Left : HorizontalAlignment.Center;
                 label.SetValue(Canvas.LeftProperty, offset * boundsRect.Width);
             }
@@ -481,9 +481,9 @@ namespace ShapeGame_Utils
                 ydif = y1 - fY0;
 
                 double Bsq = dist * dist;
-		        B = dist;
-		        double Asq = fXV0 * fXV0 + fYV0 * fYV0;
-		        A = Math.Sqrt(Asq);
+                B = dist;
+                double Asq = fXV0 * fXV0 + fYV0 * fYV0;
+                A = Math.Sqrt(Asq);
                 if (A > 0.000001)	// if moving much at all...
                 {
                     double cx = fX0 + fXV0;
@@ -586,7 +586,7 @@ namespace ShapeGame_Utils
             gameStartTime = DateTime.Now;
             scores.Clear();
         }
-        
+
         public void SetGameMode(GameMode mode)
         {
             gameMode = mode;
@@ -599,7 +599,7 @@ namespace ShapeGame_Utils
             gravityFactor = f;
             gravity = f * BaseGravity / targetFrameRate / Math.Sqrt(targetFrameRate) / Math.Sqrt((double)intraFrames);
             airFriction = (f == 0) ? 0.997 : Math.Exp(Math.Log(1.0 - (1.0 - baseAirFriction) / f) / intraFrames);
-            
+
             if (f == 0)  // Stop all movement as well!
             {
                 for (int i = 0; i < things.Count; i++)
@@ -725,8 +725,8 @@ namespace ShapeGame_Utils
                                             else if ((thing.state == ThingState.Bouncing) && (fMs > 100.0))
                                             {
                                                 hit |= HitType.Popped;
-                                                AddToScore( thing.touchedBy, 
-                                                            (pair.Key.joint1 == JointID.FootLeft || pair.Key.joint1 == JointID.FootRight) ? 10 : 5, 
+                                                AddToScore(thing.touchedBy,
+                                                            (pair.Key.joint1 == JointID.FootLeft || pair.Key.joint1 == JointID.FootRight) ? 10 : 5,
                                                             thing.center);
                                                 thing.touchedBy = playerId;
                                             }
@@ -974,7 +974,7 @@ namespace ShapeGame_Utils
                 foreach (var score in scores)
                 {
                     Label label = MakeSimpleLabel(score.Value.ToString(),
-                        new Rect((0.02 + i * 0.6) * sceneRect.Width, 0.01 * sceneRect.Height, 
+                        new Rect((0.02 + i * 0.6) * sceneRect.Width, 0.01 * sceneRect.Height,
                                  0.4 * sceneRect.Width, 0.3 * sceneRect.Height),
                         new SolidColorBrush(Color.FromArgb(200, 255, 255, 255)));
                     label.FontSize = Math.Min(sceneRect.Width / 12, sceneRect.Height / 12);

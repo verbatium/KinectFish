@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows.Media;
 
-namespace ShapeGame
+namespace ShapeGame2
 {
     public class Fishbone
     {
@@ -14,7 +14,7 @@ namespace ShapeGame
 
         public Fishbone(int posx, int posy)
         {
-            
+
             line = new Line();
 
             line.StrokeThickness = 2;
@@ -39,8 +39,8 @@ namespace ShapeGame
         }
         public void resizePlayfield(int width, int height)
         {
-           
-            line.X1 = width/2;
+
+            line.X1 = width / 2;
             line.Y1 = height - length - 20;
             ChangeAngle(angle);
         }

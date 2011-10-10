@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Shapes;
 
-namespace ShapeGame
+namespace ShapeGame2
 {
     class CompositeShape : Shape
     {
@@ -14,5 +14,5 @@ namespace ShapeGame
             get { throw new NotImplementedException(); }
         }
     }
-    
+
 }

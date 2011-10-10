@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ShapeGame.UserControl1"
+﻿<UserControl x:Class="ShapeGame2.UserControl1"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,16 +9,19 @@
         <Path Stroke="Red" StrokeThickness="2" Data="M150,0 L150,50" Name="Head">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="50" Angle="-5" /><!--Head Angle-->
+                    <RotateTransform CenterX="150" CenterY="50" Angle="-5" />
+                    <!--Head Angle-->
                     <!--Body Angle /2-->
-                    <RotateTransform CenterX="150" CenterY="150" Angle="10" /><!--Body Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="150" Angle="10" />
+                    <!--Body Angle /2-->
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
         <Path Stroke="Blue" StrokeThickness="2" Data="M150,50 L150,150" Name="Body1">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="150" Angle="10" /><!--Body Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="150" Angle="10" />
+                    <!--Body Angle /2-->
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
@@ -33,8 +36,10 @@
         <Path Stroke="Green" StrokeThickness="2" Data="M150,250 L150,300" Name="Tail">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="250" Angle="15" /><!--Tail Angle-->
-                    <RotateTransform CenterX="150" CenterY="150" Angle="-10" /><!-- -Head Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="250" Angle="15" />
+                    <!--Tail Angle-->
+                    <RotateTransform CenterX="150" CenterY="150" Angle="-10" />
+                    <!-- -Head Angle /2-->
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>

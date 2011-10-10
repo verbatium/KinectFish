@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ShapeGame.Properties {
+namespace ShapeGame2.Properties
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,92 +23,114 @@ namespace ShapeGame.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
-        
+    public class Resources
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resources()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ShapeGame.Properties.Resources", typeof(Resources).Assembly);
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ShapeGame2.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
-        public static System.IO.UnmanagedMemoryStream Hit_2 {
-            get {
+
+        public static System.IO.UnmanagedMemoryStream Hit_2
+        {
+            get
+            {
                 return ResourceManager.GetStream("Hit_2", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Plug in Kinect and try again!.
         /// </summary>
-        public static string NoKinectError {
-            get {
+        public static string NoKinectError
+        {
+            get
+            {
                 return ResourceManager.GetString("NoKinectError", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to One or more of the Speech prerequisites has not been installed.  Please consult the README for more information..
         /// </summary>
-        public static string NoSpeechError {
-            get {
+        public static string NoSpeechError
+        {
+            get
+            {
                 return ResourceManager.GetString("NoSpeechError", resourceCulture);
             }
         }
-        
-        public static System.IO.UnmanagedMemoryStream Pop_5 {
-            get {
+
+        public static System.IO.UnmanagedMemoryStream Pop_5
+        {
+            get
+            {
                 return ResourceManager.GetStream("Pop_5", resourceCulture);
             }
         }
-        
-        public static System.Drawing.Icon ShapeGame {
-            get {
-                object obj = ResourceManager.GetObject("ShapeGame", resourceCulture);
+
+        public static System.Drawing.Icon ShapeGame2
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("ShapeGame2", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
-        
-        public static System.IO.UnmanagedMemoryStream Squeeze {
-            get {
+
+        public static System.IO.UnmanagedMemoryStream Squeeze
+        {
+            get
+            {
                 return ResourceManager.GetStream("Squeeze", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Say something out loud to control the game!     Say colors and shapes like: &quot;Green Circles&quot;   &quot;Yellow Stars&quot;   &quot;Black Triangles&quot;   &quot;All Colors&quot;     Or say commands like: &quot;Speed Up&quot;   &quot;Slow Down&quot;   &quot;Bigger&quot;   &quot;Smaller&quot;   &quot;Stop&quot;   &quot;Go&quot;   &quot;Giant&quot;        Or say &quot;Reset&quot; to start over!.
         /// </summary>
-        public static string Vocabulary {
-            get {
+        public static string Vocabulary
+        {
+            get
+            {
                 return ResourceManager.GetString("Vocabulary", resourceCulture);
             }
         }
