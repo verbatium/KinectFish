@@ -55,6 +55,8 @@ namespace ShapeGame2
         const double DefaultDropSize = 32.0;
         const double DefaultDropGravity = 1.0;
 
+        FourLineFish fourLineFish;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -68,6 +70,7 @@ namespace ShapeGame2
                 this.Width = bounds.Width;
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
+            fourLineFish = this.FindName("UCFish") as FourLineFish;
         }
 
         public class Player
@@ -509,6 +512,7 @@ namespace ShapeGame2
             FlyingText.Draw(playfield.Children);
             fishbone.Draw(playfield.Children);
 
+            fourLineFish.TailAngle += 1.0;
 
             fish.Draw(playfield.Children);
 

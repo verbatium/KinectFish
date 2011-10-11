@@ -17,24 +17,34 @@ namespace ShapeGame2
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class FourLineFish : UserControl
     {
 
         public static readonly DependencyProperty HeadAngleProperty
-    = DependencyProperty.Register("HeadAngle", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+    = DependencyProperty.Register("HeadAngle", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
 
+        //public static readonly DependencyProperty BodyAngleProperty
+        //    = DependencyProperty.Register("BodyAngle", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty BodyAngle1Property
-            = DependencyProperty.Register("BodyAngle1", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+            = DependencyProperty.Register("BodyAngle1", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty BodyAngle2Property
-            = DependencyProperty.Register("BodyAngle2", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+            = DependencyProperty.Register("BodyAngle2", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty TailAngleProperty
-    = DependencyProperty.Register("TailAngle", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+    = DependencyProperty.Register("TailAngle", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
 
+        //public double BodyAngle
+        //{
+        //    get { return (double)GetValue(BodyAngleProperty); }
+        //    set
+        //    {
+        //        SetValue(BodyAngleProperty, value);
+        //    }
 
+        //}
 
         public double HeadAngle
         {
@@ -62,15 +72,19 @@ namespace ShapeGame2
             set { SetValue(TailAngleProperty, value); }
         }
 
-        public UserControl1()
+        public FourLineFish()
         {
             InitializeComponent();
         }
 
-        static UserControl1()
+        static FourLineFish()
         {
 
         }
+
+
+
+
 
     }
 }
