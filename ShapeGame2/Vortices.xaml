@@ -188,7 +188,7 @@
         </Ellipse>
     </Grid>
     <UserControl.Resources>
-        <Storyboard x:Key="Flow" RepeatBehavior="Forever">
+        <Storyboard x:Key="Flow" RepeatBehavior="Forever" SpeedRatio="0.3">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="RedVortex_Copy3">
                 <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="807.513"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1384"/>
