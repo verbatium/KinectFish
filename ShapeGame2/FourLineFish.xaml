@@ -8,10 +8,56 @@
              x:Class="ShapeGame2.FourLineFish"
              d:DesignHeight="300" d:DesignWidth="300">
     <Canvas>
-        <Path Stroke="Red" StrokeThickness="2" Data="M150,0 L150,50" Name="Head" DataContext="{Binding ElementName=UCFish}">
+         <Path Stroke="Red" StrokeThickness="2" Data="M150,0 L150,50" Name="Head" DataContext="{Binding ElementName=UCFish}">
             <Path.RenderTransform>
                 <TransformGroup>
                     <RotateTransform CenterX="150" CenterY="50" Angle="{Binding ElementName=UCFish, Path=HeadAngle}" />
+                    <!--Head Angle-->
+                    <!--Body Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
+                    <!--Body Angle /2-->
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Stroke="Red" StrokeThickness="2" Data="M120,50 L180,50" Name="Collar" DataContext="{Binding ElementName=UCFish}">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform CenterX="150" CenterY="50" Angle="{Binding ElementName=UCFish, Path=HeadAngle/2}" />
+                    <!--Head Angle-->
+                    <!--Body Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
+                    <!--Body Angle /2-->
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Stroke="Black" StrokeThickness="2" Data="M 150,0 C 135,15 130,15 120,50" Name="LeftHead" DataContext="{Binding ElementName=UCFish}">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <SkewTransform AngleX="0" AngleY="{Binding ElementName=UCFish, Path=NegHeadAngle}" CenterX="150" CenterY="0"/>
+                    <RotateTransform CenterX="150" CenterY="50" Angle="{Binding ElementName=UCFish, Path=HeadAngle}" />
+                    <!--Head Angle-->
+                    <!--Body Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
+                    <!--Body Angle /2-->
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Stroke="Black" StrokeThickness="2" Data="M 150,0 C 165,15 170,15 180,50" Name="RightHead" DataContext="{Binding ElementName=UCFish}">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <SkewTransform AngleX="0" AngleY="{Binding ElementName=UCFish, Path=NegHeadAngle}" CenterX="150" CenterY="0"/>
+                    <RotateTransform CenterX="150" CenterY="50" Angle="{Binding ElementName=UCFish, Path=HeadAngle}" />
+                    <!--Head Angle-->
+                    <!--Body Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
+                    <!--Body Angle /2-->
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Stroke="Black" StrokeThickness="2" Data="M 280,50 C 185,100 190,125 190,150" Name="RightBody1" DataContext="{Binding ElementName=UCFish}">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <SkewTransform AngleX="0" AngleY="{Binding ElementName=UCFish, Path=HeadAngle/2}" CenterX="190" CenterY="150"/>
                     <!--Head Angle-->
                     <!--Body Angle /2-->
                     <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />

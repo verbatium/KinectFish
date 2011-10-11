@@ -22,7 +22,10 @@ namespace ShapeGame2
 
         public static readonly DependencyProperty HeadAngleProperty
     = DependencyProperty.Register("HeadAngle", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
-
+        
+        // Needed for fish head contourtransforms, because we cannot calculate in XAML.
+        public static readonly DependencyProperty NegHeadAngleProperty
+            = DependencyProperty.Register("NegHeadAngle", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
         //public static readonly DependencyProperty BodyAngleProperty
         //    = DependencyProperty.Register("BodyAngle", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
@@ -45,6 +48,12 @@ namespace ShapeGame2
         //    }
 
         //}
+        
+        public double NegHeadAngle
+        {
+            get { return (double)GetValue(NegHeadAngleProperty); }
+            set { SetValue(NegHeadAngleProperty, value); }
+        }
 
         public double HeadAngle
         {
@@ -88,6 +97,7 @@ namespace ShapeGame2
         public void TurnFish(double angle)
         {
             HeadAngle = angle / 2;
+            NegHeadAngle = -HeadAngle;
             BodyAngle1 = angle / 2;
             BodyAngle2 = -angle / 2;
             TailAngle += waterConstant * (angle-turningAngle);
