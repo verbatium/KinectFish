@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Ellipse x:Name="RedVortexEllipse" Margin="149,100,292,184" Stroke="#00000000" RenderTransformOrigin="0.5,0.5">
+        <Ellipse x:Name="RedVortex0" Margin="141.5,-231.5,299.5,0" Stroke="#00000000" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -25,4 +25,16 @@
             </Ellipse.Fill>
         </Ellipse>
     </Grid>
+    <UserControl.Resources>
+        <Storyboard x:Key="Flow" RepeatBehavior="Forever">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="RedVortex0">
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1428"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource Flow}"/>
+        </EventTrigger>
+    </UserControl.Triggers>
 </UserControl>
