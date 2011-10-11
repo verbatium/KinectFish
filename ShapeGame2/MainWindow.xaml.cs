@@ -484,25 +484,25 @@ namespace ShapeGame2
             if ((frameCount % 100) == 0)
                 fallingThings.SetFramerate(1000.0 / actualFrameTime);
 
-            // Advance animations, and do hit testing.
-            for (int i = 0; i < NumIntraFrames; ++i)
-            {
-                foreach (var pair in players)
-                {
-                    HitType hit = fallingThings.LookForHits(pair.Value.segments, pair.Value.getId());
-                    if ((hit & HitType.Squeezed) != 0)
-                        squeezeSound.Play();
-                    else if ((hit & HitType.Popped) != 0)
-                        popSound.Play();
-                    else if ((hit & HitType.Hand) != 0)
-                        hitSound.Play();
-                }
-                fallingThings.AdvanceFrame();
-            }
+            //// Advance animations, and do hit testing.
+            //for (int i = 0; i < NumIntraFrames; ++i)
+            //{
+            //    foreach (var pair in players)
+            //    {
+            //        HitType hit = fallingThings.LookForHits(pair.Value.segments, pair.Value.getId());
+            //        if ((hit & HitType.Squeezed) != 0)
+            //            squeezeSound.Play();
+            //        else if ((hit & HitType.Popped) != 0)
+            //            popSound.Play();
+            //        else if ((hit & HitType.Hand) != 0)
+            //            hitSound.Play();
+            //    }
+            //    fallingThings.AdvanceFrame();
+            //}
 
             // Draw new Wpf scene by adding all objects to canvas
             playfield.Children.Clear();
-            fallingThings.DrawFrame(playfield.Children);
+            //fallingThings.DrawFrame(playfield.Children);
             foreach (var player in players)
                 player.Value.Draw(playfield.Children);
             BannerText.Draw(playfield.Children);
