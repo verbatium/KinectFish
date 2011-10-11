@@ -1,0 +1,376 @@
+﻿<UserControl x:Class="ShapeGame2.Vortices"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid x:Name="LayoutRoot">
+        <Ellipse x:Name="RedVortex" Margin="141.5,-231.5,299.5,0" Stroke="#00000000" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#00F1FF00" Offset="1"/>
+                    <GradientStop Color="#FFFF3204"/>
+                    <GradientStop Color="#FFFA9602" Offset="0.33"/>
+                    <GradientStop Color="#BDF7CC01" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="BlueVortex" Margin="0,-228.5,63.5,0" Stroke="#00000000" HorizontalAlignment="Right" Width="191" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#0000E2FF" Offset="1"/>
+                    <GradientStop Color="#FF1704FF"/>
+                    <GradientStop Color="#FF023FFA" Offset="0.313"/>
+                    <GradientStop Color="#BD016AF7" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="RedVortex_Copy" Margin="141.5,-397.5,299.5,0" Stroke="#00000000" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#00F1FF00" Offset="1"/>
+                    <GradientStop Color="#FFFF3204"/>
+                    <GradientStop Color="#FFFA9602" Offset="0.33"/>
+                    <GradientStop Color="#BDF7CC01" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="RedVortex_Copy1" Margin="141.5,-549.5,299.5,0" Stroke="#00000000" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#00F1FF00" Offset="1"/>
+                    <GradientStop Color="#FFFF3204"/>
+                    <GradientStop Color="#FFFA9602" Offset="0.33"/>
+                    <GradientStop Color="#BDF7CC01" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="RedVortex_Copy2" Margin="141.5,-714.5,299.5,0" Stroke="#00000000" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#00F1FF00" Offset="1"/>
+                    <GradientStop Color="#FFFF3204"/>
+                    <GradientStop Color="#FFFA9602" Offset="0.33"/>
+                    <GradientStop Color="#BDF7CC01" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="RedVortex_Copy3" Margin="141.5,-870.5,299.5,0" Stroke="#00000000" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#00F1FF00" Offset="1"/>
+                    <GradientStop Color="#FFFF3204"/>
+                    <GradientStop Color="#FFFA9602" Offset="0.33"/>
+                    <GradientStop Color="#BDF7CC01" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="BlueVortex_Copy" Margin="0,-393.5,63.5,0" Stroke="#00000000" HorizontalAlignment="Right" Width="191" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#0000E2FF" Offset="1"/>
+                    <GradientStop Color="#FF1704FF"/>
+                    <GradientStop Color="#FF023FFA" Offset="0.313"/>
+                    <GradientStop Color="#BD016AF7" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="BlueVortex_Copy1" Margin="0,-540.5,63.5,0" Stroke="#00000000" HorizontalAlignment="Right" Width="191" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#0000E2FF" Offset="1"/>
+                    <GradientStop Color="#FF1704FF"/>
+                    <GradientStop Color="#FF023FFA" Offset="0.313"/>
+                    <GradientStop Color="#BD016AF7" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="BlueVortex_Copy2" Margin="0,-702.5,63.5,0" Stroke="#00000000" HorizontalAlignment="Right" Width="191" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#0000E2FF" Offset="1"/>
+                    <GradientStop Color="#FF1704FF"/>
+                    <GradientStop Color="#FF023FFA" Offset="0.313"/>
+                    <GradientStop Color="#BD016AF7" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="BlueVortex_Copy3" Margin="0,-867.5,63.5,0" Stroke="#00000000" HorizontalAlignment="Right" Width="191" RenderTransformOrigin="0.5,0.5" Height="169" VerticalAlignment="Top">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#0000E2FF" Offset="1"/>
+                    <GradientStop Color="#FF1704FF"/>
+                    <GradientStop Color="#FF023FFA" Offset="0.313"/>
+                    <GradientStop Color="#BD016AF7" Offset="0.489"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+    </Grid>
+    <UserControl.Resources>
+        <Storyboard x:Key="Flow" RepeatBehavior="Forever">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="RedVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="807.513"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1384"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="RedVortex_Copy2">
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1396"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="RedVortex_Copy1">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="591.33"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1408"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="RedVortex_Copy">
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1434"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="RedVortex">
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1428"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="BlueVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-86.88"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="132.12"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1332"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="BlueVortex_Copy2">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-85.92"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="133.08"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1338"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="BlueVortex_Copy1">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-83.04"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="135.96"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="513.591"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1356"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="BlueVortex_Copy">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-77.28"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="141.72"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1392"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="BlueVortex">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-77.28"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="141.72"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1392"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BlueVortex">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-48"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="-72"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="-48"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BlueVortex_Copy">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-48"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="-72"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="-48"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BlueVortex_Copy1">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-48"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="-72"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="-87.571"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="-48"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BlueVortex_Copy2">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-48"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="-72"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="-48"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="BlueVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0" Value="-48"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="-72"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="-48"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleY)" Storyboard.TargetName="BlueVortex">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="20"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BlueVortex">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1.15"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="BlueVortex">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1.45"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="RedVortex_Copy">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1.95"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleX)" Storyboard.TargetName="RedVortex_Copy">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="18"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleY)" Storyboard.TargetName="RedVortex_Copy">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="-17"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="RedVortex_Copy">
+                <EasingColorKeyFrame KeyTime="0:0:0.9" Value="#FFFF9904"/>
+                <EasingColorKeyFrame KeyTime="0:0:5" Value="#FFFF3204"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="RedVortex_Copy">
+                <EasingColorKeyFrame KeyTime="0:0:0.9" Value="#DCFAC302"/>
+                <EasingColorKeyFrame KeyTime="0:0:5" Value="#FFFA9602"/>
+            </ColorAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="RedVortex_Copy1">
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="RedVortex_Copy1">
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="RedVortex_Copy1">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="30.395"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" Storyboard.TargetName="BlueVortex_Copy1">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0.313"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0.313"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Offset)" Storyboard.TargetName="BlueVortex_Copy1">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0.489"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0.489"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleX)" Storyboard.TargetName="RedVortex_Copy2">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.4" Value="12"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="RedVortex_Copy2">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.4" Value="2.6"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="RedVortex_Copy2">
+                <EasingColorKeyFrame KeyTime="0:0:2.4" Value="#A3FAE502"/>
+                <EasingColorKeyFrame KeyTime="0:0:5" Value="#FFFA9602"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Storyboard.TargetName="RedVortex_Copy2">
+                <EasingColorKeyFrame KeyTime="0:0:2.4" Value="#6FDFF701"/>
+                <EasingColorKeyFrame KeyTime="0:0:5" Value="#BDF7CC01"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="RedVortex_Copy2">
+                <EasingColorKeyFrame KeyTime="0:0:2.4" Value="#CFFFDE04"/>
+                <EasingColorKeyFrame KeyTime="0:0:5" Value="#FFFF3204"/>
+            </ColorAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" Storyboard.TargetName="RedVortex_Copy2">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.4" Value="0.172"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0.33"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="RedVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="20.315"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleY)" Storyboard.TargetName="RedVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="7"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleX)" Storyboard.TargetName="RedVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="-23"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="RedVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="1.15"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="BlueVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="1.75"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="BlueVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="-14"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" Storyboard.TargetName="BlueVortex_Copy3">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0.313"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.9" Value="0.236"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0.313"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource Flow}"/>
+        </EventTrigger>
+    </UserControl.Triggers>
+</UserControl>
