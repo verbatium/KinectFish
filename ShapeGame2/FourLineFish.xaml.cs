@@ -82,11 +82,22 @@ namespace ShapeGame2
 
         }
 
+        double turningAngle = 0.0;
+        const double waterConstant = 2.0;
+
         public void TurnFish(double angle)
         {
-            this.HeadAngle = angle / 2;
-            this.BodyAngle1 = angle / 2;
-            this.BodyAngle2 = -angle / 2;
+            HeadAngle = angle / 2;
+            BodyAngle1 = angle / 2;
+            BodyAngle2 = -angle / 2;
+            TailAngle += waterConstant * (angle-turningAngle);
+            turningAngle = angle;
+        }
+
+        const double straighteningSpeed = 0.7;
+        public void UpdateTail(double secondsPassed)
+        {
+            TailAngle *= (1-straighteningSpeed*secondsPassed);
         }
     }
 }

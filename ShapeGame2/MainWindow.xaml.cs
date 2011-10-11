@@ -500,6 +500,7 @@ namespace ShapeGame2
                 player.Value.Draw(playfield.Children);
             BannerText.Draw(playfield.Children);
             FlyingText.Draw(playfield.Children);
+            fourLineFish.UpdateTail(actualFrameTime / 1000.0);
 
             fish.Draw(playfield.Children);
 
