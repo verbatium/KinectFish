@@ -82,9 +82,11 @@ namespace ShapeGame2
 
         }
 
-
-
-
-
+        public void TurnFish(double angle)
+        {
+            this.HeadAngle = angle / 2;
+            this.BodyAngle1 = angle / 2;
+            this.BodyAngle2 = -angle / 2;
+        }
     }
 }

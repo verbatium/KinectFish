@@ -73,7 +73,6 @@
     </Compile>
     <Compile Include="CompositeShape.cs" />
     <Compile Include="FallingShapes.cs" />
-    <Compile Include="Fishbone.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

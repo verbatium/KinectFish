@@ -220,7 +220,6 @@ namespace ShapeGame2
         bool runningGameThread = false;
         bool nuiInitialized = false;
         FallingThings fallingThings = null;
-        Fishbone fishbone = new Fishbone(200, 200);
         PolyFish fish = new PolyFish();
         int playersAlive = 0;
         SoundPlayer popSound = new SoundPlayer();
@@ -334,14 +333,6 @@ namespace ShapeGame2
             }
         }
 
-        void nui_ColorFrameReady(object sender, ImageFrameReadyEventArgs e)
-        {
-            // 32-bit per pixel, RGBA image
-            PlanarImage Image = e.ImageFrame.Image;
-            video.Source = BitmapSource.Create(
-                Image.Width, Image.Height, 96, 96, PixelFormats.Bgr32, null, Image.Bits, Image.Width * Image.BytesPerPixel);
-        }
-
         private bool InitializeNui()
         {
             UninitializeNui();
@@ -374,7 +365,6 @@ namespace ShapeGame2
         private void Playfield_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdatePlayfieldSize();
-            fishbone.resizePlayfield(Convert.ToInt16(e.NewSize.Width), Convert.ToInt16(e.NewSize.Height));
             fish.resizePlayfield(Convert.ToInt16(e.NewSize.Width), Convert.ToInt16(e.NewSize.Height));
         }
 
@@ -421,7 +411,7 @@ namespace ShapeGame2
 
             if ((nui != null) && InitializeNui())
             {
-                nui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_ColorFrameReady);
+                //nui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_ColorFrameReady);
                 nui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(nui_SkeletonFrameReady);
             }
             else
@@ -510,9 +500,6 @@ namespace ShapeGame2
                 player.Value.Draw(playfield.Children);
             BannerText.Draw(playfield.Children);
             FlyingText.Draw(playfield.Children);
-            fishbone.Draw(playfield.Children);
-
-            fourLineFish.TailAngle += 1.0;
 
             fish.Draw(playfield.Children);
 
@@ -535,8 +522,8 @@ namespace ShapeGame2
 
         private void angleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            fishbone.ChangeAngle(e.NewValue);
             fish.angle = e.NewValue;
+            fourLineFish.TurnFish(e.NewValue);
         }
     }
 }
