@@ -18,5 +18,6 @@
         <Viewbox StretchDirection="Both" Stretch="Uniform">
             <!--<local:Vortices Height="1200" Width="800" />-->
         </Viewbox>
+        
     </Grid>
 </Window>

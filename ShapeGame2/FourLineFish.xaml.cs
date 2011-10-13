@@ -104,6 +104,7 @@ namespace ShapeGame2
             turningAngle = angle;
             TurnCollar(HeadAngle);
             TurnHeadContours(HeadAngle);
+            TurnBody1Contours(BodyAngle1, HeadAngle);
         }
 
         void TurnCollar(double headAngle)
@@ -118,7 +119,11 @@ namespace ShapeGame2
             tg = LeftHead.RenderTransform as TransformGroup;
             ((SkewTransform)(tg.Children[0])).AngleY = -HeadAngle / 2;
         }
-
+        void TurnBody1Contours(double bodyAngle1, double headAngle)
+        {
+            TransformGroup tg = RightBody1.RenderTransform as TransformGroup;
+            ((SkewTransform)(tg.Children[0])).AngleY = -bodyAngle1;
+        }
         const double straighteningSpeed = 0.7;
         public void UpdateTail(double secondsPassed)
         {
