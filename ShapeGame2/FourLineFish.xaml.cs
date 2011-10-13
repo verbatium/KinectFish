@@ -121,8 +121,7 @@ namespace ShapeGame2
         }
         void TurnBody1Contours(double bodyAngle1, double headAngle)
         {
-            TransformGroup tg = RightBody1.RenderTransform as TransformGroup;
-            ((SkewTransform)(tg.Children[0])).AngleY = -bodyAngle1;
+
         }
         const double straighteningSpeed = 0.7;
         public void UpdateTail(double secondsPassed)
