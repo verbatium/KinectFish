@@ -23,6 +23,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -56,6 +57,7 @@ namespace ShapeGame2
         const double DefaultDropGravity = 1.0;
 
         FourLineFish fourLineFish;
+        RedVortex RV1 = new RedVortex();
 
         public MainWindow()
         {
@@ -71,6 +73,8 @@ namespace ShapeGame2
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             fourLineFish = this.FindName("UCFish") as FourLineFish;
+            Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
+            sb1.Begin();
         }
 
         public class Player
@@ -501,6 +505,9 @@ namespace ShapeGame2
             BannerText.Draw(playfield.Children);
             FlyingText.Draw(playfield.Children);
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
+            playfield.Children.Add(RV1);
+            //Canvas.SetLeft(RV1, 20);
+            //Canvas.SetTop(RV1, 20);
 
             fish.Draw(playfield.Children);
 
