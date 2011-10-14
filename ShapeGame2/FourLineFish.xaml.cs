@@ -92,14 +92,14 @@ namespace ShapeGame2
         }
 
         double turningAngle = 0.0;
-        const double waterConstant = 2.0;
+        const double waterConstant = 0.5;
 
         public void TurnFish(double angle)
         {
             HeadAngle = angle / 2;
             NegHeadAngle = -HeadAngle;
-            BodyAngle1 = angle / 2;
-            BodyAngle2 = -angle / 2;
+            //BodyAngle1 = angle / 2;
+            //BodyAngle2 = -angle / 2;
             TailAngle += waterConstant * (angle-turningAngle);
             turningAngle = angle;
             TurnCollar(HeadAngle);
@@ -124,8 +124,16 @@ namespace ShapeGame2
 
         }
         const double straighteningSpeed = 0.7;
+        const double body1Speed = 4.0;
+        const double body2Speed = 2.0;
         public void UpdateTail(double secondsPassed)
         {
+            double bodyAngleError = BodyAngle1 - HeadAngle;
+            bodyAngleError *= body1Speed * secondsPassed;
+            BodyAngle1 -= bodyAngleError;
+            bodyAngleError = BodyAngle1 + BodyAngle2;
+            bodyAngleError *= body2Speed * secondsPassed;
+            BodyAngle2 -= bodyAngleError;
             TailAngle *= (1-straighteningSpeed*secondsPassed);
         }
     }
