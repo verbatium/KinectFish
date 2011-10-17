@@ -76,10 +76,6 @@ namespace ShapeGame2
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             fourLineFish = this.FindName("UCFish") as FourLineFish;
-
-            //redVortexTimer = new System.Timers.Timer(3000);
-            //redVortexTimer.Elapsed += new ElapsedEventHandler(NewRedVortex);
-            //redVortexTimer.Enabled = true;
         }
 
         public void CreateVortex()
@@ -92,7 +88,10 @@ namespace ShapeGame2
             Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
             sb1.Begin(); // make it move
 
-            // prune the list of vortices
+            // Delete one old vortex from the list
+            if (redVortices.Count > 0)
+                if (redVortices[0].Finished)
+                    redVortices.RemoveAt(0);
         }
 
         public void NewRedVortex(object sender, ElapsedEventArgs e)

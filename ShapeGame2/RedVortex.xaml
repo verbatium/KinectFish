@@ -26,7 +26,7 @@
         </Ellipse>
     </Canvas>
     <UserControl.Resources>
-        <Storyboard x:Key="Flow" RepeatBehavior="Forever" SpeedRatio="0.3">
+        <Storyboard x:Key="Flow" SpeedRatio="0.3" Completed="AnimationFinished">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="Vortex">
                 <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1428"/>
             </DoubleAnimationUsingKeyFrames>

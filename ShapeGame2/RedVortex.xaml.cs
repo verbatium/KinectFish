@@ -19,6 +19,7 @@ namespace ShapeGame2
     /// </summary>
     public partial class RedVortex : UserControl
     {
+        public bool Finished = false;
         public RedVortex()
         {
             InitializeComponent();
@@ -32,6 +33,11 @@ namespace ShapeGame2
 
             ((SkewTransform)(tg.Children[1])).AngleX = random.Next(-20, 20);
             ((SkewTransform)(tg.Children[1])).AngleY = random.Next(-20, 20);
+        }
+
+        private void AnimationFinished(object sender, EventArgs e)
+        {
+            Finished = true;
         }
     }
 }
