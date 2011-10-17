@@ -78,12 +78,23 @@ namespace ShapeGame2
             fourLineFish = this.FindName("UCFish") as FourLineFish;
         }
 
+        bool nextVortexIsBlue = false;
         public void CreateVortex()
         { 
             // Create a new red vortex object
-             RedVortex RV1 = new RedVortex();
+            RedVortex RV1 = new RedVortex();
             Canvas.SetTop(RV1, -500);
             RV1.Randomize(); // make it look different
+            if (nextVortexIsBlue)
+            {
+                RV1.paintBlue();
+                Canvas.SetLeft(RV1, 250);
+                nextVortexIsBlue = false;
+            }
+            else
+                nextVortexIsBlue = true;
+
+            
             redVortices.Add(RV1);
             Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
             sb1.Begin(); // make it move
@@ -465,7 +476,7 @@ namespace ShapeGame2
             predNextFrame = DateTime.Now;
             actualFrameTime = 1000.0 / targetFramerate;
 
-            redVortexTimer = new System.Timers.Timer(3000);
+            redVortexTimer = new System.Timers.Timer(1500);
             redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
             redVortexTimer.Enabled = true;
 

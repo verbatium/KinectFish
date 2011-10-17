@@ -17,10 +17,10 @@
             </Ellipse.RenderTransform>
             <Ellipse.Fill>
                 <RadialGradientBrush>
-                    <GradientStop Color="#00F1FF00" Offset="1"/>
                     <GradientStop Color="#FFFF3204"/>
                     <GradientStop Color="#FFFA9602" Offset="0.33"/>
                     <GradientStop Color="#BDF7CC01" Offset="0.489"/>
+                    <GradientStop Color="#00F1FF00" Offset="1"/>
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
