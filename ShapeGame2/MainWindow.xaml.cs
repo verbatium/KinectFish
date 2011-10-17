@@ -82,7 +82,7 @@ namespace ShapeGame2
         { 
             // Create a new red vortex object
              RedVortex RV1 = new RedVortex();
-            Canvas.SetTop(RV1, -300);
+            Canvas.SetTop(RV1, -500);
             RV1.Randomize(); // make it look different
             redVortices.Add(RV1);
             Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;

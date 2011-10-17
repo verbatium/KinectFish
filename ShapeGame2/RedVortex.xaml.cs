@@ -28,8 +28,8 @@ namespace ShapeGame2
         {
             Random random = new Random();
             TransformGroup tg = Vortex.RenderTransform as TransformGroup;
-            ((ScaleTransform)(tg.Children[0])).ScaleX = (1 + random.NextDouble()) / 2;
-            ((ScaleTransform)(tg.Children[0])).ScaleY = (1 + random.NextDouble()) / 2;
+            ((ScaleTransform)(tg.Children[0])).ScaleX = (1 + random.NextDouble());
+            ((ScaleTransform)(tg.Children[0])).ScaleY = (1 + random.NextDouble());
 
             ((SkewTransform)(tg.Children[1])).AngleX = random.Next(-20, 20);
             ((SkewTransform)(tg.Children[1])).AngleY = random.Next(-20, 20);
