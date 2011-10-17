@@ -29,6 +29,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Research.Kinect.Nui;
 using ShapeGame_Utils;
+using System.Timers;
 
 // Since the timer resolution defaults to about 10ms precisely, we need to
 // increase the resolution to get framerates above between 50fps with any
@@ -57,7 +58,9 @@ namespace ShapeGame2
         const double DefaultDropGravity = 1.0;
 
         FourLineFish fourLineFish;
-        RedVortex RV1 = new RedVortex();
+
+        List<RedVortex> redVortices = new List<RedVortex>();
+        System.Timers.Timer redVortexTimer;
 
         public MainWindow()
         {
@@ -73,10 +76,25 @@ namespace ShapeGame2
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             fourLineFish = this.FindName("UCFish") as FourLineFish;
-            Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
-            sb1.Begin();
+
+            //redVortexTimer = new System.Timers.Timer(3000);
+            //redVortexTimer.Elapsed += new ElapsedEventHandler(NewRedVortex);
+            //redVortexTimer.Enabled = true;
         }
 
+        public void NewRedVortex(object sender, ElapsedEventArgs e)
+        //public void NewRedVortex()
+        {
+            // Create a new red vortex object
+            RedVortex RV1 = new RedVortex();
+            Canvas.SetTop(RV1, -300);
+            RV1.Randomize(); // make it look different
+            redVortices.Add(RV1);
+            Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
+            sb1.Begin(); // make it move
+
+            // prune the list of vortices
+        }
         public class Player
         {
             public bool isAlive;
@@ -443,6 +461,10 @@ namespace ShapeGame2
             predNextFrame = DateTime.Now;
             actualFrameTime = 1000.0 / targetFramerate;
 
+            redVortexTimer = new System.Timers.Timer(3000);
+            redVortexTimer.Elapsed += new ElapsedEventHandler(NewRedVortex);
+            redVortexTimer.Enabled = true;
+
             // Try to dispatch at as constant of a framerate as possible by sleeping just enough since
             // the last time we dispatched.
             while (runningGameThread)
@@ -505,7 +527,9 @@ namespace ShapeGame2
             BannerText.Draw(playfield.Children);
             FlyingText.Draw(playfield.Children);
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
-            playfield.Children.Add(RV1);
+            foreach (RedVortex rv in redVortices)
+                playfield.Children.Add(rv);
+            //playfield.Children.Add(RV1);
             //Canvas.SetLeft(RV1, 20);
             //Canvas.SetTop(RV1, 20);
 
