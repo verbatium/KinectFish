@@ -82,11 +82,10 @@ namespace ShapeGame2
             //redVortexTimer.Enabled = true;
         }
 
-        public void NewRedVortex(object sender, ElapsedEventArgs e)
-        //public void NewRedVortex()
-        {
+        public void CreateVortex()
+        { 
             // Create a new red vortex object
-            RedVortex RV1 = new RedVortex();
+             RedVortex RV1 = new RedVortex();
             Canvas.SetTop(RV1, -300);
             RV1.Randomize(); // make it look different
             redVortices.Add(RV1);
@@ -94,6 +93,12 @@ namespace ShapeGame2
             sb1.Begin(); // make it move
 
             // prune the list of vortices
+        }
+
+        public void NewRedVortex(object sender, ElapsedEventArgs e)
+        //public void NewRedVortex()
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(CreateVortex));
         }
         public class Player
         {
@@ -462,7 +467,7 @@ namespace ShapeGame2
             actualFrameTime = 1000.0 / targetFramerate;
 
             redVortexTimer = new System.Timers.Timer(3000);
-            redVortexTimer.Elapsed += new ElapsedEventHandler(NewRedVortex);
+            redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
             redVortexTimer.Enabled = true;
 
             // Try to dispatch at as constant of a framerate as possible by sleeping just enough since
