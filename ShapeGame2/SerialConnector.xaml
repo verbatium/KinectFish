@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         <Button Content="Connect to robot fish" HorizontalAlignment="Stretch" Margin="0" Name="RobotConnectButton" VerticalAlignment="Stretch" />
         <Button Content="Connect to feedback" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0" Name="FeedbackConnectButton" VerticalAlignment="Stretch" />
-        <ListBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Name="RobotPortList" VerticalAlignment="Stretch" />
-        <ListBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0" Name="FeedbakPortList" VerticalAlignment="Stretch" />
+        <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Name="RobotPortList" VerticalAlignment="Stretch" DropDownOpened="RobotPortList_DropDownOpened" />
+        <ComboBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Margin="0" Name="FeedbakPortList" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

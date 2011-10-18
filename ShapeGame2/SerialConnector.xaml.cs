@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO.Ports;
 
 namespace ShapeGame2
 {
@@ -21,6 +22,14 @@ namespace ShapeGame2
         public SerialConnector()
         {
             InitializeComponent();
+        }
+
+        private void RobotPortList_DropDownOpened(object sender, EventArgs e)
+        {
+            // Could this be done with data binding in XAML instead?
+            RobotPortList.Items.Clear();
+            foreach (string portName in SerialPort.GetPortNames())
+                RobotPortList.Items.Add(portName);
         }
     }
 }
