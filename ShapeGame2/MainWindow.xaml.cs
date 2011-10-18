@@ -92,7 +92,10 @@ namespace ShapeGame2
                 nextVortexIsBlue = false;
             }
             else
+            {
+                Canvas.SetLeft(RV1, 0);
                 nextVortexIsBlue = true;
+            }
 
             
             redVortices.Add(RV1);
@@ -551,6 +554,8 @@ namespace ShapeGame2
             fish.Draw(playfield.Children);
 
             // Calculate vortex strength and apply to feedback system
+            if ((frameCount % 100) == 0)
+                TactileFeedback();
 
             CheckPlayers();
         }
@@ -558,8 +563,8 @@ namespace ShapeGame2
         void TactileFeedback()
         {
             //approximate the fish nose position
-            Point nose = new Point(Canvas.GetLeft(fourLineFish) + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, Canvas.GetTop(fourLineFish));
-            Point closestRed, closestBlue;
+            //subject to change, because it is positioned using margins
+            Point nose = new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
             const double maxDistance = 500*500;
             double redDistance = maxDistance, blueDistance = maxDistance;
             byte leftMotor = 0, rightMotor = 0; //actual motor commands
@@ -568,7 +573,7 @@ namespace ShapeGame2
             foreach (RedVortex vortex in redVortices)
             {
                 Point vortexCenter = new Point(Canvas.GetLeft(vortex) + vortex.ActualWidth / 2,
-                    ((TranslateTransform)((TransformGroup)vortex.RenderTransform).Children[3]).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
+                    ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
 
                 double distanceSquared = Math.Pow((nose.X - vortexCenter.X),2) + Math.Pow((nose.Y - vortexCenter.Y),2);
 
@@ -577,14 +582,12 @@ namespace ShapeGame2
                     if (distanceSquared < blueDistance)
                     {
                         blueDistance = distanceSquared;
-                        closestBlue = vortexCenter;
                     }
                 }
                 else
                     if (distanceSquared < redDistance)
                     {
                         redDistance = distanceSquared;
-                        closestRed = vortexCenter;
                     }
             }
 
@@ -593,6 +596,7 @@ namespace ShapeGame2
                 leftMotor = (byte) (redDistance/maxDistance*255);
             if (blueDistance < maxDistance)
                 rightMotor = (byte)(blueDistance / maxDistance * 255);
+            SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
 
         }
 

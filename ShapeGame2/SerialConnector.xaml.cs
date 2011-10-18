@@ -19,7 +19,8 @@ namespace ShapeGame2
     /// </summary>
     public partial class SerialConnector : Window
     {
-        SerialPort robotFishPort, feedbackPort;
+        static SerialPort robotFishPort, feedbackPort;
+
         public SerialConnector()
         {
             InitializeComponent();
@@ -30,6 +31,27 @@ namespace ShapeGame2
 
         }
 
+        static public bool SetFanSpeeds(byte leftFan, byte rightFan)
+        {
+            if (feedbackPort == null)
+                return false;
+            if (!feedbackPort.IsOpen)
+                return false;
+
+            try
+            {
+                feedbackPort.WriteLine("164");
+                feedbackPort.WriteLine(leftFan.ToString());
+                feedbackPort.WriteLine("165");
+                feedbackPort.WriteLine(rightFan.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            return true;
+        }
         private void RobotPortList_DropDownOpened(object sender, EventArgs e)
         {
             // Could this be done with data binding in XAML instead?
@@ -57,6 +79,7 @@ namespace ShapeGame2
             try
             {
                 robotFishPort = new SerialPort((string)RobotPortList.SelectedItem, 115200, Parity.None, 8, StopBits.One);
+                robotFishPort.NewLine = "\n";
                 robotFishPort.Open();
                 RobotConnectButton.IsEnabled = false;
             }
@@ -71,6 +94,7 @@ namespace ShapeGame2
             try
             {
                 feedbackPort = new SerialPort((string)FeedbackPortList.SelectedItem, 115200, Parity.None, 8, StopBits.One);
+                feedbackPort.NewLine = "\n";
                 feedbackPort.Open();
                 FeedbackConnectButton.IsEnabled = false;
             }
