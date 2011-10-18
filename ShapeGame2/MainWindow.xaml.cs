@@ -550,7 +550,50 @@ namespace ShapeGame2
 
             fish.Draw(playfield.Children);
 
+            // Calculate vortex strength and apply to feedback system
+
             CheckPlayers();
+        }
+
+        void TactileFeedback()
+        {
+            //approximate the fish nose position
+            Point nose = new Point(Canvas.GetLeft(fourLineFish) + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, Canvas.GetTop(fourLineFish));
+            Point closestRed, closestBlue;
+            const double maxDistance = 500*500;
+            double redDistance = maxDistance, blueDistance = maxDistance;
+            byte leftMotor = 0, rightMotor = 0; //actual motor commands
+
+            // find closest red and blue vortices
+            foreach (RedVortex vortex in redVortices)
+            {
+                Point vortexCenter = new Point(Canvas.GetLeft(vortex) + vortex.ActualWidth / 2,
+                    ((TranslateTransform)((TransformGroup)vortex.RenderTransform).Children[3]).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
+
+                double distanceSquared = Math.Pow((nose.X - vortexCenter.X),2) + Math.Pow((nose.Y - vortexCenter.Y),2);
+
+                if (vortex.Blue)
+                {
+                    if (distanceSquared < blueDistance)
+                    {
+                        blueDistance = distanceSquared;
+                        closestBlue = vortexCenter;
+                    }
+                }
+                else
+                    if (distanceSquared < redDistance)
+                    {
+                        redDistance = distanceSquared;
+                        closestRed = vortexCenter;
+                    }
+            }
+
+            // calculate fan speed commands (0...255)
+            if (redDistance < maxDistance)
+                leftMotor = (byte) (redDistance/maxDistance*255);
+            if (blueDistance < maxDistance)
+                rightMotor = (byte)(blueDistance / maxDistance * 255);
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

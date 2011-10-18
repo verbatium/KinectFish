@@ -20,6 +20,7 @@ namespace ShapeGame2
     public partial class RedVortex : UserControl
     {
         public bool Finished = false;
+        public bool Blue = false;
         public RedVortex()
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace ShapeGame2
             gb.GradientStops[1].Color = Color.FromArgb(255, 2, 63, 250);//#FF023FFA
             gb.GradientStops[2].Color = Color.FromArgb(189, 1, 106, 247);//#BD016AF7
             gb.GradientStops[3].Color = Color.FromArgb(0, 0, 226, 255);//#0000E2FF
+            Blue = true;
         }
         public void Randomize()
         {
