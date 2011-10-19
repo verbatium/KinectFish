@@ -294,11 +294,23 @@ namespace ShapeGame2
 
             Point a = getDisplayPosition(joints[JointID.Head]);
             Point b = getDisplayPosition(joints[JointID.Spine]);
-            Point c = getDisplayPosition(joints[JointID.Head]);
+            Point c = Average(
+            getDisplayPosition(joints[JointID.AnkleLeft]),
+            getDisplayPosition(joints[JointID.AnkleRight]));
+
             System.Windows.Vector v1 = new System.Windows.Vector(c.X-b.X,c.Y - b.Y);
             System.Windows.Vector v2 = new System.Windows.Vector(a.X - b.X, a.Y - b.Y);
 
             return System.Windows.Vector.AngleBetween(v1, v2);
+        }
+        Point Average(Point a, Point b)
+        {
+
+            int dx = (int)((a.X - b.X) / 2);
+            int dy = (int)((a.Y - b.Y) / 2);
+
+
+            return new Point(a.X - dx, a.Y - dy);
         }
 
         private Point getDisplayPosition(Joint joint)
