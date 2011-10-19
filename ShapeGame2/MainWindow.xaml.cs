@@ -301,7 +301,15 @@ namespace ShapeGame2
             System.Windows.Vector v1 = new System.Windows.Vector(c.X-b.X,c.Y - b.Y);
             System.Windows.Vector v2 = new System.Windows.Vector(a.X - b.X, a.Y - b.Y);
 
-            return System.Windows.Vector.AngleBetween(v1, v2);
+            return AngleConstrain (- NormalizeAngle(180.0 - System.Windows.Vector.AngleBetween(v1, v2)), -30,30);
+        }
+        Double AngleConstrain(double angle, double Min, double Max)
+        {
+            return Math.Min(Math.Max(angle, Min), Max);
+        }
+        double NormalizeAngle(double angle)
+        {
+            return ( (angle + 180) % 360 ) -180;
         }
         Point Average(Point a, Point b)
         {
@@ -325,7 +333,7 @@ namespace ShapeGame2
             nui.NuiCamera.GetColorPixelCoordinatesFromDepthPixel(ImageResolution.Resolution640x480, iv, (int)depthX, (int)depthY, (short)0, out colorX, out colorY);
 
             // map back to skeleton.Width & skeleton.Height
-            return new Point((int)(playfield.Width * colorX / 640.0), (int)(playfield.Height * colorY / 480));
+            return new Point((int)(playfield.ActualWidth * colorX / 640.0), (int)(playfield.ActualHeight * colorY / 480));
         }
         
         //void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -541,7 +549,7 @@ namespace ShapeGame2
 
             redVortexTimer = new System.Timers.Timer(1500);
             redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
-            //redVortexTimer.Enabled = true;
+            redVortexTimer.Enabled = true;
 
             // Try to dispatch at as constant of a framerate as possible by sleeping just enough since
             // the last time we dispatched.
