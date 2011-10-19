@@ -554,7 +554,7 @@ namespace ShapeGame2
             fish.Draw(playfield.Children);
 
             // Calculate vortex strength and apply to feedback system
-            //if ((frameCount % 100) == 0)
+            if ((frameCount % 10) == 0)
                 TactileFeedback();
 
             CheckPlayers();
@@ -565,14 +565,15 @@ namespace ShapeGame2
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
             Point nose = new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
-            const double maxDistance = 500*500;
+            const double maxDistance = 200*200;
             double redDistance = maxDistance, blueDistance = maxDistance;
             byte leftMotor = 0, rightMotor = 0; //actual motor commands
 
             // find closest red and blue vortices
             foreach (RedVortex vortex in redVortices)
             {
-                Point vortexCenter = new Point(Canvas.GetLeft(vortex) + vortex.ActualWidth / 2,
+                // vortex.ActualWidth = 300
+                Point vortexCenter = new Point(Canvas.GetLeft(vortex) + 300 / 2,
                     ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
 
                 double distanceSquared = Math.Pow((nose.X - vortexCenter.X),2) + Math.Pow((nose.Y - vortexCenter.Y),2);
@@ -593,10 +594,12 @@ namespace ShapeGame2
 
             // calculate fan speed commands (0...255)
             if (redDistance < maxDistance)
-                leftMotor = (byte) (redDistance/maxDistance*255);
+                leftMotor = (byte) (Math.Sqrt(redDistance / maxDistance) * 255);
             if (blueDistance < maxDistance)
-                rightMotor = (byte)(blueDistance / maxDistance * 255);
+                rightMotor = (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
             SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
+            debugLabelLeft.Content = leftMotor;
+            debugLabelRight.Content = rightMotor;
 
         }
 
