@@ -57,6 +57,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\DoubleMultiplyConverter.cs" />
+    <Compile Include="Converters\HalfAngleConverter.cs" />
     <Compile Include="RedVortex.xaml.cs">
       <DependentUpon>RedVortex.xaml</DependentUpon>
     </Compile>

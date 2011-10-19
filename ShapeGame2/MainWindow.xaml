@@ -17,6 +17,7 @@
         <local:FourLineFish x:Name="UCFish" Margin="150,299,146,0" />
         <Viewbox StretchDirection="Both" Stretch="Uniform">
             <!--<local:Vortices Height="1200" Width="800" />-->
+            <StackPanel Height="100" Name="stackPanel1" Width="200" />
         </Viewbox>
         
     </Grid>

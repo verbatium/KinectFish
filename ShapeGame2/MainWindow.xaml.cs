@@ -468,7 +468,7 @@ namespace ShapeGame2
 
             redVortexTimer = new System.Timers.Timer(3000);
             redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
-            redVortexTimer.Enabled = true;
+            //redVortexTimer.Enabled = true;
 
             // Try to dispatch at as constant of a framerate as possible by sleeping just enough since
             // the last time we dispatched.

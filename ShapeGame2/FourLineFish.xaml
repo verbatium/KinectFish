@@ -4,18 +4,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converter="clr-namespace:ShapeGame2.Converters"
              mc:Ignorable="d" 
              x:Class="ShapeGame2.FourLineFish"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converter:DoubleMultiplyConverter x:Key="DoubleMultiplyConverter1" />
+    </UserControl.Resources>
     <Canvas>
          <Path Stroke="Red" StrokeThickness="2" Data="M150,0 L150,50" Name="Head" DataContext="{Binding ElementName=UCFish}">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="50" Angle="{Binding ElementName=UCFish, Path=HeadAngle}" />
-                    <!--Head Angle-->
-                    <!--Body Angle /2-->
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
-                    <!--Body Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="50" 
+                                     Angle="{Binding ElementName=UCFish, Path=HeadAngle}" />
+                    <RotateTransform CenterX="150" CenterY="150" 
+                                     Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}"/>
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
@@ -24,10 +27,7 @@
                 <TransformGroup>
                     <TransformCollection>
                         <RotateTransform CenterX="150" CenterY="50" Angle="0" />
-                        <!--Head Angle-->
-                        <!--Body Angle /2-->
-                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
-                        <!--{Binding ElementName=UCFish, Path=BodyAngle1}-->
+                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     </TransformCollection>
                 </TransformGroup>
             </Path.RenderTransform>
@@ -35,23 +35,20 @@
         <Path Stroke="Black" StrokeThickness="2" Data="M 150,0 C 135,15 130,15 120,50" Name="LeftHead" DataContext="{Binding ElementName=UCFish}">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <SkewTransform AngleX="0" AngleY="0" CenterX="150" CenterY="0"/>
+                    <SkewTransform AngleX="0" AngleY="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" CenterX="150" CenterY="0"/>
                     <RotateTransform CenterX="150" CenterY="50" Angle="{Binding ElementName=UCFish, Path=HeadAngle}" />
-                    <!--Head Angle-->
-                    <!--Body Angle /2-->
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
-                    <!--Body Angle /2-->
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
         <Path Stroke="Black" StrokeThickness="2" Data="M 150,0 C 165,15 170,15 180,50" Name="RightHead" DataContext="{Binding ElementName=UCFish}">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <SkewTransform AngleX="0" AngleY="0" CenterX="150" CenterY="0"/>
+                    <SkewTransform AngleX="0" AngleY="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" CenterX="150" CenterY="0"/>
                     <RotateTransform CenterX="150" CenterY="50" Angle="{Binding ElementName=UCFish, Path=HeadAngle}" />
                     <!--{Binding ElementName=UCFish, Path=HeadAngle}-->
                     <!--Body Angle /2-->
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     <!--Body Angle /2-->
                 </TransformGroup>
             </Path.RenderTransform>
@@ -72,15 +69,50 @@
         <Path Stroke="Blue" StrokeThickness="2" Data="M150,50 L150,150" Name="Body1">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle1}" />
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}"  />
                     <!--{Binding ElementName=UCFish, Path=BodyAngle1}-->
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
+
+        <Path Stroke="Blue" StrokeThickness="2" Name="Body1R">
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigure StartPoint="180,50">
+                            <PathFigure.Segments>
+                                <BezierSegment Point1="185,90"
+                                               Point2="185,60" 
+                                               Point3="190,150">
+                                </BezierSegment>
+                                <LineSegment Point=" 180,150"></LineSegment>
+                                <LineSegment Point=" 180,50"></LineSegment>
+                                <LineSegment Point=" 190,50"></LineSegment>
+                                <LineSegment Point=" 190,150"></LineSegment>
+                            </PathFigure.Segments>
+                        </PathFigure>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <SkewTransform AngleX="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}"
+                                   AngleY="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}"
+                                   CenterX="150" CenterY="100"/>
+                    <SkewTransform AngleX="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='0', Converter={StaticResource DoubleMultiplyConverter1}}"
+                                   AngleY="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='0', Converter={StaticResource DoubleMultiplyConverter1}}"
+                                   CenterX="150" CenterY="150"/>
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}"  />
+                    <!--{Binding ElementName=UCFish, Path=BodyAngle1}-->
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+
+
         <Path Stroke="Yellow" StrokeThickness="2" Data="M150,150 L150,250" Name="Body2">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle2, UpdateSourceTrigger=PropertyChanged}" />
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     <!--Body Angle /2-->
                 </TransformGroup>
             </Path.RenderTransform>
@@ -90,61 +122,10 @@
                 <TransformGroup>
                     <RotateTransform CenterX="150" CenterY="250" Angle="{Binding ElementName=UCFish, Path=TailAngle}" />
                     <!--Tail Angle-->
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding ElementName=UCFish, Path=BodyAngle2, UpdateSourceTrigger=PropertyChanged}" />
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     <!-- -Head Angle /2-->
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
-        <Viewport3D Canvas.Left="0"
-                Canvas.Top="0"
-                Width="300"
-                Height="300"
-                Name="mainViewport"
-                ClipToBounds="True" 
-                IsHitTestVisible="False">
-            <Viewport3D.Camera>
-                <OrthographicCamera Position="150, 150, -100" UpDirection="0,-1,0" Width="300" LookDirection="0,0,1"/>
-            </Viewport3D.Camera>
-
-            <!-- Button on 3D -->
-            <Viewport2DVisual3D>
-                <!-- Give the plane a slight rotation 
-                <Viewport2DVisual3D.Transform>
-                    <RotateTransform3D>
-                        <RotateTransform3D.Rotation>
-                            <AxisAngleRotation3D Angle="0" Axis="0, 1, 0" />
-                        </RotateTransform3D.Rotation>
-                    </RotateTransform3D>
-                </Viewport2DVisual3D.Transform>-->
-                <Viewport2DVisual3D.Transform>
-                    <MatrixTransform3D Matrix="1,0,0,0
-                                               0,1,0,0 
-                                               0,0,1,0
-                                               0,0,0,1" />
-                </Viewport2DVisual3D.Transform>
-                <!-- The Geometry, Material, and Visual for the Viewport2DVisual3D -->
-                <Viewport2DVisual3D.Geometry>
-                    <MeshGeometry3D Positions="150,50,0     150,150,0       250,150,0            250,50,0"
-                                TextureCoordinates="0,0 0,1 1,1 1,0" TriangleIndices="0 1 2 0 2 3"/>
-                </Viewport2DVisual3D.Geometry>
-
-                <Viewport2DVisual3D.Material>
-                    <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True" Brush="White"/>
-                </Viewport2DVisual3D.Material>
-                <Canvas Width="100" Height="100" Background="Transparent">
-                    <Path Stretch="None" Stroke="Black" StrokeThickness="2" Data="M 30,0 C 35,50 40,75 40,100" Name="RightBody3" DataContext="{Binding ElementName=UCFish}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="300" />
-                </Canvas>
-                <!--
-                <Button>OK</Button>
--->
-            </Viewport2DVisual3D>
-
-            <!-- Lights -->
-            <ModelVisual3D>
-                <ModelVisual3D.Content>
-                    <DirectionalLight Color="#FFFFFFFF" Direction="0,0,1"/>
-                </ModelVisual3D.Content>
-            </ModelVisual3D>
-        </Viewport3D>
     </Canvas>
 </UserControl>

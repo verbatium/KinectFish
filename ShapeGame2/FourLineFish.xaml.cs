@@ -27,8 +27,8 @@ namespace ShapeGame2
         public static readonly DependencyProperty NegHeadAngleProperty
             = DependencyProperty.Register("NegHeadAngle", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
-        //public static readonly DependencyProperty BodyAngleProperty
-        //    = DependencyProperty.Register("BodyAngle", typeof(double), typeof(UserControl1), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty BodyAngleProperty
+            = DependencyProperty.Register("BodyAngle", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
         public static readonly DependencyProperty BodyAngle1Property
             = DependencyProperty.Register("BodyAngle1", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
@@ -39,15 +39,12 @@ namespace ShapeGame2
     = DependencyProperty.Register("TailAngle", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
 
-        //public double BodyAngle
-        //{
-        //    get { return (double)GetValue(BodyAngleProperty); }
-        //    set
-        //    {
-        //        SetValue(BodyAngleProperty, value);
-        //    }
+        public double BodyAngle
+        {
+            get { return (double)GetValue(BodyAngleProperty); }
+            set { SetValue(BodyAngleProperty, value);         }
 
-        //}
+        }
         
         public double NegHeadAngle
         {
@@ -96,6 +93,7 @@ namespace ShapeGame2
 
         public void TurnFish(double angle)
         {
+            BodyAngle = angle;
             HeadAngle = angle / 2;
             NegHeadAngle = -HeadAngle;
             //BodyAngle1 = angle / 2;
@@ -114,10 +112,10 @@ namespace ShapeGame2
         }
         void TurnHeadContours(double headAngle)
         {
-            TransformGroup tg = RightHead.RenderTransform as TransformGroup;
-            ((SkewTransform)(tg.Children[0])).AngleY = -HeadAngle/2;
-            tg = LeftHead.RenderTransform as TransformGroup;
-            ((SkewTransform)(tg.Children[0])).AngleY = -HeadAngle / 2;
+            //TransformGroup tg = RightHead.RenderTransform as TransformGroup;
+            //((SkewTransform)(tg.Children[0])).AngleY = -HeadAngle/2;
+            //tg = LeftHead.RenderTransform as TransformGroup;
+            //((SkewTransform)(tg.Children[0])).AngleY = -HeadAngle / 2;
         }
         void TurnBody1Contours(double bodyAngle1, double headAngle)
         {
