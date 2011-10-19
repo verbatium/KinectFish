@@ -17,16 +17,16 @@
             </Ellipse.RenderTransform>
             <Ellipse.Fill>
                 <RadialGradientBrush>
-                    <GradientStop Color="#00F1FF00" Offset="1"/>
                     <GradientStop Color="#FFFF3204"/>
                     <GradientStop Color="#FFFA9602" Offset="0.33"/>
                     <GradientStop Color="#BDF7CC01" Offset="0.489"/>
+                    <GradientStop Color="#00F1FF00" Offset="1"/>
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
     </Canvas>
     <UserControl.Resources>
-        <Storyboard x:Key="Flow" RepeatBehavior="Forever" SpeedRatio="0.3">
+        <Storyboard x:Key="Flow" SpeedRatio="0.3" Completed="AnimationFinished">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="Vortex">
                 <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1428"/>
             </DoubleAnimationUsingKeyFrames>

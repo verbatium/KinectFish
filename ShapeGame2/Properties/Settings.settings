@@ -8,5 +8,11 @@
     <Setting Name="WindowState" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="RobotFishPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Choose port...</Value>
+    </Setting>
+    <Setting Name="FeedbackPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Choose port...</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

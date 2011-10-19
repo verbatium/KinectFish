@@ -62,6 +62,9 @@
     <Compile Include="RedVortex.xaml.cs">
       <DependentUpon>RedVortex.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SerialConnector.xaml.cs">
+      <DependentUpon>SerialConnector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vortices.xaml.cs">
       <DependentUpon>Vortices.xaml</DependentUpon>
     </Compile>
@@ -83,6 +86,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="RedVortex.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SerialConnector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

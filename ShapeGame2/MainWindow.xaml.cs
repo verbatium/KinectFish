@@ -76,23 +76,36 @@ namespace ShapeGame2
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             fourLineFish = this.FindName("UCFish") as FourLineFish;
-
-            //redVortexTimer = new System.Timers.Timer(3000);
-            //redVortexTimer.Elapsed += new ElapsedEventHandler(NewRedVortex);
-            //redVortexTimer.Enabled = true;
         }
 
+        bool nextVortexIsBlue = false;
         public void CreateVortex()
         { 
             // Create a new red vortex object
-             RedVortex RV1 = new RedVortex();
-            Canvas.SetTop(RV1, -300);
+            RedVortex RV1 = new RedVortex();
+            Canvas.SetTop(RV1, -500);
             RV1.Randomize(); // make it look different
+            if (nextVortexIsBlue)
+            {
+                RV1.paintBlue();
+                Canvas.SetLeft(RV1, 250);
+                nextVortexIsBlue = false;
+            }
+            else
+            {
+                Canvas.SetLeft(RV1, 0);
+                nextVortexIsBlue = true;
+            }
+
+            
             redVortices.Add(RV1);
             Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
             sb1.Begin(); // make it move
 
-            // prune the list of vortices
+            // Delete one old vortex from the list
+            if (redVortices.Count > 0)
+                if (redVortices[0].Finished)
+                    redVortices.RemoveAt(0);
         }
 
         public void NewRedVortex(object sender, ElapsedEventArgs e)
@@ -466,7 +479,7 @@ namespace ShapeGame2
             predNextFrame = DateTime.Now;
             actualFrameTime = 1000.0 / targetFramerate;
 
-            redVortexTimer = new System.Timers.Timer(3000);
+            redVortexTimer = new System.Timers.Timer(1500);
             redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
             //redVortexTimer.Enabled = true;
 
@@ -540,7 +553,54 @@ namespace ShapeGame2
 
             fish.Draw(playfield.Children);
 
+            // Calculate vortex strength and apply to feedback system
+            if ((frameCount % 10) == 0)
+                TactileFeedback();
+
             CheckPlayers();
+        }
+
+        void TactileFeedback()
+        {
+            //approximate the fish nose position
+            //subject to change, because it is positioned using margins
+            Point nose = new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
+            const double maxDistance = 200*200;
+            double redDistance = maxDistance, blueDistance = maxDistance;
+            byte leftMotor = 0, rightMotor = 0; //actual motor commands
+
+            // find closest red and blue vortices
+            foreach (RedVortex vortex in redVortices)
+            {
+                // vortex.ActualWidth = 300
+                Point vortexCenter = new Point(Canvas.GetLeft(vortex) + 300 / 2,
+                    ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
+
+                double distanceSquared = Math.Pow((nose.X - vortexCenter.X),2) + Math.Pow((nose.Y - vortexCenter.Y),2);
+
+                if (vortex.Blue)
+                {
+                    if (distanceSquared < blueDistance)
+                    {
+                        blueDistance = distanceSquared;
+                    }
+                }
+                else
+                    if (distanceSquared < redDistance)
+                    {
+                        redDistance = distanceSquared;
+                    }
+            }
+
+            // calculate fan speed commands (0...255)
+            if (redDistance < maxDistance)
+                leftMotor = (byte) (Math.Sqrt(redDistance / maxDistance) * 255);
+            if (blueDistance < maxDistance)
+                rightMotor = (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
+            SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
+            debugLabelLeft.Content = leftMotor;
+            debugLabelRight.Content = rightMotor;
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
