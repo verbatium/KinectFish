@@ -303,15 +303,15 @@ namespace ShapeGame2
 
             return AngleConstrain (- NormalizeAngle(180.0 - System.Windows.Vector.AngleBetween(v1, v2)), -30,30);
         }
-        Double AngleConstrain(double angle, double Min, double Max)
+       public static Double AngleConstrain(double angle, double Min, double Max)
         {
             return Math.Min(Math.Max(angle, Min), Max);
         }
-        double NormalizeAngle(double angle)
+       public static Double NormalizeAngle(double angle)
         {
-            return ( (angle + 180) % 360 ) -180;
+            return (( (angle%360 + 180) % 360 ) -180);
         }
-        Point Average(Point a, Point b)
+       public static Point Average(Point a, Point b)
         {
 
             int dx = (int)((a.X - b.X) / 2);
@@ -321,7 +321,7 @@ namespace ShapeGame2
             return new Point(a.X - dx, a.Y - dy);
         }
 
-        private Point getDisplayPosition(Joint joint)
+       private Point getDisplayPosition(Joint joint)
         {
             float depthX, depthY;
             nui.SkeletonEngine.SkeletonToDepthImage(joint.Position, out depthX, out depthY);

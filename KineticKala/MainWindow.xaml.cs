@@ -140,7 +140,7 @@ namespace KineticKala
                 iSkeleton++;
             } // for each skeleton
         }
-        private Point getDisplayPosition(Joint joint)
+        public Point getDisplayPosition(Joint joint)
         {
             float depthX, depthY;
             nui.SkeletonEngine.SkeletonToDepthImage(joint.Position, out depthX, out depthY);
@@ -155,7 +155,7 @@ namespace KineticKala
             return new Point((int)(skeleton.Width * colorX / 640.0), (int)(skeleton.Height * colorY / 480));
         }
 
-        Polyline getFishBody(Microsoft.Research.Kinect.Nui.JointsCollection joints, Brush brush)
+        public Polyline getFishBody(Microsoft.Research.Kinect.Nui.JointsCollection joints, Brush brush)
         {
             PointCollection points = new PointCollection(6);
 
