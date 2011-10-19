@@ -268,75 +268,122 @@ namespace ShapeGame2
 
         Runtime nui = new Runtime();
 
+
         void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             SkeletonFrame skeletonFrame = e.SkeletonFrame;
-
-            int iSkeletonSlot = 0;
+            int iSkeleton = 0;
 
             foreach (SkeletonData data in skeletonFrame.Skeletons)
             {
                 if (SkeletonTrackingState.Tracked == data.TrackingState)
                 {
-                    Player player;
-                    if (players.ContainsKey(iSkeletonSlot))
-                    {
-                        player = players[iSkeletonSlot];
-                    }
-                    else
-                    {
-                        player = new Player(iSkeletonSlot);
-                        player.setBounds(playerBounds);
-                        players.Add(iSkeletonSlot, player);
-                    }
 
-                    player.lastUpdated = DateTime.Now;
+                    double angle = getFishAngle(data.Joints);
+                    fourLineFish.TurnFish(angle);
+                     //seleton.Children.Add(getFishBody(data.Joints, brush));
 
-                    // Update player's bone and joint positions
-                    if (data.Joints.Count > 0)
-                    {
-                        player.isAlive = true;
-
-                        // Head, hands, feet (hit testing happens in order here)
-                        player.UpdateJointPosition(data.Joints, JointID.Head);
-                        player.UpdateJointPosition(data.Joints, JointID.HandLeft);
-                        player.UpdateJointPosition(data.Joints, JointID.HandRight);
-                        player.UpdateJointPosition(data.Joints, JointID.FootLeft);
-                        player.UpdateJointPosition(data.Joints, JointID.FootRight);
-
-                        // Hands and arms
-                        player.UpdateBonePosition(data.Joints, JointID.HandRight, JointID.WristRight);
-                        player.UpdateBonePosition(data.Joints, JointID.WristRight, JointID.ElbowRight);
-                        player.UpdateBonePosition(data.Joints, JointID.ElbowRight, JointID.ShoulderRight);
-
-                        player.UpdateBonePosition(data.Joints, JointID.HandLeft, JointID.WristLeft);
-                        player.UpdateBonePosition(data.Joints, JointID.WristLeft, JointID.ElbowLeft);
-                        player.UpdateBonePosition(data.Joints, JointID.ElbowLeft, JointID.ShoulderLeft);
-
-                        // Head and Shoulders
-                        player.UpdateBonePosition(data.Joints, JointID.ShoulderCenter, JointID.Head);
-                        player.UpdateBonePosition(data.Joints, JointID.ShoulderLeft, JointID.ShoulderCenter);
-                        player.UpdateBonePosition(data.Joints, JointID.ShoulderCenter, JointID.ShoulderRight);
-
-                        // Legs
-                        player.UpdateBonePosition(data.Joints, JointID.HipLeft, JointID.KneeLeft);
-                        player.UpdateBonePosition(data.Joints, JointID.KneeLeft, JointID.AnkleLeft);
-                        player.UpdateBonePosition(data.Joints, JointID.AnkleLeft, JointID.FootLeft);
-
-                        player.UpdateBonePosition(data.Joints, JointID.HipRight, JointID.KneeRight);
-                        player.UpdateBonePosition(data.Joints, JointID.KneeRight, JointID.AnkleRight);
-                        player.UpdateBonePosition(data.Joints, JointID.AnkleRight, JointID.FootRight);
-
-                        player.UpdateBonePosition(data.Joints, JointID.HipLeft, JointID.HipCenter);
-                        player.UpdateBonePosition(data.Joints, JointID.HipCenter, JointID.HipRight);
-
-                        // Spine
-                        player.UpdateBonePosition(data.Joints, JointID.HipCenter, JointID.ShoulderCenter);
-                    }
                 }
-                iSkeletonSlot++;
-            }
+                iSkeleton++;
+            } // for each skeleton
         }
+
+        private double getFishAngle(Microsoft.Research.Kinect.Nui.JointsCollection joints)
+        {
+
+            Point a = getDisplayPosition(joints[JointID.Head]);
+            Point b = getDisplayPosition(joints[JointID.Head]);
+            Point c = getDisplayPosition(joints[JointID.Head]);
+            System.Windows.Vector v1 = new System.Windows.Vector(c.X-b.X,c.Y - b.Y);
+            System.Windows.Vector v2 = new System.Windows.Vector(a.X - b.X, a.Y - b.Y);
+
+            return System.Windows.Vector.AngleBetween(v1, v2);
+        }
+
+        private Point getDisplayPosition(Joint joint)
+        {
+            float depthX, depthY;
+            nui.SkeletonEngine.SkeletonToDepthImage(joint.Position, out depthX, out depthY);
+            depthX = depthX * 320; //convert to 320, 240 space
+            depthY = depthY * 240; //convert to 320, 240 space
+            int colorX, colorY;
+            ImageViewArea iv = new ImageViewArea();
+            // only ImageResolution.Resolution640x480 is supported at this point
+            nui.NuiCamera.GetColorPixelCoordinatesFromDepthPixel(ImageResolution.Resolution640x480, iv, (int)depthX, (int)depthY, (short)0, out colorX, out colorY);
+
+            // map back to skeleton.Width & skeleton.Height
+            return new Point((int)(playfield.Width * colorX / 640.0), (int)(playfield.Height * colorY / 480));
+        }
+        
+        //void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
+        //{
+        //    SkeletonFrame skeletonFrame = e.SkeletonFrame;
+
+        //    int iSkeletonSlot = 0;
+
+        //    foreach (SkeletonData data in skeletonFrame.Skeletons)
+        //    {
+        //        if (SkeletonTrackingState.Tracked == data.TrackingState)
+        //        {
+        //            Player player;
+        //            if (players.ContainsKey(iSkeletonSlot))
+        //            {
+        //                player = players[iSkeletonSlot];
+        //            }
+        //            else
+        //            {
+        //                player = new Player(iSkeletonSlot);
+        //                player.setBounds(playerBounds);
+        //                players.Add(iSkeletonSlot, player);
+        //            }
+
+        //            player.lastUpdated = DateTime.Now;
+
+        //            // Update player's bone and joint positions
+        //            if (data.Joints.Count > 0)
+        //            {
+        //                player.isAlive = true;
+
+        //                // Head, hands, feet (hit testing happens in order here)
+        //                player.UpdateJointPosition(data.Joints, JointID.Head);
+        //                player.UpdateJointPosition(data.Joints, JointID.HandLeft);
+        //                player.UpdateJointPosition(data.Joints, JointID.HandRight);
+        //                player.UpdateJointPosition(data.Joints, JointID.FootLeft);
+        //                player.UpdateJointPosition(data.Joints, JointID.FootRight);
+
+        //                // Hands and arms
+        //                player.UpdateBonePosition(data.Joints, JointID.HandRight, JointID.WristRight);
+        //                player.UpdateBonePosition(data.Joints, JointID.WristRight, JointID.ElbowRight);
+        //                player.UpdateBonePosition(data.Joints, JointID.ElbowRight, JointID.ShoulderRight);
+
+        //                player.UpdateBonePosition(data.Joints, JointID.HandLeft, JointID.WristLeft);
+        //                player.UpdateBonePosition(data.Joints, JointID.WristLeft, JointID.ElbowLeft);
+        //                player.UpdateBonePosition(data.Joints, JointID.ElbowLeft, JointID.ShoulderLeft);
+
+        //                // Head and Shoulders
+        //                player.UpdateBonePosition(data.Joints, JointID.ShoulderCenter, JointID.Head);
+        //                player.UpdateBonePosition(data.Joints, JointID.ShoulderLeft, JointID.ShoulderCenter);
+        //                player.UpdateBonePosition(data.Joints, JointID.ShoulderCenter, JointID.ShoulderRight);
+
+        //                // Legs
+        //                player.UpdateBonePosition(data.Joints, JointID.HipLeft, JointID.KneeLeft);
+        //                player.UpdateBonePosition(data.Joints, JointID.KneeLeft, JointID.AnkleLeft);
+        //                player.UpdateBonePosition(data.Joints, JointID.AnkleLeft, JointID.FootLeft);
+
+        //                player.UpdateBonePosition(data.Joints, JointID.HipRight, JointID.KneeRight);
+        //                player.UpdateBonePosition(data.Joints, JointID.KneeRight, JointID.AnkleRight);
+        //                player.UpdateBonePosition(data.Joints, JointID.AnkleRight, JointID.FootRight);
+
+        //                player.UpdateBonePosition(data.Joints, JointID.HipLeft, JointID.HipCenter);
+        //                player.UpdateBonePosition(data.Joints, JointID.HipCenter, JointID.HipRight);
+
+        //                // Spine
+        //                player.UpdateBonePosition(data.Joints, JointID.HipCenter, JointID.ShoulderCenter);
+        //            }
+        //        }
+        //        iSkeletonSlot++;
+        //    }
+        //}
 
         void CheckPlayers()
         {
