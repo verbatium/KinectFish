@@ -79,7 +79,7 @@ namespace ShapeGame2
             try
             {
                 robotFishPort = new SerialPort((string)RobotPortList.SelectedItem, 115200, Parity.None, 8, StopBits.One);
-                robotFishPort.NewLine = "\n";
+                robotFishPort.NewLine = ((Char)(0x0D)).ToString();
                 robotFishPort.Open();
                 RobotConnectButton.IsEnabled = false;
             }
@@ -94,7 +94,7 @@ namespace ShapeGame2
             try
             {
                 feedbackPort = new SerialPort((string)FeedbackPortList.SelectedItem, 115200, Parity.None, 8, StopBits.One);
-                feedbackPort.NewLine = "\n";
+                feedbackPort.NewLine = ((Char)(0x0D)).ToString();
                 feedbackPort.Open();
                 FeedbackConnectButton.IsEnabled = false;
             }

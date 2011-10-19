@@ -554,7 +554,7 @@ namespace ShapeGame2
             fish.Draw(playfield.Children);
 
             // Calculate vortex strength and apply to feedback system
-            if ((frameCount % 100) == 0)
+            //if ((frameCount % 100) == 0)
                 TactileFeedback();
 
             CheckPlayers();
