@@ -280,6 +280,7 @@ namespace ShapeGame2
                 {
 
                     double angle = getFishAngle(data.Joints);
+                    debugLabelCenter.Content = angle;
                     fourLineFish.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
 
@@ -292,7 +293,7 @@ namespace ShapeGame2
         {
 
             Point a = getDisplayPosition(joints[JointID.Head]);
-            Point b = getDisplayPosition(joints[JointID.Head]);
+            Point b = getDisplayPosition(joints[JointID.Spine]);
             Point c = getDisplayPosition(joints[JointID.Head]);
             System.Windows.Vector v1 = new System.Windows.Vector(c.X-b.X,c.Y - b.Y);
             System.Windows.Vector v2 = new System.Windows.Vector(a.X - b.X, a.Y - b.Y);

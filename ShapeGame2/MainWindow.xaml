@@ -20,6 +20,7 @@
         <Label Content="Distance" Height="28" Name="debugLabelLeft" Width="100" HorizontalAlignment="Left" />
         <Label Content="Distance" Height="28" Name="debugLabelRight" Width="100" HorizontalAlignment="Right" />
 
+        <Label Content="Distance" Height="28" Name="debugLabelCenter" Width="100" />
         
     </Grid>
 </Window>
