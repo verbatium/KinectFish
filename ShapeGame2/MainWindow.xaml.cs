@@ -627,19 +627,23 @@ namespace ShapeGame2
 
             CheckPlayers();
         }
+        double minRed = double.MaxValue, minBlue=double.MaxValue;
+        double maxRed = 0, maxBlue = 0;
 
         void TactileFeedback()
         {
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
-            Point nose = new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
-            const double maxDistance = 200*200;
-            double redDistance = maxDistance, blueDistance = maxDistance;
-            byte leftMotor = 0, rightMotor = 0; //actual motor commands
+            Point nose = new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Top);
+            const double maxDistance = 200;
+            double redDistance = maxRed, blueDistance = maxBlue;
+            byte leftMotor = 255, rightMotor = 255; //actual motor commands
 
             // find closest red and blue vortices
             foreach (RedVortex vortex in redVortices)
             {
+                if (((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y-500 > nose.Y) continue;
+                
                 // vortex.ActualWidth = 300
                 Point vortexCenter = new Point(Canvas.GetLeft(vortex) + 300 / 2,
                     ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
@@ -650,21 +654,29 @@ namespace ShapeGame2
                 {
                     if (distanceSquared < blueDistance)
                     {
-                        blueDistance = distanceSquared;
+                        blueDistance = Math.Sqrt(distanceSquared);
                     }
                 }
                 else
                     if (distanceSquared < redDistance)
                     {
-                        redDistance = distanceSquared;
+                        redDistance = Math.Sqrt(distanceSquared);
                     }
             }
 
+            minRed = Math.Min(redDistance, minRed);
+            minBlue = Math.Min(blueDistance, minBlue);
+
+            maxBlue = Math.Max(blueDistance, minBlue);
+            maxRed = Math.Max(redDistance, minRed);
+            
             // calculate fan speed commands (0...255)
             if (redDistance < maxDistance)
-                leftMotor = (byte) (Math.Sqrt(redDistance / maxDistance) * 255);
+                leftMotor = (byte)((redDistance - minRed) / (maxRed - minRed)* 127 + 50);
+                    //(byte) (127+Math.Sqrt(redDistance / maxDistance) * 127);
             if (blueDistance < maxDistance)
-                rightMotor = (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
+                rightMotor = (byte)((blueDistance - minBlue) / (maxBlue - minBlue) * 127+50) ;
+                    //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
             SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
             debugLabelLeft.Content = leftMotor;
             debugLabelRight.Content = rightMotor;

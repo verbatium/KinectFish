@@ -24,6 +24,7 @@
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
+        <Label Canvas.Left="166" Canvas.Top="152" Content="Label" Height="28" Name="label1" />
     </Canvas>
     <UserControl.Resources>
         <Storyboard x:Key="Flow" SpeedRatio="0.3" Completed="AnimationFinished">

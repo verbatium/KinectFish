@@ -24,6 +24,7 @@ namespace ShapeGame2
         public RedVortex()
         {
             InitializeComponent();
+            
         }
         public void paintBlue()
         {
@@ -37,6 +38,8 @@ namespace ShapeGame2
         }
         public void Randomize()
         {
+            
+                label1.Content = Canvas.GetLeft(this);
             Random random = new Random();
             GradientBrush gb = (GradientBrush) Vortex.Fill;
             gb.GradientStops[0].Color = Color.FromArgb(255, 255, (byte)(50+random.Next(0,50)), 4);
