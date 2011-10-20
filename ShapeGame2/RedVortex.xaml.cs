@@ -37,6 +37,16 @@ namespace ShapeGame2
             return new Point(x, y);
         }
 
+        public void PlayfieldResized(int width, int height)
+        {
+            double newX = width / 2 - Vortex.ActualWidth / 2;
+            if (Blue)
+                newX += 100;
+            else
+                newX -= 100;
+            this.SetValue(Canvas.LeftProperty, newX);
+        }
+
         public void paintBlue()
         {
             Random random = new Random();

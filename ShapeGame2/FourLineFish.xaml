@@ -79,16 +79,16 @@
             <Path.Data>
                 <PathGeometry>
                     <PathGeometry.Figures>
-                        <PathFigure StartPoint="180,50">
+                        <PathFigure StartPoint="{Binding ElementName=Straightline, Path=Point}">
                             <PathFigure.Segments>
                                 <BezierSegment Point1="185,90"
                                                Point2="185,60" 
                                                Point3="190,150">
                                 </BezierSegment>
-                                <LineSegment Point=" 180,150"></LineSegment>
+                                <!--<LineSegment Point=" 180,150"></LineSegment>
                                 <LineSegment Point=" 180,50"></LineSegment>
                                 <LineSegment Point=" 190,50"></LineSegment>
-                                <LineSegment Point=" 190,150"></LineSegment>
+                                <LineSegment Point=" 190,150"></LineSegment>-->
                             </PathFigure.Segments>
                         </PathFigure>
                     </PathGeometry.Figures>
@@ -127,5 +127,14 @@
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
+        <Path x:Name="Line" Height="62.5" Canvas.Left="180" Stretch="Fill" Stroke="Green" StrokeThickness="2" Canvas.Top="18.75" Width="2.962">
+        	<Path.Data>
+        		     	<PathGeometry>
+        		     		<PathFigure StartPoint="180,22">
+        		     			 	<LineSegment x:Name="Straightline" Point="180,82"/>	
+							</PathFigure>
+						</PathGeometry>
+			</Path.Data>
+			</Path>
     </Canvas>
 </UserControl>
