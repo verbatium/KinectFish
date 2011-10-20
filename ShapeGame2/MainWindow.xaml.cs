@@ -641,8 +641,9 @@ namespace ShapeGame2
             foreach (RedVortex vortex in redVortices)
             {
                 // vortex.ActualWidth = 300
-                Point vortexCenter = new Point(Canvas.GetLeft(vortex) + 300 / 2,
-                    ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
+                Point vortexCenter = vortex.GetCenter();
+                    //new Point(Canvas.GetLeft(vortex) + 300 / 2,
+                    // ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
 
                 double distanceSquared = Math.Pow((nose.X - vortexCenter.X),2) + Math.Pow((nose.Y - vortexCenter.Y),2);
 
