@@ -59,8 +59,10 @@ namespace ShapeGame2
 
         FourLineFish fourLineFish;
 
+
         List<RedVortex> redVortices = new List<RedVortex>();
         System.Timers.Timer redVortexTimer;
+        SimpleJoystick joystick;
 
         public MainWindow()
         {
@@ -76,6 +78,9 @@ namespace ShapeGame2
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             fourLineFish = this.FindName("UCFish") as FourLineFish;
+
+            // find a joystick
+            joystick = new SimpleJoystick();
         }
 
         bool nextVortexIsBlue = false;
@@ -280,7 +285,7 @@ namespace ShapeGame2
                 {
 
                     double angle = getFishAngle(data.Joints);
-                    debugLabelCenter.Content = angle;
+                    //debugLabelCenter.Content = angle;
                     fourLineFish.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
 
@@ -547,7 +552,7 @@ namespace ShapeGame2
             predNextFrame = DateTime.Now;
             actualFrameTime = 1000.0 / targetFramerate;
 
-            redVortexTimer = new System.Timers.Timer(1500);
+            redVortexTimer = new System.Timers.Timer(4500);
             redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
             redVortexTimer.Enabled = true;
 
@@ -585,6 +590,11 @@ namespace ShapeGame2
 
         private void HandleGameTimer(int param)
         {
+            if (joystick != null)
+            {
+                debugLabelCenter.Content = joystick.State.X * 30 / 100;
+                fourLineFish.TurnFish(joystick.State.X * 30 / 100);
+            }
             // Every so often, notify what our actual framerate is
             if ((frameCount % 100) == 0)
                 fallingThings.SetFramerate(1000.0 / actualFrameTime);
@@ -615,6 +625,10 @@ namespace ShapeGame2
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
             foreach (RedVortex rv in redVortices)
                 playfield.Children.Add(rv);
+            //RedVortex redv = new RedVortex();
+            //playfield.Children.Add(redv); // 240...290, 290
+            //Canvas.SetLeft(redv, 140);
+            //Canvas.SetTop(redv, 290);
             //playfield.Children.Add(RV1);
             //Canvas.SetLeft(RV1, 20);
             //Canvas.SetTop(RV1, 20);
@@ -634,10 +648,10 @@ namespace ShapeGame2
         {
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
-            Point nose = new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Top);
+            Point nose = new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
             const double maxDistance = 200;
             double redDistance = maxRed, blueDistance = maxBlue;
-            byte leftMotor = 255, rightMotor = 255; //actual motor commands
+            byte leftMotor = 100, rightMotor = 100; //actual motor commands
 
             // find closest red and blue vortices
             foreach (RedVortex vortex in redVortices)
@@ -672,11 +686,10 @@ namespace ShapeGame2
             maxRed = Math.Max(redDistance, minRed);
             
             // calculate fan speed commands (0...255)
-            if (redDistance < maxDistance)
-                leftMotor = (byte)((redDistance - minRed) / (maxRed - minRed)* 127 + 50);
-                    //(byte) (127+Math.Sqrt(redDistance / maxDistance) * 127);
-            if (blueDistance < maxDistance)
-                rightMotor = (byte)((blueDistance - minBlue) / (maxBlue - minBlue) * 127+50) ;
+            if (redDistance < 150*150)
+                leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
+            if (blueDistance < 120*120)
+                rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
                     //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
             SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
             debugLabelLeft.Content = leftMotor;
