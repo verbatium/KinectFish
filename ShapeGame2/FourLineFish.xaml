@@ -10,6 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <converter:DoubleMultiplyConverter x:Key="DoubleMultiplyConverter1" />
+        <converter:TransformConverter x:Key="TransformConverter1" />
     </UserControl.Resources>
     <Canvas>
          <Path Stroke="Red" StrokeThickness="2" Data="M150,0 L150,50" Name="Head" DataContext="{Binding ElementName=UCFish}">
@@ -22,7 +23,14 @@
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
-        <Path Stroke="Red" StrokeThickness="2" Data="M120,50 L180,50" Name="Collar" DataContext="{Binding ElementName=UCFish}">
+        <Path Stroke="Red" StrokeThickness="2" Name="Collar" DataContext="{Binding ElementName=UCFish}">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure x:Name="CollarStart" StartPoint="120,50">
+                        <LineSegment x:Name="Collarline" Point="180,50"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
             <Path.RenderTransform>
                 <TransformGroup>
                     <TransformCollection>
@@ -77,38 +85,67 @@
 
         <Path Stroke="Blue" StrokeThickness="2" Name="Body1R">
             <Path.Data>
-                <PathGeometry>
+                <PathGeometry >
                     <PathGeometry.Figures>
-                        <PathFigure StartPoint="{Binding ElementName=Straightline, Path=Point}">
+                        <PathFigure>
+                            <PathFigure.StartPoint>
+                                <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
+                                    <Binding ElementName='Collar'/>
+                                    <Binding Path='Point' ElementName='Collarline'/>
+                                    <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                </MultiBinding>
+                            </PathFigure.StartPoint>
                             <PathFigure.Segments>
-                                <BezierSegment Point1="185,90"
-                                               Point2="185,60" 
+                                <BezierSegment 
+                                               Point2="185,100" 
                                                Point3="190,150">
+                                    <BezierSegment.Point1>
+                                        <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
+                                            <Binding ElementName='LineR'/>
+                                            <Binding Path='Point' ElementName='LineREnd'/>
+                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                        </MultiBinding>
+                                    </BezierSegment.Point1>
                                 </BezierSegment>
-                                <!--<LineSegment Point=" 180,150"></LineSegment>
-                                <LineSegment Point=" 180,50"></LineSegment>
-                                <LineSegment Point=" 190,50"></LineSegment>
-                                <LineSegment Point=" 190,150"></LineSegment>-->
                             </PathFigure.Segments>
                         </PathFigure>
                     </PathGeometry.Figures>
                 </PathGeometry>
             </Path.Data>
-            <Path.RenderTransform>
-                <TransformGroup>
-                    <SkewTransform AngleX="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}"
-                                   AngleY="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}"
-                                   CenterX="150" CenterY="100"/>
-                    <SkewTransform AngleX="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='0', Converter={StaticResource DoubleMultiplyConverter1}}"
-                                   AngleY="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='0', Converter={StaticResource DoubleMultiplyConverter1}}"
-                                   CenterX="150" CenterY="150"/>
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}"  />
-                    <!--{Binding ElementName=UCFish, Path=BodyAngle1}-->
-                </TransformGroup>
-            </Path.RenderTransform>
+
         </Path>
 
+        <Path Stroke="Blue" StrokeThickness="2" Name="Body1L">
+            <Path.Data>
+                <PathGeometry >
+                    <PathGeometry.Figures>
+                        <PathFigure>
+                            <PathFigure.StartPoint>
+                                <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
+                                    <Binding ElementName='Collar'/>
+                                    <Binding Path='StartPoint' ElementName='CollarStart'/>
+                                    <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                </MultiBinding>
+                            </PathFigure.StartPoint>
+                            <PathFigure.Segments>
+                                <BezierSegment 
+                                               Point2="115,100" 
+                                               Point3="110,150">
+                                    <BezierSegment.Point1>
+                                        <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
+                                            <Binding ElementName='LineL'/>
+                                            <Binding Path='Point' ElementName='LineLEnd'/>
+                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                        </MultiBinding>
+                                    </BezierSegment.Point1>
+                                </BezierSegment>
+                            </PathFigure.Segments>
+                        </PathFigure>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
 
+        </Path>
         <Path Stroke="Yellow" StrokeThickness="2" Data="M150,150 L150,250" Name="Body2">
             <Path.RenderTransform>
                 <TransformGroup>
@@ -117,7 +154,7 @@
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
-        <Path Stroke="Green" StrokeThickness="2" Data="M150,250 L150,300" Name="Tail">
+        <Path Stroke="Green" StrokeThickness="2" Data="M150,250 L150,300" Name="Tail" DataContext="{Binding}">
             <Path.RenderTransform>
                 <TransformGroup>
                     <RotateTransform CenterX="150" CenterY="250" Angle="{Binding ElementName=UCFish, Path=TailAngle}" />
@@ -127,14 +164,39 @@
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
-        <Path x:Name="Line" Height="62.5" Canvas.Left="180" Stretch="Fill" Stroke="Green" StrokeThickness="2" Canvas.Top="18.75" Width="2.962">
+        <Path x:Name="LineR" Stroke="Green" StrokeThickness="2">
         	<Path.Data>
         		     	<PathGeometry>
-        		     		<PathFigure StartPoint="180,22">
-        		     			 	<LineSegment x:Name="Straightline" Point="180,82"/>	
+        		     		<PathFigure StartPoint="180,20">
+        		     			 	<LineSegment x:Name="LineREnd" Point="180,80"/>	
 							</PathFigure>
-						</PathGeometry>
+                </PathGeometry>
 			</Path.Data>
-			</Path>
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TransformCollection>
+                        <RotateTransform CenterX="180" CenterY="50" Angle="0" />
+                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                    </TransformCollection>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path x:Name="LineL" Stroke="Green" StrokeThickness="2">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="120,20">
+                        <LineSegment x:Name="LineLEnd" Point="120,80"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <TransformCollection>
+                        <RotateTransform CenterX="120" CenterY="50" Angle="0" />
+                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                    </TransformCollection>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
     </Canvas>
 </UserControl>

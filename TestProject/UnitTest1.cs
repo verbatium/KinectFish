@@ -18,7 +18,7 @@ namespace TestProject
             Assert.AreEqual(ShapeGame2.MainWindow.NormalizeAngle(350), -10);
             Assert.AreEqual(ShapeGame2.MainWindow.NormalizeAngle(-180), -180);
             Assert.AreEqual(ShapeGame2.MainWindow.NormalizeAngle(180), -180);
-            Assert.AreEqual(ShapeGame2.MainWindow.NormalizeAngle(190), -180);
+            Assert.AreEqual(ShapeGame2.MainWindow.NormalizeAngle(190), -170);
         }
     }
 }
