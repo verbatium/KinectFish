@@ -265,7 +265,7 @@ namespace ShapeGame2
         bool runningGameThread = false;
         bool nuiInitialized = false;
         FallingThings fallingThings = null;
-        PolyFish fish = new PolyFish();
+
         int playersAlive = 0;
         SoundPlayer popSound = new SoundPlayer();
         SoundPlayer hitSound = new SoundPlayer();
@@ -478,7 +478,6 @@ namespace ShapeGame2
         private void Playfield_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdatePlayfieldSize();
-            fish.resizePlayfield(Convert.ToInt16(e.NewSize.Width), Convert.ToInt16(e.NewSize.Height));
         }
 
         private void UpdatePlayfieldSize()
@@ -633,8 +632,6 @@ namespace ShapeGame2
             //Canvas.SetLeft(RV1, 20);
             //Canvas.SetTop(RV1, 20);
 
-            fish.Draw(playfield.Children);
-
             // Calculate vortex strength and apply to feedback system
             if ((frameCount % 10) == 0)
                 TactileFeedback();
@@ -713,7 +710,6 @@ namespace ShapeGame2
 
         private void angleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            fish.angle = e.NewValue;
             fourLineFish.TurnFish(e.NewValue);
         }
     }
