@@ -59,8 +59,10 @@ namespace ShapeGame2
 
         FourLineFish fourLineFish;
 
+
         List<RedVortex> redVortices = new List<RedVortex>();
         System.Timers.Timer redVortexTimer;
+        SimpleJoystick joystick;
 
         public MainWindow()
         {
@@ -76,6 +78,9 @@ namespace ShapeGame2
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             fourLineFish = this.FindName("UCFish") as FourLineFish;
+
+            // find a joystick
+            joystick = new SimpleJoystick();
         }
 
         bool nextVortexIsBlue = false;
@@ -280,7 +285,7 @@ namespace ShapeGame2
                 {
 
                     double angle = getFishAngle(data.Joints);
-                    debugLabelCenter.Content = angle;
+                    //debugLabelCenter.Content = angle;
                     fourLineFish.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
 
@@ -585,6 +590,11 @@ namespace ShapeGame2
 
         private void HandleGameTimer(int param)
         {
+            if (joystick != null)
+            {
+                debugLabelCenter.Content = joystick.State.X * 30 / 100;
+                fourLineFish.TurnFish(joystick.State.X * 30 / 100);
+            }
             // Every so often, notify what our actual framerate is
             if ((frameCount % 100) == 0)
                 fallingThings.SetFramerate(1000.0 / actualFrameTime);
