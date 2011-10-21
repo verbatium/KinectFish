@@ -547,7 +547,7 @@ namespace ShapeGame2
             predNextFrame = DateTime.Now;
             actualFrameTime = 1000.0 / targetFramerate;
 
-            redVortexTimer = new System.Timers.Timer(1500);
+            redVortexTimer = new System.Timers.Timer(4500);
             redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
             redVortexTimer.Enabled = true;
 
@@ -615,6 +615,10 @@ namespace ShapeGame2
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
             foreach (RedVortex rv in redVortices)
                 playfield.Children.Add(rv);
+            //RedVortex redv = new RedVortex();
+            //playfield.Children.Add(redv); // 240...290, 290
+            //Canvas.SetLeft(redv, 140);
+            //Canvas.SetTop(redv, 290);
             //playfield.Children.Add(RV1);
             //Canvas.SetLeft(RV1, 20);
             //Canvas.SetTop(RV1, 20);
@@ -632,10 +636,10 @@ namespace ShapeGame2
         {
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
-            Point nose = new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
+            Point nose = new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
             const double maxDistance = 200*200;
             double redDistance = maxDistance, blueDistance = maxDistance;
-            byte leftMotor = 0, rightMotor = 0; //actual motor commands
+            byte leftMotor = 100, rightMotor = 100; //actual motor commands
 
             // find closest red and blue vortices
             foreach (RedVortex vortex in redVortices)
@@ -662,10 +666,10 @@ namespace ShapeGame2
             }
 
             // calculate fan speed commands (0...255)
-            if (redDistance < maxDistance)
-                leftMotor = (byte) (Math.Sqrt(redDistance / maxDistance) * 255);
-            if (blueDistance < maxDistance)
-                rightMotor = (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
+            if (redDistance < 150*150)
+                leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
+            if (blueDistance < 120*120)
+                rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
             SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
             debugLabelLeft.Content = leftMotor;
             debugLabelRight.Content = rightMotor;
