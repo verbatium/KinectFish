@@ -80,16 +80,7 @@ namespace ShapeGame2
             fourLineFish = this.FindName("UCFish") as FourLineFish;
 
             // find a joystick
-            try
-            {
-                joystick = new SimpleJoystick();
-            }
-            catch (Exception)
-            {
-
-
-            }
-            
+            joystick = new SimpleJoystick();
         }
 
         bool nextVortexIsBlue = false;
@@ -274,7 +265,7 @@ namespace ShapeGame2
         bool runningGameThread = false;
         bool nuiInitialized = false;
         FallingThings fallingThings = null;
-
+        PolyFish fish = new PolyFish();
         int playersAlive = 0;
         SoundPlayer popSound = new SoundPlayer();
         SoundPlayer hitSound = new SoundPlayer();
@@ -487,6 +478,7 @@ namespace ShapeGame2
         private void Playfield_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdatePlayfieldSize();
+            fish.resizePlayfield(Convert.ToInt16(e.NewSize.Width), Convert.ToInt16(e.NewSize.Height));
         }
 
         private void UpdatePlayfieldSize()
@@ -603,11 +595,6 @@ namespace ShapeGame2
                 debugLabelCenter.Content = joystick.State.X * 30 / 100;
                 fourLineFish.TurnFish(joystick.State.X * 30 / 100);
             }
-            //else
-            //{
-            //    debugLabelCenter.Content = angleSlider.Value;
-            //    fourLineFish.TurnFish((double)angleSlider.Value);
-            //}
             // Every so often, notify what our actual framerate is
             if ((frameCount % 100) == 0)
                 fallingThings.SetFramerate(1000.0 / actualFrameTime);
@@ -646,6 +633,8 @@ namespace ShapeGame2
             //Canvas.SetLeft(RV1, 20);
             //Canvas.SetTop(RV1, 20);
 
+            fish.Draw(playfield.Children);
+
             // Calculate vortex strength and apply to feedback system
             if ((frameCount % 10) == 0)
                 TactileFeedback();
@@ -659,10 +648,17 @@ namespace ShapeGame2
         {
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
-            Point nose = new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
+<<<<<<< HEAD
+            Point nose = new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Top);
             const double maxDistance = 200;
             double redDistance = maxRed, blueDistance = maxBlue;
+            byte leftMotor = 255, rightMotor = 255; //actual motor commands
+=======
+            Point nose = new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
+            const double maxDistance = 200*200;
+            double redDistance = maxDistance, blueDistance = maxDistance;
             byte leftMotor = 100, rightMotor = 100; //actual motor commands
+>>>>>>> d9dc9d66b6f8fd83fbc063b98ed49fd39b2d0141
 
             // find closest red and blue vortices
             foreach (RedVortex vortex in redVortices)
@@ -697,11 +693,19 @@ namespace ShapeGame2
             maxRed = Math.Max(redDistance, minRed);
             
             // calculate fan speed commands (0...255)
+<<<<<<< HEAD
+            if (redDistance < maxDistance)
+                leftMotor = (byte)((redDistance - minRed) / (maxRed - minRed)* 127 + 50);
+                    //(byte) (127+Math.Sqrt(redDistance / maxDistance) * 127);
+            if (blueDistance < maxDistance)
+                rightMotor = (byte)((blueDistance - minBlue) / (maxBlue - minBlue) * 127+50) ;
+                    //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
+=======
             if (redDistance < 150*150)
                 leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
             if (blueDistance < 120*120)
                 rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
-                    //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
+>>>>>>> d9dc9d66b6f8fd83fbc063b98ed49fd39b2d0141
             SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
             debugLabelLeft.Content = leftMotor;
             debugLabelRight.Content = rightMotor;
@@ -724,6 +728,7 @@ namespace ShapeGame2
 
         private void angleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            fish.angle = e.NewValue;
             fourLineFish.TurnFish(e.NewValue);
         }
     }

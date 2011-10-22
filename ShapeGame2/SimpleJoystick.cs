@@ -24,14 +24,23 @@ namespace ShapeGame2
         {
             get
             {
+                try
+                {
+                    if (Joystick.Acquire().IsFailure)
+                        throw new Exception("Joystick failure");
 
-                if (Joystick.Acquire().IsFailure)
-                    throw new Exception("Joystick failure");
+                    if (Joystick.Poll().IsFailure)
+                        throw new Exception("Joystick failure");
 
-                if (Joystick.Poll().IsFailure)
-                    throw new Exception("Joystick failure");
+                    return Joystick.GetCurrentState();
+                }
+                catch (Exception)
+                {
 
-                return Joystick.GetCurrentState();
+                    throw;
+                }
+
+
             }
         }
 
@@ -40,33 +49,42 @@ namespace ShapeGame2
         /// </summary>
         public SimpleJoystick()
         {
-            DirectInput dinput = new DirectInput();
-
-            // Search for device
-            foreach (DeviceInstance device in dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly))
+            try
             {
-                // Create device
-                try
+                DirectInput dinput = new DirectInput();
+
+                // Search for device
+                foreach (DeviceInstance device in dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly))
                 {
-                    Joystick = new Joystick(dinput, device.InstanceGuid);
-                    break;
+                    // Create device
+                    try
+                    {
+                        Joystick = new Joystick(dinput, device.InstanceGuid);
+                        break;
+                    }
+                    catch (DirectInputException)
+                    {
+                    }
                 }
-                catch (DirectInputException)
+
+                if (Joystick == null)
+                    throw new Exception("No joystick found");
+
+                foreach (DeviceObjectInstance deviceObject in Joystick.GetObjects())
                 {
+                    if ((deviceObject.ObjectType & ObjectDeviceType.Axis) != 0)
+                        Joystick.GetObjectPropertiesById((int)deviceObject.ObjectType).SetRange(-100, 100);
                 }
+
+                // Acquire device
+                Joystick.Acquire();
             }
-
-            if (Joystick == null)
-                throw new Exception("No joystick found");
-
-            foreach (DeviceObjectInstance deviceObject in Joystick.GetObjects())
+            catch (Exception)
             {
-                if ((deviceObject.ObjectType & ObjectDeviceType.Axis) != 0)
-                    Joystick.GetObjectPropertiesById((int)deviceObject.ObjectType).SetRange(-100, 100);
+                throw;
+               
             }
-
-            // Acquire device
-            Joystick.Acquire();
+            
         }
 
         /// <summary>
