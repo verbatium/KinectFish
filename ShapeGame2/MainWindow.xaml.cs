@@ -60,7 +60,7 @@ namespace ShapeGame2
         FourLineFish fourLineFish;
 
 
-        List<RedVortex> redVortices = new List<RedVortex>();
+        List<SingleVortex> redVortices = new List<SingleVortex>();
         System.Timers.Timer redVortexTimer;
         SimpleJoystick joystick;
 
@@ -96,7 +96,7 @@ namespace ShapeGame2
         public void CreateVortex()
         { 
             // Create a new red vortex object
-            RedVortex RV1 = new RedVortex();
+            SingleVortex RV1 = new SingleVortex();
             Canvas.SetTop(RV1, -500);
             RV1.Randomize(); // make it look different
             if (nextVortexIsBlue)
@@ -636,7 +636,7 @@ namespace ShapeGame2
             BannerText.Draw(playfield.Children);
             FlyingText.Draw(playfield.Children);
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
-            foreach (RedVortex rv in redVortices)
+            foreach (SingleVortex rv in redVortices)
                 playfield.Children.Add(rv);
             //RedVortex redv = new RedVortex();
             //playfield.Children.Add(redv); // 240...290, 290
@@ -665,7 +665,7 @@ namespace ShapeGame2
             byte leftMotor = 100, rightMotor = 100; //actual motor commands
 
             // find closest red and blue vortices
-            foreach (RedVortex vortex in redVortices)
+            foreach (SingleVortex vortex in redVortices)
             {
                 if (((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y-500 > nose.Y) continue;
                 

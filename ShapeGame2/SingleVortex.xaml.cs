@@ -17,12 +17,12 @@ namespace ShapeGame2
     /// <summary>
     /// Interaction logic for RedVortex.xaml
     /// </summary>
-    public partial class RedVortex : UserControl
+    public partial class SingleVortex : UserControl
     {
         public bool Finished = false;
         public bool Blue = false;
 
-        public RedVortex()
+        public SingleVortex()
         {
             InitializeComponent();
             

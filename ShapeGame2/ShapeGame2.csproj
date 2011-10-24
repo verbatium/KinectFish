@@ -63,19 +63,17 @@
     </ApplicationDefinition>
     <Compile Include="Converters\DoubleMultiplyConverter.cs" />
     <Compile Include="Converters\TransformConverter.cs" />
-    <Compile Include="RedVortex.xaml.cs">
-      <DependentUpon>RedVortex.xaml</DependentUpon>
+    <Compile Include="SingleVortex.xaml.cs">
+      <DependentUpon>SingleVortex.xaml</DependentUpon>
     </Compile>
     <Compile Include="SerialConnector.xaml.cs">
       <DependentUpon>SerialConnector.xaml</DependentUpon>
     </Compile>
     <Compile Include="SimpleJoystick.cs" />
-    <Compile Include="Vortices.xaml.cs">
-      <DependentUpon>Vortices.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FourLineFish.xaml.cs">
       <DependentUpon>FourLineFish.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vortices.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -90,15 +88,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RedVortex.xaml">
+    <Page Include="SingleVortex.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SerialConnector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vortices.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
