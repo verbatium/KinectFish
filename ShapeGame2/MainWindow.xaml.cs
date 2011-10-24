@@ -60,9 +60,10 @@ namespace ShapeGame2
         FourLineFish fourLineFish;
 
 
-        List<SingleVortex> redVortices = new List<SingleVortex>();
-        System.Timers.Timer redVortexTimer;
+        //List<SingleVortex> redVortices = new List<SingleVortex>();
+        //System.Timers.Timer redVortexTimer;
         SimpleJoystick joystick;
+        Vortices vortices = new Vortices(Dispatcher.CurrentDispatcher);
 
         public MainWindow()
         {
@@ -92,41 +93,41 @@ namespace ShapeGame2
             
         }
 
-        bool nextVortexIsBlue = false;
-        public void CreateVortex()
-        { 
-            // Create a new red vortex object
-            SingleVortex RV1 = new SingleVortex();
-            Canvas.SetTop(RV1, -500);
-            RV1.Randomize(); // make it look different
-            if (nextVortexIsBlue)
-            {
-                RV1.paintBlue();
-                Canvas.SetLeft(RV1, 250);
-                nextVortexIsBlue = false;
-            }
-            else
-            {
-                Canvas.SetLeft(RV1, 0);
-                nextVortexIsBlue = true;
-            }
+        //bool nextVortexIsBlue = false;
+        //public void CreateVortex()
+        //{ 
+        //    // Create a new red vortex object
+        //    SingleVortex RV1 = new SingleVortex();
+        //    Canvas.SetTop(RV1, -500);
+        //    RV1.Randomize(); // make it look different
+        //    if (nextVortexIsBlue)
+        //    {
+        //        RV1.paintBlue();
+        //        Canvas.SetLeft(RV1, 250);
+        //        nextVortexIsBlue = false;
+        //    }
+        //    else
+        //    {
+        //        Canvas.SetLeft(RV1, 0);
+        //        nextVortexIsBlue = true;
+        //    }
 
             
-            redVortices.Add(RV1);
-            Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
-            sb1.Begin(); // make it move
+        //    redVortices.Add(RV1);
+        //    Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
+        //    sb1.Begin(); // make it move
 
-            // Delete one old vortex from the list
-            if (redVortices.Count > 0)
-                if (redVortices[0].Finished)
-                    redVortices.RemoveAt(0);
-        }
+        //    // Delete one old vortex from the list
+        //    if (redVortices.Count > 0)
+        //        if (redVortices[0].Finished)
+        //            redVortices.RemoveAt(0);
+        //}
 
-        public void NewRedVortex(object sender, ElapsedEventArgs e)
-        //public void NewRedVortex()
-        {
-            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(CreateVortex));
-        }
+        //public void NewRedVortex(object sender, ElapsedEventArgs e)
+        ////public void NewRedVortex()
+        //{
+        //    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(CreateVortex));
+        //}
         public class Player
         {
             public bool isAlive;
@@ -560,9 +561,9 @@ namespace ShapeGame2
             predNextFrame = DateTime.Now;
             actualFrameTime = 1000.0 / targetFramerate;
 
-            redVortexTimer = new System.Timers.Timer(4500);
-            redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
-            redVortexTimer.Enabled = true;
+            //redVortexTimer = new System.Timers.Timer(4500);
+            //redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
+            //redVortexTimer.Enabled = true;
 
             // Try to dispatch at as constant of a framerate as possible by sleeping just enough since
             // the last time we dispatched.
@@ -636,8 +637,9 @@ namespace ShapeGame2
             BannerText.Draw(playfield.Children);
             FlyingText.Draw(playfield.Children);
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
-            foreach (SingleVortex rv in redVortices)
-                playfield.Children.Add(rv);
+            vortices.Draw(playfield.Children);
+            //foreach (SingleVortex rv in redVortices)
+            //    playfield.Children.Add(rv);
             //RedVortex redv = new RedVortex();
             //playfield.Children.Add(redv); // 240...290, 290
             //Canvas.SetLeft(redv, 140);
@@ -652,7 +654,7 @@ namespace ShapeGame2
 
             CheckPlayers();
         }
-        double minRed = double.MaxValue, minBlue=double.MaxValue;
+        //double minRed = double.MaxValue, minBlue=double.MaxValue;
         double maxRed = 0, maxBlue = 0;
 
         void TactileFeedback()
@@ -664,42 +666,45 @@ namespace ShapeGame2
             double redDistance = maxRed, blueDistance = maxBlue;
             byte leftMotor = 100, rightMotor = 100; //actual motor commands
 
-            // find closest red and blue vortices
-            foreach (SingleVortex vortex in redVortices)
-            {
-                if (((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y-500 > nose.Y) continue;
-                
-                // vortex.ActualWidth = 300
-                Point vortexCenter = vortex.GetCenter();
-                    //new Point(Canvas.GetLeft(vortex) + 300 / 2,
-                    // ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
+            //// find closest red and blue vortices
+            //foreach (SingleVortex vortex in redVortices)
+            //{
+            //    if (((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y - 500 > nose.Y) continue;
 
-                double distanceSquared = Math.Pow((nose.X - vortexCenter.X),2) + Math.Pow((nose.Y - vortexCenter.Y),2);
+            //    // vortex.ActualWidth = 300
+            //    Point vortexCenter = vortex.GetCenter();
+            //    //new Point(Canvas.GetLeft(vortex) + 300 / 2,
+            //    // ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
 
-                if (vortex.Blue)
-                {
-                    if (distanceSquared < blueDistance)
-                    {
-                        blueDistance = Math.Sqrt(distanceSquared);
-                    }
-                }
-                else
-                    if (distanceSquared < redDistance)
-                    {
-                        redDistance = Math.Sqrt(distanceSquared);
-                    }
-            }
+            //    double distanceSquared = Math.Pow((nose.X - vortexCenter.X), 2) + Math.Pow((nose.Y - vortexCenter.Y), 2);
 
-            minRed = Math.Min(redDistance, minRed);
-            minBlue = Math.Min(blueDistance, minBlue);
+            //    if (vortex.Blue)
+            //    {
+            //        if (distanceSquared < blueDistance)
+            //        {
+            //            blueDistance = Math.Sqrt(distanceSquared);
+            //        }
+            //    }
+            //    else
+            //        if (distanceSquared < redDistance)
+            //        {
+            //            redDistance = Math.Sqrt(distanceSquared);
+            //        }
+            //}
 
-            maxBlue = Math.Max(blueDistance, minBlue);
-            maxRed = Math.Max(redDistance, minRed);
+            redDistance = vortices.minRedDistance(nose);
+            blueDistance = vortices.minBlueDistance(nose);
+
+            //minRed = Math.Min(redDistance, minRed);
+            //minBlue = Math.Min(blueDistance, minBlue);
+
+            //maxBlue = Math.Max(blueDistance, minBlue);
+            //maxRed = Math.Max(redDistance, minRed); // error: never gets bigger than 0
             
             // calculate fan speed commands (0...255)
-            if (redDistance < 150*150)
+            if (redDistance < 150) //150*150)
                 leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
-            if (blueDistance < 120*120)
+            if (blueDistance < 120) //*120)
                 rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
                     //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
             SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
