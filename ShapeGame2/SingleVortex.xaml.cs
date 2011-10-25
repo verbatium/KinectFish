@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace ShapeGame2
 {
@@ -21,11 +22,12 @@ namespace ShapeGame2
     {
         public bool Finished = false;
         public bool Blue = false;
+        private Storyboard storyboard;
 
         public SingleVortex()
         {
             InitializeComponent();
-            
+            storyboard = (Storyboard) this.FindResource("Flow");            
         }
 
         public Point GetCenter()
@@ -50,7 +52,6 @@ namespace ShapeGame2
 
         public void paintBlue()
         {
-            label1.Content = Canvas.GetLeft(this);
             Random random = new Random();
             GradientBrush gb = (GradientBrush)Vortex.Fill;
             gb.GradientStops[0].Color = Color.FromArgb(255, 23, (byte)(random.Next(0, 10)), 255); //#FF1704FF
@@ -80,6 +81,12 @@ namespace ShapeGame2
         private void AnimationFinished(object sender, EventArgs e)
         {
             Finished = true;
+        }
+
+        public double speed
+        {
+            get {return storyboard.SpeedRatio;}
+            set { storyboard.SetSpeedRatio(value); }
         }
     }
 }

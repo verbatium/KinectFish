@@ -651,6 +651,8 @@ namespace ShapeGame2
             // Calculate vortex strength and apply to feedback system
             if ((frameCount % 10) == 0)
                 TactileFeedback();
+            if ((frameCount % 100) == 0)
+                vortices.speed += 0.1;
 
             CheckPlayers();
         }

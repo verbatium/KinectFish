@@ -14,8 +14,10 @@ namespace ShapeGame2
     {
         List<SingleVortex> reds = new List<SingleVortex>();
         List<SingleVortex> blues = new List<SingleVortex>();
-        System.Timers.Timer vortexGeneratorTimer = new System.Timers.Timer(4500);
+        const double timerValue = 1500;
+        System.Timers.Timer vortexGeneratorTimer = new System.Timers.Timer(timerValue);
         Dispatcher dispatcher;
+        double vortexSpeed = 0.3;
 
         public Vortices(Dispatcher MainWindowDispatcher)
         {
@@ -51,7 +53,9 @@ namespace ShapeGame2
             }
 
             Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
+            
             sb1.Begin(); // make it move
+            sb1.SetSpeedRatio(vortexSpeed);
 
             // Delete one old vortex from the list
             if (reds.Count > 0)
@@ -105,6 +109,20 @@ namespace ShapeGame2
         {
             Point closest = FindClosest(to, true);
             return (closest - to).Length;
+        }
+
+        public double speed
+        {
+            get { return vortexSpeed; }
+            set
+            {
+                vortexSpeed = value;
+                foreach (SingleVortex sv in reds)
+                    sv.speed = value;
+                foreach (SingleVortex sv in blues)
+                    sv.speed = value;
+                vortexGeneratorTimer.Interval = timerValue / value;
+            }
         }
     }
 }
