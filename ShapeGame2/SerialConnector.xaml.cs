@@ -20,6 +20,8 @@ namespace ShapeGame2
     public partial class SerialConnector : Window
     {
         static SerialPort robotFishPort, feedbackPort;
+        bool robotReady = false;
+        string bootLog = "";
 
         public SerialConnector()
         {
@@ -82,6 +84,8 @@ namespace ShapeGame2
                 robotFishPort.NewLine = ((Char)(0x0D)).ToString();
                 robotFishPort.Open();
                 RobotConnectButton.IsEnabled = false;
+                RobotConnectButton.Content = "Waiting for robot";
+                robotFishPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(robotFishPort_DataReceived);
             }
             catch (Exception ex)
             {
@@ -101,6 +105,59 @@ namespace ShapeGame2
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        // TODO Add a timer that checks if any data is received. If boot messages are received, 
+        // then robot may have booted already. In that case, send endline to receive a root prompt.
+        private void robotFishPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        {
+            if (!robotReady)
+            {
+                string input = robotFishPort.ReadExisting().Replace("\n", "\r\n").Trim('\0');
+
+                //0,0,0,0,0,3693    +30
+                //0,0,0,0,0,3000     0 
+                //0,0,0,0,0,2306    -30
+
+                bootLog += input;
+                robotReady = checkForCMD();
+                if (robotReady)
+                {
+                    RobotConnectButton.Content = "Robot ready!";
+                    robotFishPort.WriteLine("./pwm -b");
+                }
+            }
+        }
+        bool checkForCMD()
+        {
+            return bootLog.Contains("[root@netus]/root#");
+        }
+
+        double maxAngle = 30;
+        double minAngle = -30;
+        byte motorCommand(double angle)
+        {
+            angle = Math.Max(angle, minAngle);
+            angle = Math.Min(angle, maxAngle);
+            return (byte)(3.7 * angle + 143.5);
+        }
+
+        byte previousCommand = 143;
+        // if you access this method at 50Hz, then it moves the fish robot to desired position quickly
+        // prevents too quick turns
+        public void turnFish(double angle)
+        {
+            if (robotReady)
+            {
+                byte target = motorCommand(angle);
+
+                if (target > previousCommand)
+                    previousCommand++;
+                else if (target < previousCommand)
+                    previousCommand--;
+
+                robotFishPort.Write(new byte[] { (byte)target }, 0, 1);
             }
         }
     }
