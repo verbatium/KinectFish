@@ -165,24 +165,24 @@ namespace ShapeGame2
             // Keeping track of all bone segments of interest as well as head, hands and feet
             public Dictionary<Bone, BoneData> segments = new Dictionary<Bone, BoneData>();
 
-            public Player(int SkeletonSlot)
-            {
-                id = SkeletonSlot;
+            //public Player(int SkeletonSlot)
+            //{
+            //    id = SkeletonSlot;
 
-                // Generate one of 7 colors for player
-                int[] iMixr = { 1, 1, 1, 0, 1, 0, 0 };
-                int[] iMixg = { 1, 1, 0, 1, 0, 1, 0 };
-                int[] iMixb = { 1, 0, 1, 1, 0, 0, 1 };
-                byte[] iJointCols = { 245, 200 };
-                byte[] iBoneCols = { 235, 160 };
+            //    // Generate one of 7 colors for player
+            //    int[] iMixr = { 1, 1, 1, 0, 1, 0, 0 };
+            //    int[] iMixg = { 1, 1, 0, 1, 0, 1, 0 };
+            //    int[] iMixb = { 1, 0, 1, 1, 0, 0, 1 };
+            //    byte[] iJointCols = { 245, 200 };
+            //    byte[] iBoneCols = { 235, 160 };
 
-                int i = colorId;
-                colorId = (colorId + 1) % iMixr.Count();
+            //    int i = colorId;
+            //    colorId = (colorId + 1) % iMixr.Count();
 
-                brJoints = new SolidColorBrush(Color.FromRgb(iJointCols[iMixr[i]], iJointCols[iMixg[i]], iJointCols[iMixb[i]]));
-                brBones = new SolidColorBrush(Color.FromRgb(iBoneCols[iMixr[i]], iBoneCols[iMixg[i]], iBoneCols[iMixb[i]]));
-                lastUpdated = DateTime.Now;
-            }
+            //    brJoints = new SolidColorBrush(Color.FromRgb(iJointCols[iMixr[i]], iJointCols[iMixg[i]], iJointCols[iMixb[i]]));
+            //    brBones = new SolidColorBrush(Color.FromRgb(iBoneCols[iMixr[i]], iBoneCols[iMixg[i]], iBoneCols[iMixb[i]]));
+            //    lastUpdated = DateTime.Now;
+            //}
 
             public int getId()
             {
@@ -439,40 +439,40 @@ namespace ShapeGame2
         //    }
         //}
 
-        void CheckPlayers()
-        {
-            foreach (var player in players)
-            {
-                if (!player.Value.isAlive)
-                {
-                    // Player left scene since we aren't tracking it anymore, so remove from dictionary
-                    players.Remove(player.Value.getId());
-                    break;
-                }
-            }
+        //void CheckPlayers()
+        //{
+        //    foreach (var player in players)
+        //    {
+        //        if (!player.Value.isAlive)
+        //        {
+        //            // Player left scene since we aren't tracking it anymore, so remove from dictionary
+        //            players.Remove(player.Value.getId());
+        //            break;
+        //        }
+        //    }
 
-            // Count alive players
-            int alive = 0;
-            foreach (var player in players)
-            {
-                if (player.Value.isAlive)
-                    alive++;
-            }
-            if (alive != playersAlive)
-            {
-                if (alive == 2)
-                    fallingThings.SetGameMode(FallingThings.GameMode.TwoPlayer);
-                else if (alive == 1)
-                    fallingThings.SetGameMode(FallingThings.GameMode.Solo);
-                else if (alive == 0)
-                    fallingThings.SetGameMode(FallingThings.GameMode.Off);
+        //    // Count alive players
+        //    int alive = 0;
+        //    foreach (var player in players)
+        //    {
+        //        if (player.Value.isAlive)
+        //            alive++;
+        //    }
+        //    if (alive != playersAlive)
+        //    {
+        //        if (alive == 2)
+        //            fallingThings.SetGameMode(FallingThings.GameMode.TwoPlayer);
+        //        else if (alive == 1)
+        //            fallingThings.SetGameMode(FallingThings.GameMode.Solo);
+        //        else if (alive == 0)
+        //            fallingThings.SetGameMode(FallingThings.GameMode.Off);
 
-                if (playersAlive == 0)
-                    BannerText.NewBanner(Properties.Resources.Vocabulary, screenRect, true, Color.FromArgb(200, 255, 255, 255));
+        //        if (playersAlive == 0)
+        //            BannerText.NewBanner(Properties.Resources.Vocabulary, screenRect, true, Color.FromArgb(200, 255, 255, 255));
 
-                playersAlive = alive;
-            }
-        }
+        //        playersAlive = alive;
+        //    }
+        //}
 
         private bool InitializeNui()
         {
@@ -676,7 +676,7 @@ namespace ShapeGame2
             if ((frameCount % 100) == 0)
                 vortices.speed += 0.1;
 
-            CheckPlayers();
+            //CheckPlayers();
         }
 
         void updateDistance()
