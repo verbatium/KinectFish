@@ -59,7 +59,7 @@ namespace ShapeGame2
 
         FourLineFish fourLineFish;
 
-
+        double swimDistance = 0; // total distance the fish has already moved
 
         //List<SingleVortex> redVortices = new List<SingleVortex>();
         //System.Timers.Timer redVortexTimer;
@@ -649,6 +649,8 @@ namespace ShapeGame2
             //    fallingThings.AdvanceFrame();
             //}
 
+            updateDistance(); // in top right corner
+
             // Draw new Wpf scene by adding all objects to canvas
             playfield.Children.Clear();
             //fallingThings.DrawFrame(playfield.Children);
@@ -675,6 +677,12 @@ namespace ShapeGame2
                 vortices.speed += 0.1;
 
             CheckPlayers();
+        }
+
+        void updateDistance()
+        {
+            swimDistance += actualFrameTime / 1000.0 * vortices.speed;
+            distanceLabel.Content = Math.Round((decimal) swimDistance, 2);
         }
         //double minRed = double.MaxValue, minBlue=double.MaxValue;
         double maxRed = 0, maxBlue = 0;
