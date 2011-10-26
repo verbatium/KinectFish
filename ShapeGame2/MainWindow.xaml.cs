@@ -498,6 +498,8 @@ namespace ShapeGame2
             screenRect.Width = playfield.ActualWidth;
             screenRect.Height = playfield.ActualHeight;
 
+            vortices.screenResized(playfield.ActualWidth, playfield.ActualHeight);
+
             BannerText.UpdateBounds(screenRect);
 
             playerBounds.X = 0;

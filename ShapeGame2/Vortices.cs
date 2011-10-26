@@ -18,6 +18,7 @@ namespace ShapeGame2
         System.Timers.Timer vortexGeneratorTimer = new System.Timers.Timer(timerValue);
         Dispatcher dispatcher;
         double vortexSpeed = 0.3;
+        double screenWidth = 100, screenHeight = 100;
 
         public Vortices(Dispatcher MainWindowDispatcher)
         {
@@ -38,16 +39,18 @@ namespace ShapeGame2
             SingleVortex RV1 = new SingleVortex();
             Canvas.SetTop(RV1, -500);
             RV1.Randomize(); // make it look different
+            double blueleft = screenWidth / 2;
+            double redleft = screenWidth / 2 - 300;
             if (nextVortexIsBlue)
             {
                 RV1.paintBlue();
-                Canvas.SetLeft(RV1, 250);
+                Canvas.SetLeft(RV1, blueleft);
                 nextVortexIsBlue = false;
                 blues.Add(RV1);
             }
             else
             {
-                Canvas.SetLeft(RV1, 0);
+                Canvas.SetLeft(RV1, redleft);
                 nextVortexIsBlue = true;
                 reds.Add(RV1);
             }
@@ -123,6 +126,18 @@ namespace ShapeGame2
                     sv.speed = value;
                 vortexGeneratorTimer.Interval = timerValue / value;
             }
+        }
+        public void screenResized(double newWidth, double newHeight)
+        {
+            screenWidth = newWidth;
+            screenHeight = newHeight;
+            double blueleft = newWidth / 2;
+            double redleft = newWidth / 2 - 300;
+
+            foreach (SingleVortex sv in reds)
+                Canvas.SetLeft(sv, redleft);
+            foreach (SingleVortex sv in blues)
+                Canvas.SetLeft(sv, blueleft);
         }
     }
 }
