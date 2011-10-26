@@ -60,10 +60,26 @@ namespace ShapeGame2
         FourLineFish fourLineFish;
 
 
+
         //List<SingleVortex> redVortices = new List<SingleVortex>();
         //System.Timers.Timer redVortexTimer;
         SimpleJoystick joystick;
         Vortices vortices = new Vortices(Dispatcher.CurrentDispatcher);
+
+        int countdownValue = 60;
+        System.Timers.Timer countdownTimer = new System.Timers.Timer(1000);
+        private void countdownTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(CountDown));
+        }
+        private void CountDown()
+        {
+            if (countdownValue > 0)
+            {
+                countdownValue--;
+                countdownLabel.Content = countdownValue;
+            }
+        }
 
         public MainWindow()
         {
@@ -90,7 +106,9 @@ namespace ShapeGame2
 
 
             }
-            
+
+            countdownTimer.Elapsed += new ElapsedEventHandler(countdownTimerElapsed);
+            countdownTimer.Enabled = true;
         }
 
         //bool nextVortexIsBlue = false;

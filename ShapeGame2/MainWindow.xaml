@@ -21,6 +21,8 @@
         <Label Content="Distance" Height="28" Name="debugLabelRight" Width="100" HorizontalAlignment="Right" />
 
         <Label Content="Distance" Height="28" Name="debugLabelCenter" Width="100" />
-        
+
+        <Label Content="60" Height="100" Name="countdownLabel" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72" />
+
     </Grid>
 </Window>
