@@ -95,6 +95,7 @@ namespace ShapeGame2
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             fourLineFish = this.FindName("UCFish") as FourLineFish;
+            Canvas.SetLeft(fourLineFish, Width / 2);
 
             // find a joystick
             try
@@ -517,7 +518,7 @@ namespace ShapeGame2
             screenRect.Y = 0;
             screenRect.Width = playfield.ActualWidth;
             screenRect.Height = playfield.ActualHeight;
-
+            Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150);
             vortices.screenResized(playfield.ActualWidth, playfield.ActualHeight);
 
             BannerText.UpdateBounds(screenRect);
