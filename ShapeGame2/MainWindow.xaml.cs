@@ -95,8 +95,7 @@ namespace ShapeGame2
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             fourLineFish = this.FindName("UCFish") as FourLineFish;
-            Canvas.SetLeft(fourLineFish, Width / 2);
-
+            
             // find a joystick
             try
             {
