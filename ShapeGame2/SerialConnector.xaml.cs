@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.IO.Ports;
 
 namespace ShapeGame2
@@ -108,8 +109,8 @@ namespace ShapeGame2
             }
         }
 
-        // TODO Add a timer that checks if any data is received. If boot messages are received, 
-        // then robot may have booted already. In that case, send endline to receive a root prompt.
+        // TODO Add a timer that checks if any data is received. If boot position data is received, 
+        // then robot is working already.
         private void robotFishPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
             if (!robotReady)
@@ -125,7 +126,9 @@ namespace ShapeGame2
                 if (robotReady)
                 {
                     //RobotConnectButton.Content = "Robot ready!";
+                    
                     robotFishPort.WriteLine("./pwm -b");
+                    robotConnected();
                 }
             }
         }
@@ -159,6 +162,14 @@ namespace ShapeGame2
 
                 robotFishPort.Write(new byte[] { (byte)previousCommand }, 0, 1);
             }
+        }
+        private void robotConnected()
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(changeRobotButton));
+        }
+        private void changeRobotButton()
+        {
+            RobotConnectButton.Content = "Robot ready!";
         }
     }
 }
