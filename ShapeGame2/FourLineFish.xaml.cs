@@ -38,12 +38,36 @@ namespace ShapeGame2
         public static readonly DependencyProperty TailAngleProperty
     = DependencyProperty.Register("TailAngle", typeof(double), typeof(FourLineFish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
 
+        public static readonly DependencyProperty NosePositionProperty
+= DependencyProperty.Register("NosePosition", typeof(Point), typeof(FourLineFish), new FrameworkPropertyMetadata(new Point(), FrameworkPropertyMetadataOptions.AffectsRender));
+
 
         public double BodyAngle
         {
             get { return (double)GetValue(BodyAngleProperty); }
             set { SetValue(BodyAngleProperty, value);         }
 
+        }
+        public Point NosePosition
+        {
+            get 
+            {
+
+                double x = (double)this.GetValue(Canvas.LeftProperty);
+                double kx = this.ActualWidth / 300;
+                double y = (double)this.GetValue(Canvas.TopProperty);
+                double ky = this.ActualHeight / 300;
+
+                Point p = RedStart.StartPoint;
+                p = Head.RenderTransform.Transform(p);
+
+                x += p.X * kx;
+                y += p.Y * ky;
+
+                return new Point(x, y);
+                //SetValue(NosePositionProperty, new Point(x, y));
+                //return (Point)GetValue(NosePositionProperty); 
+            }
         }
         
         public double NegHeadAngle

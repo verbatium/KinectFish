@@ -63,6 +63,9 @@
     </ApplicationDefinition>
     <Compile Include="Converters\DoubleMultiplyConverter.cs" />
     <Compile Include="Converters\TransformConverter.cs" />
+    <Compile Include="Fish.xaml.cs">
+      <DependentUpon>Fish.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RedVortex.xaml.cs">
       <DependentUpon>RedVortex.xaml</DependentUpon>
     </Compile>
@@ -76,6 +79,10 @@
     <Compile Include="FourLineFish.xaml.cs">
       <DependentUpon>FourLineFish.xaml</DependentUpon>
     </Compile>
+    <Page Include="Fish.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

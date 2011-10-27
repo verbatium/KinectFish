@@ -629,15 +629,17 @@ namespace ShapeGame2
             //}
 
             // Draw new Wpf scene by adding all objects to canvas
+            FourLineFish tmp = fourLineFish;
             playfield.Children.Clear();
             //fallingThings.DrawFrame(playfield.Children);
-            foreach (var player in players)
-                player.Value.Draw(playfield.Children);
-            BannerText.Draw(playfield.Children);
-            FlyingText.Draw(playfield.Children);
+            //foreach (var player in players)
+            //    player.Value.Draw(playfield.Children);
+            //BannerText.Draw(playfield.Children);
+            //FlyingText.Draw(playfield.Children);
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
             foreach (RedVortex rv in redVortices)
                 playfield.Children.Add(rv);
+            playfield.Children.Add(fourLineFish);
             //RedVortex redv = new RedVortex();
             //playfield.Children.Add(redv); // 240...290, 290
             //Canvas.SetLeft(redv, 140);
@@ -724,7 +726,10 @@ namespace ShapeGame2
 
         private void angleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            
             fourLineFish.TurnFish(e.NewValue);
+            debugLabelTopCenter.Content = "Nose: " + fourLineFish.NosePosition.ToString();
+
         }
     }
 }
