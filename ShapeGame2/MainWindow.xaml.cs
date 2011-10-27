@@ -49,7 +49,7 @@ namespace ShapeGame2
         const int TimerResolution = 2;  // ms
         const int NumIntraFrames = 3;
         const int MaxShapes = 80;
-        const double MaxFramerate = 70;
+        const double MaxFramerate = 50;
         const double MinFramerate = 15;
         const double MinShapeSize = 12;
         const double MaxShapeSize = 90;
@@ -60,7 +60,7 @@ namespace ShapeGame2
         FourLineFish fourLineFish;
 
         double swimDistance = 0; // total distance the fish has already moved
-
+        public SerialConnector serialWindow;
         //List<SingleVortex> redVortices = new List<SingleVortex>();
         //System.Timers.Timer redVortexTimer;
         SimpleJoystick joystick;
@@ -109,6 +109,8 @@ namespace ShapeGame2
 
             countdownTimer.Elapsed += new ElapsedEventHandler(countdownTimerElapsed);
             countdownTimer.Enabled = true;
+
+            serialWindow = (ShapeGame2.SerialConnector)App.Current.Windows[0];
         }
 
         //bool nextVortexIsBlue = false;
@@ -316,7 +318,7 @@ namespace ShapeGame2
                     //debugLabelCenter.Content = angle;
                     fourLineFish.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
-
+                    serialWindow.turnFish(angle);
                 }
                 iSkeleton++;
             } // for each skeleton
@@ -621,8 +623,10 @@ namespace ShapeGame2
         {
             if (joystick != null)
             {
-                debugLabelCenter.Content = joystick.State.X * 30 / 100;
-                fourLineFish.TurnFish(joystick.State.X * 30 / 100);
+                double angle = joystick.State.X * 30 / 100;
+                debugLabelCenter.Content = 1000/actualFrameTime;
+                fourLineFish.TurnFish(angle);
+                serialWindow.turnFish(angle);
             }
             //else
             //{
@@ -764,7 +768,7 @@ namespace ShapeGame2
             
             fourLineFish.TurnFish(e.NewValue);
             debugLabelTopCenter.Content = "Nose: " + fourLineFish.NosePosition.ToString();
-
+            serialWindow.turnFish(e.NewValue);
         }
     }
 }

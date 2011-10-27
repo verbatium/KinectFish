@@ -124,7 +124,7 @@ namespace ShapeGame2
                 robotReady = checkForCMD();
                 if (robotReady)
                 {
-                    RobotConnectButton.Content = "Robot ready!";
+                    //RobotConnectButton.Content = "Robot ready!";
                     robotFishPort.WriteLine("./pwm -b");
                 }
             }
@@ -153,11 +153,11 @@ namespace ShapeGame2
                 byte target = motorCommand(angle);
 
                 if (target > previousCommand)
-                    previousCommand++;
+                    previousCommand+=4;
                 else if (target < previousCommand)
-                    previousCommand--;
+                    previousCommand-=4;
 
-                robotFishPort.Write(new byte[] { (byte)target }, 0, 1);
+                robotFishPort.Write(new byte[] { (byte)previousCommand }, 0, 1);
             }
         }
     }

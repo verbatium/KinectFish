@@ -12,12 +12,13 @@ namespace ShapeGame2
     /// </summary>
     public partial class App : Application
     {
+        SerialConnector serialWindow;
         void SerialWindow_Startup(object sender, StartupEventArgs e)
         {
-            SerialConnector mainWindow = new SerialConnector();
-            mainWindow.Top = 20;
-            mainWindow.Left = 400;
-            mainWindow.Show();
+            serialWindow = new SerialConnector();
+            serialWindow.Top = 20;
+            serialWindow.Left = 400;
+            serialWindow.Show();
         }
     }
 }
