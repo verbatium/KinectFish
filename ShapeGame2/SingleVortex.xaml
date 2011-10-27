@@ -11,7 +11,7 @@
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
+                    <RotateTransform x:Name="vortexRotateTransform" Angle="0"/>
                     <TranslateTransform x:Name="vortexTranslateTransform" Y="0"/>
                 </TransformGroup>
             </Ellipse.RenderTransform>
@@ -20,6 +20,7 @@
                     <GradientStop Color="#FFFF3204"/>
                     <GradientStop Color="#FFFA9602" Offset="0.33"/>
                     <GradientStop Color="#BDF7CC01" Offset="0.489"/>
+                    <GradientStop Color="#3DF7CC01" Offset="0.7"/>
                     <GradientStop Color="#00F1FF00" Offset="1"/>
                 </RadialGradientBrush>
             </Ellipse.Fill>
@@ -30,6 +31,11 @@
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="Vortex">
                 <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1500"/>
             </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimation 
+                x:Name="RotationAnimation" 
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" 
+                Storyboard.TargetName="Vortex" 
+                From="0" To="-150" Duration="0:0:5"/>
         </Storyboard>
     </UserControl.Resources>
 </UserControl>

@@ -57,13 +57,13 @@ namespace ShapeGame2
             gb.GradientStops[0].Color = Color.FromArgb(255, 23, (byte)(random.Next(0, 10)), 255); //#FF1704FF
             gb.GradientStops[1].Color = Color.FromArgb(255, 2, 63, 250);//#FF023FFA
             gb.GradientStops[2].Color = Color.FromArgb(189, 1, 106, 247);//#BD016AF7
-            gb.GradientStops[3].Color = Color.FromArgb(0, 0, 226, 255);//#0000E2FF
+            gb.GradientStops[3].Color = Color.FromArgb(61, 1, 106, 247);//#0000E2FF
+            gb.GradientStops[4].Color = Color.FromArgb(0, 1, 106, 247);//#0000E2FF
             Blue = true;
+            ((DoubleAnimation)storyboard.Children[1]).To = 150.0; // rotate clockwise
         }
         public void Randomize()
         {
-            
-              
             Random random = new Random();
             GradientBrush gb = (GradientBrush) Vortex.Fill;
             gb.GradientStops[0].Color = Color.FromArgb(255, 255, (byte)(50+random.Next(0,50)), 4);
