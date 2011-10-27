@@ -22,7 +22,11 @@
         <Label Content="Distance" Height="28" Name="debugLabelRight" Width="100" HorizontalAlignment="Right" />
 
         <Label Content="Distance" Height="28" Name="debugLabelCenter" Width="100" />
+        
         <Label Content="Distance" Height="28" Margin="10,10,487,584" Name="label1" Width="100" />
+        <Label Content="60" Height="100" Name="countdownLabel" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72" />
         <Label Content="Distance" Height="28" Name="debugLabelTopCenter" Width="Auto" Grid.Row="1"  HorizontalAlignment="Left" />
+        <Label Content="0.0" Height="100" Name="distanceLabel" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="72" />
+
     </Grid>
 </Window>
