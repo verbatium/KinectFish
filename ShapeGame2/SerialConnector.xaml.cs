@@ -83,7 +83,9 @@ namespace ShapeGame2
             {
                 robotFishPort = new SerialPort((string)RobotPortList.SelectedItem, 115200, Parity.None, 8, StopBits.One);
                 robotFishPort.NewLine = ((Char)(0x0D)).ToString();
+                robotFishPort.WriteBufferSize = 2;
                 robotFishPort.Open();
+                
                 RobotConnectButton.IsEnabled = false;
                 RobotConnectButton.Content = "Waiting for robot";
                 robotFishPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(robotFishPort_DataReceived);
@@ -156,11 +158,17 @@ namespace ShapeGame2
                 byte target = motorCommand(angle);
 
                 if (target > previousCommand)
-                    previousCommand+=4;
+                {
+                    previousCommand += 8;
+                    robotFishPort.Write(new byte[] { (byte)previousCommand }, 0, 1);
+                }
                 else if (target < previousCommand)
-                    previousCommand-=4;
-
-                robotFishPort.Write(new byte[] { (byte)previousCommand }, 0, 1);
+                {
+                    previousCommand -= 8;
+                    robotFishPort.Write(new byte[] { (byte)previousCommand }, 0, 1);
+                }
+                
+                
             }
         }
         private void robotConnected()
