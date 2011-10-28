@@ -14,7 +14,7 @@ namespace ShapeGame2
     {
         List<SingleVortex> reds = new List<SingleVortex>();
         List<SingleVortex> blues = new List<SingleVortex>();
-        const double timerValue = 1500;
+        const double timerValue = 2500;
         System.Timers.Timer vortexGeneratorTimer = new System.Timers.Timer(timerValue);
         Dispatcher dispatcher;
         double vortexSpeed = 0.3;
@@ -48,8 +48,8 @@ namespace ShapeGame2
             SingleVortex RV1 = new SingleVortex();
             Canvas.SetTop(RV1, -500);
             RV1.Randomize(); // make it look different
-            double blueleft = screenWidth / 2;
-            double redleft = screenWidth / 2 - 300;
+            double blueleft = screenWidth / 2 - 100;
+            double redleft = screenWidth / 2 - 300 + 100;
             if (nextVortexIsBlue)
             {
                 RV1.paintBlue();

@@ -58,6 +58,8 @@ namespace ShapeGame2
         const double DefaultDropGravity = 1.0;
 
         FourLineFish fourLineFish;
+        double fishOffset = 0; // how far from the center to the right
+        double maxFishOffset = 150;
 
         bool GameStarted = false;
 
@@ -665,13 +667,19 @@ namespace ShapeGame2
             updateDistance(); // in top right corner
 
             // Draw new Wpf scene by adding all objects to canvas
-            FourLineFish tmp = fourLineFish;
+            // FourLineFish tmp = fourLineFish;
             playfield.Children.Clear();
             //fallingThings.DrawFrame(playfield.Children);
             //foreach (var player in players)
             //    player.Value.Draw(playfield.Children);
             //BannerText.Draw(playfield.Children);
             //FlyingText.Draw(playfield.Children);
+
+            fishOffset += vortices.speed * actualFrameTime * fourLineFish.HeadAngle/600.0;
+            fishOffset = Math.Max(fishOffset, -maxFishOffset);
+            fishOffset = Math.Min(fishOffset, maxFishOffset);
+            Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150 + (int)fishOffset);
+
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
             vortices.Draw(playfield.Children);
             //foreach (SingleVortex rv in redVortices)
@@ -791,6 +799,7 @@ namespace ShapeGame2
             countdownValue = 60;
             swimDistance = 0;
             distanceLabel.Content = swimDistance;
+            vortices.speed = 0.3;
             vortices.StartFlow();
         }
     }
