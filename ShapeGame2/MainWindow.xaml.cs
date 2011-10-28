@@ -59,6 +59,8 @@ namespace ShapeGame2
 
         FourLineFish fourLineFish;
 
+        bool GameStarted = false;
+
         double swimDistance = 0; // total distance the fish has already moved
         public SerialConnector serialWindow;
         //List<SingleVortex> redVortices = new List<SingleVortex>();
@@ -78,6 +80,13 @@ namespace ShapeGame2
             {
                 countdownValue--;
                 countdownLabel.Content = countdownValue;
+            }
+            else
+            {
+                GameStarted = false;
+                countdownTimer.Enabled = false;
+                vortices.StopFlow();
+                StartButton.Visibility = System.Windows.Visibility.Visible;
             }
         }
 
@@ -109,7 +118,7 @@ namespace ShapeGame2
             }
 
             countdownTimer.Elapsed += new ElapsedEventHandler(countdownTimerElapsed);
-            countdownTimer.Enabled = true;
+            
 
             serialWindow = (ShapeGame2.SerialConnector)App.Current.Windows[0];
         }
@@ -688,6 +697,9 @@ namespace ShapeGame2
 
         void updateDistance()
         {
+            if (!GameStarted)
+                return;
+
             swimDistance += actualFrameTime / 1000.0 * vortices.speed;
             distanceLabel.Content = Math.Round((decimal) swimDistance, 2);
         }
@@ -770,6 +782,17 @@ namespace ShapeGame2
             fourLineFish.TurnFish(e.NewValue);
             debugLabelTopCenter.Content = "Nose: " + fourLineFish.NosePosition.ToString();
             serialWindow.turnFish(e.NewValue);
+        }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartButton.Visibility = System.Windows.Visibility.Hidden;
+            countdownTimer.Enabled = true;
+            GameStarted = true;
+            countdownValue = 60;
+            swimDistance = 0;
+            distanceLabel.Content = swimDistance;
+            vortices.StartFlow();
         }
     }
 }

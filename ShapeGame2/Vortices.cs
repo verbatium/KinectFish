@@ -23,8 +23,17 @@ namespace ShapeGame2
         public Vortices(Dispatcher MainWindowDispatcher)
         {
             vortexGeneratorTimer.Elapsed += new ElapsedEventHandler(GenerateVortex);
-            vortexGeneratorTimer.Enabled = true;
+            
             dispatcher = MainWindowDispatcher;
+        }
+
+        public void StartFlow()
+        {
+            vortexGeneratorTimer.Enabled = true;
+        }
+        public void StopFlow()
+        {
+            vortexGeneratorTimer.Enabled = false;
         }
 
         private void GenerateVortex(object sender, ElapsedEventArgs e)

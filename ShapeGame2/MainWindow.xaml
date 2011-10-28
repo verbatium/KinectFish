@@ -28,5 +28,6 @@
         <Label Content="Distance" Height="28" Name="debugLabelTopCenter" Width="Auto" Grid.Row="1"  HorizontalAlignment="Left" />
         <Label Content="0.0" Height="100" Name="distanceLabel" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="72" />
 
+        <Button Content="Start game" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Width="80" Name="StartButton" Click="StartButton_Click" />
     </Grid>
 </Window>
