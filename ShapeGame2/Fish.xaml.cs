@@ -27,7 +27,7 @@ namespace ShapeGame2
         Point ColarJoint = new Point(50, 25);
         Point Nose = new Point(50, 0);
         Point TailEnd = new Point(50, 100);
-
+        Point[] p = new Point[24]();
         public Fish()
         {
             InitializeComponent();

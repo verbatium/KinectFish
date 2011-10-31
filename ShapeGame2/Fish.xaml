@@ -24,5 +24,11 @@
         <Ellipse Name="ColarP" Width="{Binding Source={StaticResource EllipseSize}, Path=Width}" Height="{Binding Source={StaticResource EllipseSize}, Path=Height}" Stroke="Black" RenderTransform="{Binding Source={StaticResource EllipseTransform}}" Canvas.Top="{Binding ElementName=UCFish, Path=Colar}"/>
         <Ellipse Name="NoseP" Width="{Binding Source={StaticResource EllipseSize}, Path=Width}" Height="{Binding Source={StaticResource EllipseSize}, Path=Height}" Stroke="Black" RenderTransform="{Binding Source={StaticResource EllipseTransform}}"/>
         <Ellipse Name="TailEndP" Width="{Binding Source={StaticResource EllipseSize}, Path=Width}" Height="{Binding Source={StaticResource EllipseSize}, Path=Height}" Stroke="Black" RenderTransform="{Binding Source={StaticResource EllipseTransform}}" Canvas.Top="100"/>
+        
+        <Line Name="L1"></Line>
+        <Line Name="L2"></Line>
+        
+        
+        
     </Canvas>
 </UserControl>
