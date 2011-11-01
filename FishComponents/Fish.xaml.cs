@@ -21,26 +21,165 @@ namespace FishComponents
     /// </summary>
     public partial class Fish : UserControl , INotifyPropertyChanged
     {
-        Point Nose = new Point(0.5, 0);
-        Point TailEnd = new Point(0.5, 1);
+  
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Point[] p = new Point[24]();
+        
   
         public Fish()
         {
             InitializeComponent();
-            createBody();
+
+        }
+        Point[] Tangent(Point p1, Point p2, Point p3, bool tangent = true)
+        {
+            Vector v1 = new Vector(p1.X-p2.X,p1.Y-p2.Y );
+            Vector v2 = new Vector(p3.X - p2.X, p3.Y - p2.Y);
+            Vector v4 = v1*0.3;
+            Vector v5 = v2*0.3;
+            if (tangent)
+            {
+                double a = Vector.AngleBetween(v1, v2);
+                double b;
+                if (a < 0)
+                {
+                    a = Vector.AngleBetween(v2, v1);
+                    b = 90 - a / 2;
+                }
+                else
+                {
+                    b = a / 2 - 90;
+                }
+
+
+                v4 = v1.Rotate(b) * 0.3;//v3.Rotate(-90)/v3.Length*v1.Length/5;//new Vector( v1.Length / 5,0).Rotate(v3.Angle()+90);
+                v5 = v2.Rotate(-b) * 0.3;// v3.Rotate(90) / v3.Length * v2.Length / 5;
+            }
+            else
+            {
+                double a = Vector.AngleBetween(v1, v2);
+                double b;
+                if (a < 0)
+                {
+                    a = Vector.AngleBetween(v2, v1);
+                    b = -a / 4;
+                }
+                else
+                {
+                    b = -a / 4;
+                }
+                v4 = v1.Rotate(b) * 0.3;//v3.Rotate(-90)/v3.Length*v1.Length/5;//new Vector( v1.Length / 5,0).Rotate(v3.Angle()+90);
+                v5 = v2.Rotate(-b) * 0.3;// v3.Rotate(90) / v3.Length * v2.Length / 5;
+
+            }
+
+
+
+            return new Point[] { new Point(p2.X + v4.X, p2.Y + v4.Y), new Point(p2.X+v5.X,p2.Y+ v5.Y) };
         }
 
+        PID body1PID = new PID(4.0, 0.0, 0.0);
+        PID body2PID = new PID(0.6, 0.015, 10.0);
+        PID tailPID = new PID(0.2, 0.01, 0.5);
+        const double straighteningSpeed = 0.7;
+        const double body1Speed = 4.0;
+        const double body2Speed = 2.0;
 
-        public void createBody()
+        public void UpdateTail(double secondsPassed)
         {
+            //double bodyAngleError = BodyAngle1 - HeadAngle;
+            //bodyAngleError *= body1Speed * secondsPassed;
+            //BodyAngle1 -= bodyAngleError;
+            //bodyAngleError = BodyAngle1 + BodyAngle2;
+            //bodyAngleError *= body2Speed * secondsPassed;
+            //BodyAngle2 -= bodyAngleError;
+            //TailAngle *= (1-straighteningSpeed*secondsPassed);
+            
+            //BodyAngle1 -= body1PID.update((BodyAngle1 - BodyAngle) * secondsPassed);
+            //BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle1) * secondsPassed);
+            TailAngle -= tailPID.update(TailAngle * secondsPassed);
+        }
+        public PointCollection createOutline()
+        {
+            PointCollection pOutlinePoints = new PointCollection();
+            
+            Point[] pBase = new Point[]{
+                CenterPointR,
+                TailL.RenderTransform.Transform(TailPointR),
+                TailLine.RenderTransform.Transform(EndPoint),
+                TailL.RenderTransform.Transform(TailPointL),
+                CenterPointL,
+                ColarLine.RenderTransform.Transform(ColarPointL),
+                HeadLine.RenderTransform.Transform(NosePoint),
+                ColarLine.RenderTransform.Transform(ColarPointR)
+            };
+            pOutlinePoints.Clear();
+            pOutlinePoints.Add(pBase[0]);
 
+            Point[] pp = Tangent(pBase[0], pBase[1], pBase[2]);
+            
+            pOutlinePoints.Add(pp[0]);
+            pOutlinePoints.Add(pBase[1]);
+            pOutlinePoints.Add(pp[1]);
+
+
+            pp = Tangent( pBase[1], pBase[2],pBase[3],false);
+            pOutlinePoints.Add(pp[0]);
+            pOutlinePoints.Add(pBase[2]);
+            pOutlinePoints.Add(pp[1]);
+
+            pp = Tangent(pBase[2], pBase[3], pBase[4]);
+            pOutlinePoints.Add(pp[0]);
+            pOutlinePoints.Add(pBase[3]);
+            pOutlinePoints.Add(pp[1]);
+
+
+            pp = Tangent(pBase[3], pBase[4], pBase[5]);
+            pOutlinePoints.Add(pp[0]);
+            pOutlinePoints.Add(pBase[4]);
+            pOutlinePoints.Add(pp[1]);
+
+            pp = Tangent(pBase[4], pBase[5], pBase[6]);
+            pOutlinePoints.Add(pp[0]);
+            pOutlinePoints.Add(pBase[5]);
+            pOutlinePoints.Add(pp[1]);
+
+            pp = Tangent(pBase[5], pBase[6], pBase[7]);
+            pOutlinePoints.Add(pp[0]);
+            pOutlinePoints.Add(pBase[6]);
+            pOutlinePoints.Add(pp[1]);
+
+            pp = Tangent(pBase[6], pBase[7], pBase[0]);
+            pOutlinePoints.Add(pp[0]);
+            pOutlinePoints.Add(pBase[7]);
+            pOutlinePoints.Add(pp[1]);
+
+            pp = Tangent(pBase[7], pBase[0], pBase[1]);
+            
+            
+            pOutlinePoints.Add(pp[0]);
+            pOutlinePoints.Add(pBase[0]);
+            pOutlinePoints[0] = pp[1];
+
+
+
+            return pOutlinePoints;
         }
 
         public void ReSizeBody()
         {
+            OnPropertyChanged("NosePoint");
+            OnPropertyChanged("TailPoint");
+            OnPropertyChanged("TailPointL");
+            OnPropertyChanged("TailPointR");
+            OnPropertyChanged("CenterPoint");
+            OnPropertyChanged("CenterPointL");
+            OnPropertyChanged("CenterPointR");
+            OnPropertyChanged("ColarPoint");
+            OnPropertyChanged("ColarPointL");
+            OnPropertyChanged("ColarPointR");
+            OnPropertyChanged("EndPoint");
+            OnPropertyChanged("OutlinePoints");
         }
 
         public static readonly DependencyProperty CenterProperty
@@ -69,6 +208,27 @@ namespace FishComponents
             get { return (double)GetValue(ColarProperty); }
             set { SetValue(ColarProperty, value); OnPropertyChanged("Colar"); }
         }
+
+        public static readonly DependencyProperty ColarWidthProperty = DependencyProperty.Register("ColarWidth", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged), new CoerceValueCallback(CoerceProportion)));
+        /// <summary>
+        /// Width Of Colar 0 ... 1 relative to Width
+        /// </summary>
+        public double ColarWidth
+        {
+            get { return (double)GetValue(ColarWidthProperty); }
+            set { SetValue(ColarWidthProperty, value); }
+        }
+        public static readonly DependencyProperty TailWidthProperty = DependencyProperty.Register("TailWidth", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged), new CoerceValueCallback(CoerceProportion)));
+        /// <summary>
+        /// Center Of Tail 0 ... 1 relative to Width
+        /// </summary>
+        public double TailWidth
+        {
+            get { return (double)GetValue(TailWidthProperty); }
+            set { SetValue(TailWidthProperty, value);}
+        }
+
+
 
         public static readonly DependencyProperty TailProperty = DependencyProperty.Register("Tail", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged), new CoerceValueCallback(CoerceProportion)));
         /// <summary>
@@ -100,12 +260,7 @@ namespace FishComponents
 
             RoutedPropertyChangedEventArgs<double> e = new RoutedPropertyChangedEventArgs<double>(
                 (double)args.OldValue, (double)args.NewValue, ProportionChangedEvent);
-            control.OnPropertyChanged("Tail");
-            control.OnPropertyChanged("TailPoint");
-            control.OnPropertyChanged("Center");
-            control.OnPropertyChanged("CenterPoint");
-            control.OnPropertyChanged("Colar");
-            control.OnPropertyChanged("ColarPoint");
+            control.ReSizeBody();
             control.OnProportionChanged(e);
 
         }
@@ -133,7 +288,7 @@ namespace FishComponents
             RaiseEvent(args);
         }
 
-        public static readonly DependencyProperty HeadAngleProperty = DependencyProperty.Register("HeadAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty HeadAngleProperty = DependencyProperty.Register("HeadAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
         public double HeadAngle
         {
             get { return (double)GetValue(HeadAngleProperty); }
@@ -144,7 +299,17 @@ namespace FishComponents
             }
         }
 
-        public static readonly DependencyProperty BodyAngleProperty = DependencyProperty.Register("BodyAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty AngleProperty = DependencyProperty.Register("Angle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
+        public double Angle
+        {
+            get { return (double)GetValue(AngleProperty); }
+            set
+            {
+                SetValue(AngleProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty BodyAngleProperty = DependencyProperty.Register("BodyAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
         public double BodyAngle
         {
             get { return (double)GetValue(BodyAngleProperty); }
@@ -156,7 +321,7 @@ namespace FishComponents
 
         }
 
-        public static readonly DependencyProperty TailAngleProperty = DependencyProperty.Register("TailAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty TailAngleProperty = DependencyProperty.Register("TailAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
         public double TailAngle
         {
             get { return (double)GetValue(TailAngleProperty); }
@@ -195,6 +360,20 @@ namespace FishComponents
                 return new Point(Width * 0.5, Height * Center * Colar);
             }
         }
+        public Point ColarPointR
+        {
+            get
+            {
+                return new Point(Width * 0.5 * (1 + ColarWidth), Height * Center * Colar);
+            }
+        }
+        public Point ColarPointL
+        {
+            get
+            {
+                return new Point(Width * 0.5 * (1-  ColarWidth) , Height * Center * Colar);
+            }
+        }
         public Point CenterPoint
         {
             get
@@ -202,11 +381,39 @@ namespace FishComponents
                 return new Point(Width*0.5, Height*Center);
             }
         }
+        public Point CenterPointL
+        {
+            get
+            {
+                return new Point(0, Height * Center);
+            }
+        }
+        public Point CenterPointR
+        {
+            get
+            {
+                return new Point(Width, Height * Center);
+            }
+        }
         public Point TailPoint
         {
             get
             {
                 return new Point(Width * 0.5, Height * (Center* (1 - Tail) + Tail));
+            }
+        }
+        public Point TailPointR
+        {
+            get
+            {
+                return new Point(Width * 0.5 * (1 + TailWidth), Height * (Center * (1 - Tail) + Tail));
+            }
+        }
+        public Point TailPointL
+        {
+            get
+            {
+                return new Point(Width * 0.5 * (1 - TailWidth), Height * (Center * (1 - Tail) + Tail));
             }
         }
         public Point EndPoint
@@ -223,13 +430,31 @@ namespace FishComponents
                 return new Point(Width * 0.5, 0);
             }
         }
+        public PointCollection OutlinePoints
+        {
+            get 
+            {
+                return createOutline();
+            }
+       }
+        public Point SupportPoint(int i)
+        {
+            Point retval = new Point(0, 0);
+            switch (i)
+            {
+                case 0: break;
+                case 1: break;
+                case 2: break;
+                case 6: 
+                    break;
+                default:
+                    break;
+            }
+            return retval;
+        }
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            OnPropertyChanged("NosePoint");
-            OnPropertyChanged("EndPoint");
-            OnPropertyChanged("TailPoint");
-            OnPropertyChanged("CenterPoint");
-            OnPropertyChanged("ColarPoint");
+
             ReSizeBody();
         }
 

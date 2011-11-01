@@ -11,10 +11,15 @@
         <ScaleTransform x:Key="CenterTransform" ScaleY="{Binding ElementName=UCFish, Path=Center}"/>
         <FrameworkElement x:Key="EllipseSize" Width="6" Height="6" />
         <converter:DoubleMultiplyConverter x:Key="DoubleMultiplyConverter1" />
-        <Visibility x:Key="PointVisibility">Visible</Visibility>
+        <Visibility x:Key="PointVisibility">Hidden</Visibility>
     </UserControl.Resources>
 
     <Canvas Background="Aqua" Name="p">
+        <Canvas.RenderTransform>
+            <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
+                                     Angle="{Binding Path=Angle, ElementName=UCFish}"/>
+
+        </Canvas.RenderTransform>
         <Ellipse Name="NoseP" 
                  Width="{Binding Source={StaticResource EllipseSize}, Path=Width}" 
                  Height="{Binding Source={StaticResource EllipseSize}, Path=Height}" 
@@ -90,7 +95,7 @@
                                          Y="{Binding Path=EndPoint.Y, ElementName=UCFish}"/>
                     <RotateTransform CenterX="{Binding Path=TailPoint.X, ElementName=UCFish}" 
                                      CenterY="{Binding Path=TailPoint.Y, ElementName=UCFish}" 
-                                     Angle="{Binding Path=TailAngle, ElementName=UCFish}" />
+                                     Angle="{Binding Path=TailAngle, ElementName=UCFish, ConverterParameter='-1', Converter={StaticResource DoubleMultiplyConverter1}}" />
 
                     <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" 
                                      CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
@@ -144,7 +149,7 @@
                 <TransformGroup>
                     <RotateTransform CenterX="{Binding Path=TailPoint.X, ElementName=UCFish}" 
                                      CenterY="{Binding Path=TailPoint.Y, ElementName=UCFish}" 
-                                     Angle="{Binding Path=TailAngle, ElementName=UCFish}" />
+                                     Angle="{Binding Path=TailAngle, ElementName=UCFish, ConverterParameter='-1', Converter={StaticResource DoubleMultiplyConverter1}}" />
 
                     <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
                                      Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0.5', Converter={StaticResource DoubleMultiplyConverter1}}" />
@@ -169,6 +174,82 @@
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
+        <Path x:Name="ColarLine" Stroke="Green" StrokeThickness="2">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="{Binding Path=ColarPoint, ElementName=UCFish}">
+                        <LineSegment Point="{Binding Path=ColarPointR, ElementName=UCFish}"/>
+                    </PathFigure>
+                    <PathFigure StartPoint="{Binding Path=ColarPoint, ElementName=UCFish}">
+                        <LineSegment Point="{Binding Path=ColarPointL, ElementName=UCFish}"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform CenterX="{Binding Path=ColarPoint.X, ElementName=UCFish}" CenterY="{Binding Path=ColarPoint.Y, ElementName=UCFish}" 
+                                     Angle="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='0.5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                    <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
+                                     Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0.5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+
+    <Path x:Name="TailL" Stroke="Green" StrokeThickness="2">
+        <Path.Data>
+            <PathGeometry>
+                <PathFigure StartPoint="{Binding Path=TailPoint, ElementName=UCFish}">
+                        <LineSegment Point="{Binding Path=TailPointR, ElementName=UCFish}"/>
+                </PathFigure>
+                    <PathFigure StartPoint="{Binding Path=TailPoint, ElementName=UCFish}">
+                        <LineSegment Point="{Binding Path=TailPointL, ElementName=UCFish}"/>
+                </PathFigure>
+            </PathGeometry>
+        </Path.Data>
+        <Path.RenderTransform>
+            <TransformGroup>
+                <RotateTransform CenterX="{Binding Path=TailPoint.X, ElementName=UCFish}" CenterY="{Binding Path=TailPoint.Y, ElementName=UCFish}" 
+                                     Angle="{Binding Path=TailAngle, ElementName=UCFish, ConverterParameter='-0.5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
+                                     Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0.5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+            </TransformGroup>
+        </Path.RenderTransform>
+    </Path>
+        <Path x:Name="West" Stroke="Green" StrokeThickness="2">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="{Binding Path=CenterPoint, ElementName=UCFish}">
+                        <LineSegment Point="{Binding Path=CenterPointR, ElementName=UCFish}"/>
+                    </PathFigure>
+                    <PathFigure StartPoint="{Binding Path=CenterPoint, ElementName=UCFish}">
+                        <LineSegment Point="{Binding Path=CenterPointL, ElementName=UCFish}"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
+                                     Angle="{Binding Path=Angle, ElementName=UCFish, ConverterParameter='-0.5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Stroke="Purple" Fill="Yellow">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="{Binding Path=CenterPointR, ElementName=UCFish}">
+                        <PolyBezierSegment Points="{Binding Path=OutlinePoints, ElementName=UCFish}">
+                        </PolyBezierSegment>
+                        </PathFigure>
+                    <!--<PathFigure StartPoint="{Binding Path=CenterPointR, ElementName=UCFish}">
+                        <PolyLineSegment Points="{Binding Path=OutlinePoints, ElementName=UCFish}"></PolyLineSegment>
+                    
+                    </PathFigure>-->
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+        
+        
     </Canvas>
+    
     
 </UserControl>

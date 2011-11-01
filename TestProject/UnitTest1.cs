@@ -54,5 +54,16 @@ namespace TestProject
             int j = 0;
             
         }
+        [TestMethod]
+        public void testVectorAngle()
+        {
+
+            Assert.AreEqual(new Vector(1, 0).Angle(), 0);
+            Assert.AreEqual(new Vector(1, 1).Angle(), 45);
+            Assert.AreEqual(new Vector(0, 1).Angle(), 90);
+            Assert.AreEqual(new Vector(-1, 1).Angle(), 135);
+            Assert.AreEqual(new Vector(-1, 0).Angle(), 180);
+            
+        }
     }
 }

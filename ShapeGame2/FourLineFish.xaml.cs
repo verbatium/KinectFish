@@ -157,11 +157,6 @@ namespace ShapeGame2
         {
             double bodyAngleError = BodyAngle1 - HeadAngle;
             bodyAngleError *= body1Speed * secondsPassed;
-            //BodyAngle1 -= bodyAngleError;
-            //bodyAngleError = BodyAngle1 + BodyAngle2;
-            //bodyAngleError *= body2Speed * secondsPassed;
-            //BodyAngle2 -= bodyAngleError;
-            //TailAngle *= (1-straighteningSpeed*secondsPassed);
             BodyAngle1 -= body1PID.update((BodyAngle1 - BodyAngle) * secondsPassed);
             BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle1) * secondsPassed);
             TailAngle -= tailPID.update(TailAngle * secondsPassed);

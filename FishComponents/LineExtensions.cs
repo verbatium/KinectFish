@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Shapes;
 using System.Windows.Media;
-namespace ShapeGame2
+namespace FishComponents
 {
     public static class LineExtensions
     {

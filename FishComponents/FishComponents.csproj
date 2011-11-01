@@ -60,6 +60,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DoubleMultiplyConverter.cs" />
+    <Compile Include="Converters\TransformConverter.cs" />
+    <Compile Include="LineExtensions.cs" />
+    <Compile Include="PID.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
