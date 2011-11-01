@@ -675,7 +675,7 @@ namespace ShapeGame2
             //BannerText.Draw(playfield.Children);
             //FlyingText.Draw(playfield.Children);
 
-            fishOffset += vortices.speed * actualFrameTime * fourLineFish.HeadAngle/600.0;
+            fishOffset += vortices.speed * actualFrameTime * fourLineFish.HeadAngle/300.0;
             fishOffset = Math.Max(fishOffset, -maxFishOffset);
             fishOffset = Math.Min(fishOffset, maxFishOffset);
             Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150 + (int)fishOffset);
@@ -760,7 +760,9 @@ namespace ShapeGame2
             // if crashes into a vortex, slow down
             const double crashRadius = 50;
             if (redDistance < crashRadius || blueDistance < crashRadius)
+            {
                 vortices.speed = 0.3;
+            }
             
             // calculate fan speed commands (0...255)
             if (redDistance < 150) //150*150)

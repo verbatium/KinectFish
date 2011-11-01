@@ -148,6 +148,7 @@ namespace ShapeGame2
         const double straighteningSpeed = 0.7;
         const double body1Speed = 4.0;
         const double body2Speed = 2.0;
+
         public void UpdateTail(double secondsPassed)
         {
             double bodyAngleError = BodyAngle1 - HeadAngle;
