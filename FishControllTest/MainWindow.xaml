@@ -3,6 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525" xmlns:my="clr-namespace:FishComponents;assembly=FishComponents">
     <Canvas>
-        <my:Fish Canvas.Left="128" Canvas.Top="60" Name="fish1" Width="80" Height="200" Center="0.5" Colar="0.5" Tail="0.5"/>
+        <my:Fish Canvas.Left="128" Canvas.Top="60" Name="fish1" Width="87" Height="168" Center="0.5" Colar="0.5" Tail="0.5"/>
     </Canvas>
 </Window>
