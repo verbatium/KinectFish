@@ -149,15 +149,22 @@ namespace ShapeGame2
         const double body1Speed = 4.0;
         const double body2Speed = 2.0;
 
+        PID body1PID = new PID(4.0, 0.0, 0.0);
+        PID body2PID = new PID(0.6, 0.01, 10.0);
+        PID tailPID = new PID(1.0, 0.0, 0.0);
+        
         public void UpdateTail(double secondsPassed)
         {
             double bodyAngleError = BodyAngle1 - HeadAngle;
             bodyAngleError *= body1Speed * secondsPassed;
-            BodyAngle1 -= bodyAngleError;
-            bodyAngleError = BodyAngle1 + BodyAngle2;
-            bodyAngleError *= body2Speed * secondsPassed;
-            BodyAngle2 -= bodyAngleError;
-            TailAngle *= (1-straighteningSpeed*secondsPassed);
+            //BodyAngle1 -= bodyAngleError;
+            //bodyAngleError = BodyAngle1 + BodyAngle2;
+            //bodyAngleError *= body2Speed * secondsPassed;
+            //BodyAngle2 -= bodyAngleError;
+            //TailAngle *= (1-straighteningSpeed*secondsPassed);
+            BodyAngle1 -= body1PID.update((BodyAngle1 - BodyAngle) * secondsPassed);
+            BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
+            TailAngle -= tailPID.update(TailAngle * secondsPassed);
         }
     }
 }
