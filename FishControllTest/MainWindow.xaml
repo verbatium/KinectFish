@@ -2,7 +2,57 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525" xmlns:my="clr-namespace:FishComponents;assembly=FishComponents">
-    <Canvas>
-        <my:Fish Canvas.Left="128" Canvas.Top="60" Name="fish1" Width="87" Height="168" Center="0.5" Colar="0.5" Tail="0.5"/>
-    </Canvas>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="155*" />
+            <RowDefinition Height="30*" />
+            <RowDefinition Height="30*" />
+            <RowDefinition Height="30*" />
+            <RowDefinition Height="30*" />
+        </Grid.RowDefinitions>
+        <Canvas>
+            <my:Fish Name="fish1" 
+                     Width="{Binding ElementName=CenterWidth, Path=Value}" 
+                     Height="{Binding ElementName=CenterHeight, Path=Value}" 
+                     Center="{Binding ElementName=Center, Path=Value,Mode=TwoWay}" 
+                     Colar="{Binding ElementName=Colar, Path=Value,Mode=TwoWay}" 
+                     Tail="{Binding ElementName=Tail, Path=Value,Mode=TwoWay}" 
+                     BodyAngle="{Binding ElementName=CenterAngle, Path=Value,Mode=TwoWay}"
+                     HeadAngle="{Binding ElementName=HeadAngle, Path=Value}"
+                     TailAngle="{Binding ElementName=TailAngle, Path=Value}"
+                     Canvas.Left="200" 
+                     Canvas.Top="10"/>
+
+        </Canvas>
+        <Label Grid.Row="0" Grid.Column="0" Content="Height" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Name" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Proportion" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Angle" />
+        <Label Grid.Row="4" Grid.Column="0" Content="Width" />
+        
+        <Label Grid.Row="1" Grid.Column="1" Content="Colar" />
+        <Label Grid.Row="1" Grid.Column="2" Content="Center" />
+        <Label Grid.Row="1" Grid.Column="3" Content="Tail" />
+        <Slider Width="100" Height="28" Grid.Row="2" Grid.Column="1" Maximum="1" Name="Colar" Value="0.5" />
+        <Slider Width="100" Height="28" Grid.Row="2" Grid.Column="2" Maximum="1" Name="Center" Value="0.5"/>
+        <Slider Width="100" Height="28" Grid.Row="2" Grid.Column="3" Maximum="1" Name="Tail" Value="0.5"/>
+
+        <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="1" Minimum="-30.0" Maximum="30.0" Name="HeadAngle" Value="0.0" />
+        <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="2" Minimum="-30.0" Maximum="30.0" Name="CenterAngle" Value="0.0"/>
+        <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="3" Minimum="-30.0" Maximum="30.0" Name="TailAngle" Value="0.0"/>
+
+        <Slider Width="100" Height="28" Grid.Row="4" Grid.Column="1" Maximum="1" Name="ColarWidth" Value="0.5" />
+        <Slider Width="100" Height="28" Grid.Row="4" Grid.Column="2" Maximum="200" Name="CenterWidth" Value="100"/>
+        <Slider Width="100" Height="28" Grid.Row="4" Grid.Column="3" Maximum="1" Name="TailWidth" Value="0.5"/>
+
+        <Slider Width="28" Height="100" Grid.Row="0" Grid.Column="0" Maximum="200" Name="CenterHeight" Value="200" Orientation="Vertical" FlowDirection="LeftToRight" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+
+
+    </Grid>
 </Window>

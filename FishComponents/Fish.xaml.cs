@@ -12,26 +12,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace FishComponents
 {
     /// <summary>
     /// Interaction logic for Test.xaml
     /// </summary>
-    public partial class Fish : UserControl //, INotifyPropertyChanged
+    public partial class Fish : UserControl , INotifyPropertyChanged
     {
-
-        Point CenterJoint = new Point(0.5, 1);
-        Point TailJoint = new Point(0.5, 1);
-        Point ColarJoint = new Point(0.5, 1);
         Point Nose = new Point(0.5, 0);
         Point TailEnd = new Point(0.5, 1);
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Point[] p = new Point[24]();
-        Line l = new Line();
-
+  
         public Fish()
         {
             InitializeComponent();
@@ -42,25 +37,17 @@ namespace FishComponents
         public void createBody()
         {
 
-            l.X1 = 0;
-            l.Y1 = 0;
-
-            l.Stroke = Brushes.Black;
-            p.Children.Clear();
-            p.Children.Add(l);
         }
 
         public void ReSizeBody()
         {
-            l.X2 = Width;
-            l.Y2 = Height;
         }
 
         public static readonly DependencyProperty CenterProperty
             = DependencyProperty.Register("Center",
             typeof(double),
             typeof(Fish),
-            new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+            new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits, new PropertyChangedCallback(OnProportionChanged), new CoerceValueCallback(CoerceProportion)));
         /// <summary>
         /// Center Of Body  0 ... 1
         /// </summary>
@@ -70,11 +57,10 @@ namespace FishComponents
             set
             {
                 SetValue(CenterProperty, value);
-                OnPropertyChanged("Center");
             }
         }
 
-        public static readonly DependencyProperty ColarProperty = DependencyProperty.Register("Colar", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty ColarProperty = DependencyProperty.Register("Colar", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged), new CoerceValueCallback(CoerceProportion)));
         /// <summary>
         /// Center Of Colar 0 ... 1 relative to Center
         /// </summary>
@@ -84,21 +70,68 @@ namespace FishComponents
             set { SetValue(ColarProperty, value); OnPropertyChanged("Colar"); }
         }
 
-        public static readonly DependencyProperty TailProperty = DependencyProperty.Register("Tail", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty TailProperty = DependencyProperty.Register("Tail", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged), new CoerceValueCallback(CoerceProportion)));
         /// <summary>
         /// Center Of Colar 0 ... 1 relative to Center
         /// </summary>
         public double Tail
         {
             get { return (double)GetValue(TailProperty); }
-            set
-            {
+            set { SetValue(TailProperty, value);         }
+        }
+        private static object CoerceProportion(DependencyObject element, object proporion)
+        {
 
-                SetValue(TailProperty, value);
-                OnPropertyChanged("Tail");
-            }
+
+           //CultureInfo provider = new CultureInfo("fr-FR");
+           //provider.NumberFormat.NumberDecimalSeparator = ".";
+           //decimal newValue = decimal.Parse((string)Tail.ToString(), CultureInfo.InvariantCulture);
+           double newValue = (double)proporion;
+            Fish control = (Fish)element;
+
+            //newValue =  Math.Max(MinValue, Math.Min(MaxValue, newValue));
+
+            return newValue;
         }
 
+        private static void OnProportionChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            Fish control = (Fish)obj;
+
+            RoutedPropertyChangedEventArgs<double> e = new RoutedPropertyChangedEventArgs<double>(
+                (double)args.OldValue, (double)args.NewValue, ProportionChangedEvent);
+            control.OnPropertyChanged("Tail");
+            control.OnPropertyChanged("TailPoint");
+            control.OnPropertyChanged("Center");
+            control.OnPropertyChanged("CenterPoint");
+            control.OnPropertyChanged("Colar");
+            control.OnPropertyChanged("ColarPoint");
+            control.OnProportionChanged(e);
+
+        }
+        /// <summary>
+        /// Identifies the TailChanged routed event.
+        /// </summary>
+        public static readonly RoutedEvent ProportionChangedEvent = EventManager.RegisterRoutedEvent("TailChanged", RoutingStrategy.Bubble,
+            typeof(RoutedPropertyChangedEventHandler<double>), typeof(Fish));
+
+        /// <summary>
+        /// Occurs when the Tail property changes.
+        /// </summary>
+        public event RoutedPropertyChangedEventHandler<double> ProportionChanged
+        {
+            add { AddHandler(ProportionChangedEvent, value); }
+            remove { RemoveHandler(ProportionChangedEvent, value); }
+        }
+
+        /// <summary>
+        /// Raises the ValueChanged event.
+        /// </summary>
+        /// <param name="args">Arguments associated with the ValueChanged event.</param>
+        protected virtual void OnProportionChanged(RoutedPropertyChangedEventArgs<double> args)
+        {
+            RaiseEvent(args);
+        }
 
         public static readonly DependencyProperty HeadAngleProperty = DependencyProperty.Register("HeadAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender));
         public double HeadAngle
@@ -155,8 +188,48 @@ namespace FishComponents
             }
         }
 
+        public Point ColarPoint
+        {
+            get
+            {
+                return new Point(Width * 0.5, Height * Center * Colar);
+            }
+        }
+        public Point CenterPoint
+        {
+            get
+            {
+                return new Point(Width*0.5, Height*Center);
+            }
+        }
+        public Point TailPoint
+        {
+            get
+            {
+                return new Point(Width * 0.5, Height * (Center* (1 - Tail) + Tail));
+            }
+        }
+        public Point EndPoint
+        {
+            get
+            {
+                return new Point(Width * 0.5, Height);
+            }
+        }
+        public Point NosePoint
+        {
+            get
+            {
+                return new Point(Width * 0.5, 0);
+            }
+        }
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            OnPropertyChanged("NosePoint");
+            OnPropertyChanged("EndPoint");
+            OnPropertyChanged("TailPoint");
+            OnPropertyChanged("CenterPoint");
+            OnPropertyChanged("ColarPoint");
             ReSizeBody();
         }
 
