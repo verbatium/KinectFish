@@ -765,14 +765,38 @@ namespace ShapeGame2
             }
             
             // calculate fan speed commands (0...255)
-            if (redDistance < 150) //150*150)
-                leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
-            if (blueDistance < 120) //*120)
-                rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
-                    //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
-            SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
-            debugLabelLeft.Content = leftMotor;
-            debugLabelRight.Content = rightMotor;
+            //if (redDistance < 150) //150*150)
+            //    leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
+            //if (blueDistance < 120) //*120)
+            //    rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
+            //        //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
+            //SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
+            //debugLabelLeft.Content = leftMotor;
+            //debugLabelRight.Content = rightMotor;
+
+            double minvalue = 30;
+            double[] leftMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
+            double[] rightMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
+            double[] leftDistances = { 200, 180, 160, 130, 80 };
+            double[] rightDistances = { 80, 130, 160, 180, 200 };
+
+            for (int i = 0; i < leftMotors.Length; i++)
+            {
+                if (redDistance < leftDistances[i])
+                    leftMotors[i] = (redDistance / leftDistances[i]) * (255 - leftMotors[i]) + minvalue;
+                if (blueDistance < rightDistances[i])
+                    rightMotors[i] = (blueDistance / rightDistances[i]) * (255 - rightMotors[i]) + minvalue;
+            }
+            progressBar1.Value = leftMotors[0];
+            progressBar2.Value = leftMotors[1];
+            progressBar3.Value = leftMotors[2];
+            progressBar4.Value = leftMotors[3];
+            progressBar5.Value = leftMotors[4];
+            progressBar6.Value = rightMotors[0];
+            progressBar7.Value = rightMotors[1];
+            progressBar8.Value = rightMotors[2];
+            progressBar9.Value = rightMotors[3];
+            progressBar10.Value = rightMotors[4];
 
         }
 
