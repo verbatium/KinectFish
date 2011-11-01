@@ -37,6 +37,11 @@
             <ProgressBar Height="100" Name="progressBar3" Width="10" Orientation="Vertical" Maximum="255" />
             <ProgressBar Height="100" Name="progressBar4" Width="10" Orientation="Vertical" Maximum="255" />
             <ProgressBar Height="100" Name="progressBar5" Width="10" Orientation="Vertical" Maximum="255" />
+            <ProgressBar Height="100" Name="progressBar6" Width="10" Orientation="Vertical" Maximum="255" />
+            <ProgressBar Height="100" Name="progressBar7" Width="10" Orientation="Vertical" Maximum="255" />
+            <ProgressBar Height="100" Name="progressBar8" Width="10" Orientation="Vertical" Maximum="255" />
+            <ProgressBar Height="100" Name="progressBar9" Width="10" Orientation="Vertical" Maximum="255" />
+            <ProgressBar Height="100" Name="progressBar10" Width="10" Orientation="Vertical" Maximum="255" />
         </StackPanel>
     </Grid>
 </Window>
