@@ -163,7 +163,7 @@ namespace ShapeGame2
             //BodyAngle2 -= bodyAngleError;
             //TailAngle *= (1-straighteningSpeed*secondsPassed);
             BodyAngle1 -= body1PID.update((BodyAngle1 - BodyAngle) * secondsPassed);
-            BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
+            BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle1) * secondsPassed);
             TailAngle -= tailPID.update(TailAngle * secondsPassed);
         }
     }
