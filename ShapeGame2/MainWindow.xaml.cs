@@ -717,7 +717,7 @@ namespace ShapeGame2
         {
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
-            Point nose = new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
+            Point nose = fourLineFish.NosePosition; //new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
             const double maxDistance = 200;
             double redDistance = maxRed, blueDistance = maxBlue;
             byte leftMotor = 100, rightMotor = 100; //actual motor commands
@@ -756,6 +756,11 @@ namespace ShapeGame2
 
             //maxBlue = Math.Max(blueDistance, minBlue);
             //maxRed = Math.Max(redDistance, minRed); // error: never gets bigger than 0
+
+            // if crashes into a vortex, slow down
+            const double crashRadius = 50;
+            if (redDistance < crashRadius || blueDistance < crashRadius)
+                vortices.speed = 0.3;
             
             // calculate fan speed commands (0...255)
             if (redDistance < 150) //150*150)
