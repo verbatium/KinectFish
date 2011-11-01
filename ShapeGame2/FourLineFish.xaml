@@ -33,7 +33,7 @@
                                 <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                     <Binding ElementName='Waist'/>
                                     <Binding Path='StartPoint' ElementName='WaistStart'/>
-                                    <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                    <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                 </MultiBinding>
                             </PathFigure.StartPoint>
                             <PathFigure.Segments>
@@ -49,14 +49,14 @@
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineL'/>
                                             <Binding Path='Point' ElementName='LineLEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point2>
                                     <BezierSegment.Point3>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='Collar'/>
                                             <Binding Path='StartPoint' ElementName='CollarStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                         </BezierSegment.Point3>
                                 </BezierSegment>
@@ -65,21 +65,21 @@
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineL'/>
                                             <Binding Path='StartPoint' ElementName='LineLStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point1>
                                    <BezierSegment.Point2>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineF'/>
                                             <Binding Path='StartPoint' ElementName='LineFStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point2>
                                     <BezierSegment.Point3>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='Collar'/>
                                             <Binding Path='StartPoint' ElementName='RedStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point3><!---->
                                 </BezierSegment>
@@ -88,21 +88,21 @@
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineR'/>
                                             <Binding Path='StartPoint' ElementName='LineRStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point2>
                                    <BezierSegment.Point1>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineF'/>
                                             <Binding Path='Point' ElementName='LineFEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point1>
                                     <BezierSegment.Point3>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                     <Binding ElementName='Collar'/>
                                     <Binding Path='Point' ElementName='Collarline'/>
-                                    <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                    <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point3><!---->
                                 </BezierSegment>
@@ -111,21 +111,21 @@
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='Waist'/>
                                             <Binding Path='StartPoint' ElementName='WaistRightStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point2>                                    
                                     <BezierSegment.Point1>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineR'/>
                                             <Binding Path='Point' ElementName='LineREnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point1>
                                     <BezierSegment.Point3>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='Waist'/>
                                             <Binding Path='Point' ElementName='WaistEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle1' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point3>
                                 </BezierSegment>
@@ -134,21 +134,21 @@
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineT'/>
                                             <Binding Path='StartPoint' ElementName='LineTRightStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point2>
                                     <BezierSegment.Point1>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='Waist'/>
                                             <Binding Path='Point' ElementName='WaistRightEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point1>
                                     <BezierSegment.Point3>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineT'/>
                                             <Binding Path='Point' ElementName='LineTEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point3>
                                 </BezierSegment>
@@ -158,21 +158,21 @@
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineT'/>
                                             <Binding Path='Point' ElementName='LineTRightEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point1>
                                     <BezierSegment.Point2>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineT'/>
                                             <Binding Path='Point' ElementName='LineTRightEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point2>
                                     <BezierSegment.Point3>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='Tail'/>
                                             <Binding Path='Point' ElementName='TailEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point3>
                                 </BezierSegment>
@@ -181,21 +181,21 @@
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineT'/>
                                             <Binding Path='Point' ElementName='LineTLeftEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point1>
                                     <BezierSegment.Point2>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineT'/>
                                             <Binding Path='Point' ElementName='LineTLeftEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point2>
                                     <BezierSegment.Point3 >
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineT'/>
                                             <Binding Path='StartPoint' ElementName='LineTStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point3>
                                 </BezierSegment>
@@ -204,14 +204,14 @@
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='Waist'/>
                                             <Binding Path='Point' ElementName='WaistLeftEnd'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point2>
                                     <BezierSegment.Point1>
                                         <MultiBinding Converter="{StaticResource  TransformConverter1}" NotifyOnTargetUpdated="True" NotifyOnSourceUpdated="True" Mode="OneWay" >
                                             <Binding ElementName='LineT'/>
                                             <Binding Path='StartPoint' ElementName='LineTLeftStart'/>
-                                            <Binding Path='BodyAngle' ElementName="UCFish"></Binding>
+                                            <Binding Path='BodyAngle2' ElementName="UCFish"></Binding>
                                         </MultiBinding>
                                     </BezierSegment.Point1><!---->
                                     <BezierSegment.Point3 >
@@ -243,7 +243,7 @@
                     <RotateTransform CenterX="150" CenterY="50" 
                                      Angle="{Binding ElementName=UCFish, Path=HeadAngle}" />
                     <RotateTransform CenterX="150" CenterY="150" 
-                                     Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}"/>
+                                     Angle="{Binding Path=BodyAngle1, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}"/>
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
@@ -259,7 +259,7 @@
                 <TransformGroup>
                     <TransformCollection>
                         <RotateTransform CenterX="150" CenterY="50" Angle="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
-                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle1, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     </TransformCollection>
                 </TransformGroup>
             </Path.RenderTransform>
@@ -294,7 +294,7 @@
         <Path Stroke="Blue" StrokeThickness="2" Data="M150,50 L150,150" Name="Body1">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}"  />
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle1, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}"  />
                     <!--{Binding ElementName=UCFish, Path=BodyAngle1}-->
                 </TransformGroup>
             </Path.RenderTransform>
@@ -305,7 +305,7 @@
         <Path Stroke="Cyan" StrokeThickness="1" Data="M150,150 L150,250" Name="Body2">
             <Path.RenderTransform>
                 <TransformGroup>
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle2, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     <!--Body Angle /2-->
                 </TransformGroup>
             </Path.RenderTransform>
@@ -330,7 +330,7 @@
                     <RotateTransform CenterX="150" CenterY="250" 
                                      Angle="{Binding Path=TailAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     <RotateTransform CenterX="150" CenterY="150" 
-                                     Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}"/>
+                                     Angle="{Binding Path=BodyAngle2, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}"/>
                 </TransformGroup>
 
             </Path.RenderTransform>
@@ -347,7 +347,7 @@
                 <TransformGroup>
                     <RotateTransform CenterX="150" CenterY="250" Angle="{Binding ElementName=UCFish, Path=TailAngle}" />
                     <!--Tail Angle-->
-                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                    <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle2, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     <!-- -Head Angle /2-->
                 </TransformGroup>
             </Path.RenderTransform>
@@ -365,7 +365,7 @@
                     <TransformCollection>
                         <RotateTransform CenterX="180" CenterY="50" Angle="-10" />
                         <RotateTransform CenterX="150" CenterY="50" Angle="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
-                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle1, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     </TransformCollection>
 
                 </TransformGroup>
@@ -384,7 +384,7 @@
                 <TransformGroup>          
                         <RotateTransform CenterX="120" CenterY="50" Angle="10" />
                         <RotateTransform CenterX="150" CenterY="50" Angle="{Binding Path=HeadAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
-                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />         
+                        <RotateTransform CenterX="150" CenterY="150" Angle="{Binding Path=BodyAngle1, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />         
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>

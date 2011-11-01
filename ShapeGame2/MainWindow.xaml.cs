@@ -634,7 +634,7 @@ namespace ShapeGame2
         {
             if (joystick != null)
             {
-                double angle = joystick.State.X * 30 / 100;
+                double angle = joystick.State.X * 40 / 100;
                 debugLabelCenter.Content = 1000/actualFrameTime;
                 fourLineFish.TurnFish(angle);
                 serialWindow.turnFish(angle);
@@ -675,7 +675,7 @@ namespace ShapeGame2
             //BannerText.Draw(playfield.Children);
             //FlyingText.Draw(playfield.Children);
 
-            fishOffset += vortices.speed * actualFrameTime * fourLineFish.HeadAngle/600.0;
+            fishOffset += vortices.speed * actualFrameTime * fourLineFish.HeadAngle/300.0;
             fishOffset = Math.Max(fishOffset, -maxFishOffset);
             fishOffset = Math.Min(fishOffset, maxFishOffset);
             Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150 + (int)fishOffset);
@@ -696,7 +696,7 @@ namespace ShapeGame2
             // Calculate vortex strength and apply to feedback system
             if ((frameCount % 10) == 0)
                 TactileFeedback();
-            if ((frameCount % 100) == 0)
+            if ((frameCount % 100) == 0 && GameStarted)
                 vortices.speed += 0.1;
 
             //CheckPlayers();
@@ -717,7 +717,7 @@ namespace ShapeGame2
         {
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
-            Point nose = new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
+            Point nose = fourLineFish.NosePosition; //new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
             const double maxDistance = 200;
             double redDistance = maxRed, blueDistance = maxBlue;
             byte leftMotor = 100, rightMotor = 100; //actual motor commands
@@ -756,6 +756,13 @@ namespace ShapeGame2
 
             //maxBlue = Math.Max(blueDistance, minBlue);
             //maxRed = Math.Max(redDistance, minRed); // error: never gets bigger than 0
+
+            // if crashes into a vortex, slow down
+            const double crashRadius = 50;
+            if (redDistance < crashRadius || blueDistance < crashRadius)
+            {
+                vortices.speed = 0.3;
+            }
             
             // calculate fan speed commands (0...255)
             if (redDistance < 150) //150*150)
