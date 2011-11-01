@@ -150,8 +150,8 @@ namespace ShapeGame2
         const double body2Speed = 2.0;
 
         PID body1PID = new PID(4.0, 0.0, 0.0);
-        PID body2PID = new PID(0.6, 0.01, 10.0);
-        PID tailPID = new PID(1.0, 0.0, 0.0);
+        PID body2PID = new PID(0.6, 0.015, 10.0);
+        PID tailPID = new PID(0.2, 0.01, 0.5);
         
         public void UpdateTail(double secondsPassed)
         {

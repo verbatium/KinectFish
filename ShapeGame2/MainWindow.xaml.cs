@@ -634,7 +634,7 @@ namespace ShapeGame2
         {
             if (joystick != null)
             {
-                double angle = joystick.State.X * 30 / 100;
+                double angle = joystick.State.X * 40 / 100;
                 debugLabelCenter.Content = 1000/actualFrameTime;
                 fourLineFish.TurnFish(angle);
                 serialWindow.turnFish(angle);
@@ -696,7 +696,7 @@ namespace ShapeGame2
             // Calculate vortex strength and apply to feedback system
             if ((frameCount % 10) == 0)
                 TactileFeedback();
-            if ((frameCount % 100) == 0)
+            if ((frameCount % 100) == 0 && GameStarted)
                 vortices.speed += 0.1;
 
             //CheckPlayers();
