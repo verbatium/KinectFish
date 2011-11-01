@@ -765,14 +765,29 @@ namespace ShapeGame2
             }
             
             // calculate fan speed commands (0...255)
-            if (redDistance < 150) //150*150)
-                leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
-            if (blueDistance < 120) //*120)
-                rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
-                    //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
-            SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
-            debugLabelLeft.Content = leftMotor;
-            debugLabelRight.Content = rightMotor;
+            //if (redDistance < 150) //150*150)
+            //    leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
+            //if (blueDistance < 120) //*120)
+            //    rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
+            //        //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
+            //SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
+            //debugLabelLeft.Content = leftMotor;
+            //debugLabelRight.Content = rightMotor;
+
+            double minvalue = 30;
+            double[] motors = { minvalue, minvalue, minvalue, minvalue, minvalue };
+            double[] distances = { 200, 180, 160, 130, 80 };
+
+            for (int i = 0; i < motors.Length; i++)
+            {
+                if (redDistance < distances[i])
+                    motors[i] = (redDistance / distances[i]) * (255 - motors[i]) + minvalue;
+            }
+            progressBar1.Value = motors[0];
+            progressBar2.Value = motors[1];
+            progressBar3.Value = motors[2];
+            progressBar4.Value = motors[3];
+            progressBar5.Value = motors[4];
 
         }
 
