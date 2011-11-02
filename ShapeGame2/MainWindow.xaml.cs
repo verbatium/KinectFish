@@ -777,15 +777,15 @@ namespace ShapeGame2
             double minvalue = 30;
             double[] leftMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
             double[] rightMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
-            double[] leftDistances = { 200, 180, 160, 130, 80 };
-            double[] rightDistances = { 80, 130, 160, 180, 200 };
+            double[] leftDistances = { 400, 280, 200, 130, 80 };
+            double[] rightDistances = { 80, 130, 200, 280, 400 };
 
             for (int i = 0; i < leftMotors.Length; i++)
             {
                 if (redDistance < leftDistances[i])
-                    leftMotors[i] = (redDistance / leftDistances[i]) * (255 - leftMotors[i]) + minvalue;
+                    leftMotors[i] = (1 - redDistance / leftDistances[i]) * (255 - leftMotors[i]) + minvalue;
                 if (blueDistance < rightDistances[i])
-                    rightMotors[i] = (blueDistance / rightDistances[i]) * (255 - rightMotors[i]) + minvalue;
+                    rightMotors[i] = (1 - blueDistance / rightDistances[i]) * (255 - rightMotors[i]) + minvalue;
             }
             progressBar1.Value = leftMotors[0];
             progressBar2.Value = leftMotors[1];
