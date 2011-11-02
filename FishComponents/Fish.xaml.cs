@@ -105,7 +105,7 @@ namespace FishComponents
             fishOffset = Math.Min(fishOffset, maxFishOffset);
             if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
             {
-                Canvas.SetLeft(this, screenWidth / 2 - 150 + (int)fishOffset);
+                Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth/2 + (int)fishOffset);
                 BodyAngle2 -= toRight * 2;
                 BodyAngle2 = Math.Max(BodyAngle2, -30);
                 BodyAngle2 = Math.Min(BodyAngle2, 30);

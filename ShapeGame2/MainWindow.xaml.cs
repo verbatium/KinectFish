@@ -57,7 +57,7 @@ namespace ShapeGame2
         const double DefaultDropSize = 32.0;
         const double DefaultDropGravity = 1.0;
 
-        FourLineFish fourLineFish;
+        //FourLineFish fourLineFish;
         
 
         bool GameStarted = false;
@@ -104,7 +104,7 @@ namespace ShapeGame2
                 this.Width = bounds.Width;
             }
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
-            fourLineFish = this.FindName("UCFish") as FourLineFish;
+            //fourLineFish = this.FindName("UCFish") as FourLineFish;
             
             // find a joystick
             try
@@ -326,7 +326,7 @@ namespace ShapeGame2
 
                     double angle = getFishAngle(data.Joints);
                     //debugLabelCenter.Content = angle;
-                    fourLineFish.TurnFish(angle);
+                    //fourLineFish.TurnFish(angle);
                     fish1.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
                     serialWindow.turnFish(angle);
@@ -424,7 +424,7 @@ namespace ShapeGame2
             screenRect.Y = 0;
             screenRect.Width = playfield.ActualWidth;
             screenRect.Height = playfield.ActualHeight;
-            Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150);
+            //Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150);
             vortices.screenResized(playfield.ActualWidth, playfield.ActualHeight);
 
             BannerText.UpdateBounds(screenRect);
@@ -532,7 +532,7 @@ namespace ShapeGame2
             {
                 double angle = joystick.State.X * 30 / 100;
                 debugLabelCenter.Content = 1000/actualFrameTime;
-                fourLineFish.TurnFish(angle);
+                //fourLineFish.TurnFish(angle);
                 fish1.TurnFish(angle);
                 serialWindow.turnFish(angle);
             }
@@ -709,9 +709,9 @@ namespace ShapeGame2
         private void angleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             
-            fourLineFish.TurnFish(e.NewValue);
+            //fourLineFish.TurnFish(e.NewValue);
             fish1.TurnFish(e.NewValue);
-            debugLabelTopCenter.Content = "Nose: " + fourLineFish.NosePosition.ToString();
+            //debugLabelTopCenter.Content = "Nose: " + fourLineFish.NosePosition.ToString();
             serialWindow.turnFish(e.NewValue);
         }
 

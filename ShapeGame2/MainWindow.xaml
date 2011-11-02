@@ -14,8 +14,8 @@
 
 
         <Canvas Margin="12" Name="playfield" SizeChanged="Playfield_SizeChanged" Grid.RowSpan="2" Background="#FF10C6F5">
-            
-            <local:FourLineFish x:Name="UCFish" Width="300" Height="300" Canvas.Left="100" Canvas.Top="300"  />
+
+            <!--<local:FourLineFish x:Name="UCFish" Width="300" Height="300" Canvas.Left="100" Canvas.Top="300"  />-->
             <my:Fish Name="fish1" 
                      Width="20" 
                      Height="300" 
@@ -26,7 +26,7 @@
                      TailWidth="0.4"
                      
                      Canvas.Left="200" 
-                     Canvas.Top="10"/>
+                     Canvas.Top="300"/>
             
             
         </Canvas>
