@@ -4,6 +4,7 @@
         xmlns:local="clr-namespace:ShapeGame2;assembly="
         Title="Shape Game" Height="688" Width="619" FontStyle="Italic"
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" 
+        xmlns:my="clr-namespace:FishComponents;assembly=FishComponents"
         >
     <Grid>
         <Grid.RowDefinitions>
@@ -15,6 +16,17 @@
         <Canvas Margin="12" Name="playfield" SizeChanged="Playfield_SizeChanged" Grid.RowSpan="2" Background="#FF10C6F5">
             
             <local:FourLineFish x:Name="UCFish" Width="300" Height="300" Canvas.Left="100" Canvas.Top="300"  />
+            <my:Fish Name="fish1" 
+                     Width="20" 
+                     Height="300" 
+                     Center="0.3" 
+                     Colar="0.3" 
+                     ColarWidth="0.8"
+                     Tail="0.5" 
+                     TailWidth="0.4"
+                     
+                     Canvas.Left="200" 
+                     Canvas.Top="10"/>
             
             
         </Canvas>

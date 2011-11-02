@@ -327,6 +327,7 @@ namespace ShapeGame2
                     double angle = getFishAngle(data.Joints);
                     //debugLabelCenter.Content = angle;
                     fourLineFish.TurnFish(angle);
+                    fish1.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
                     serialWindow.turnFish(angle);
                 }
@@ -633,9 +634,10 @@ namespace ShapeGame2
         {
             if (joystick != null)
             {
-                double angle = joystick.State.X * 40 / 100;
+                double angle = joystick.State.X * 30 / 100;
                 debugLabelCenter.Content = 1000/actualFrameTime;
                 fourLineFish.TurnFish(angle);
+                fish1.TurnFish(angle);
                 serialWindow.turnFish(angle);
             }
             //else
@@ -668,28 +670,17 @@ namespace ShapeGame2
             // Draw new Wpf scene by adding all objects to canvas
             // FourLineFish tmp = fourLineFish;
             playfield.Children.Clear();
-            //fallingThings.DrawFrame(playfield.Children);
-            //foreach (var player in players)
-            //    player.Value.Draw(playfield.Children);
-            //BannerText.Draw(playfield.Children);
-            //FlyingText.Draw(playfield.Children);
-
 
             double offsetChange = vortices.speed * actualFrameTime * fourLineFish.HeadAngle / 300.0;
             fourLineFish.MoveHorizontally(offsetChange, screenRect.Width);
 
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
             vortices.Draw(playfield.Children);
-            //foreach (SingleVortex rv in redVortices)
-            //    playfield.Children.Add(rv);
             playfield.Children.Add(fourLineFish);
-            //RedVortex redv = new RedVortex();
-            //playfield.Children.Add(redv); // 240...290, 290
-            //Canvas.SetLeft(redv, 140);
-            //Canvas.SetTop(redv, 290);
-            //playfield.Children.Add(RV1);
-            //Canvas.SetLeft(RV1, 20);
-            //Canvas.SetTop(RV1, 20);
+
+            fish1.UpdateTail(actualFrameTime / 1000.0);
+            playfield.Children.Add(fish1);
+
 
             // Calculate vortex strength and apply to feedback system
             if ((frameCount % 10) == 0)
@@ -820,6 +811,7 @@ namespace ShapeGame2
         {
             
             fourLineFish.TurnFish(e.NewValue);
+            fish1.TurnFish(e.NewValue);
             debugLabelTopCenter.Content = "Nose: " + fourLineFish.NosePosition.ToString();
             serialWindow.turnFish(e.NewValue);
         }

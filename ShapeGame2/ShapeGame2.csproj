@@ -133,6 +133,12 @@
     <Content Include="Pop-5.wav" />
     <Content Include="Squeeze.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FishComponents\FishComponents.csproj">
+      <Project>{F7F42502-BBCF-4544-957D-37FEC01F7733}</Project>
+      <Name>FishComponents</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

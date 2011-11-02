@@ -85,20 +85,20 @@ namespace FishComponents
         const double body1Speed = 4.0;
         const double body2Speed = 2.0;
 
+        public void TurnFish(double angle)
+        {
+            Angle = angle;
+            HeadAngle = angle / 2;
+        }
+
         public void UpdateTail(double secondsPassed)
         {
-            //double bodyAngleError = BodyAngle1 - HeadAngle;
-            //bodyAngleError *= body1Speed * secondsPassed;
-            //BodyAngle1 -= bodyAngleError;
-            //bodyAngleError = BodyAngle1 + BodyAngle2;
-            //bodyAngleError *= body2Speed * secondsPassed;
-            //BodyAngle2 -= bodyAngleError;
-            //TailAngle *= (1-straighteningSpeed*secondsPassed);
-            
-            //BodyAngle1 -= body1PID.update((BodyAngle1 - BodyAngle) * secondsPassed);
-            //BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle1) * secondsPassed);
+
+            BodyAngle -= body1PID.update((BodyAngle - Angle) * secondsPassed);
+            BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
             TailAngle -= tailPID.update(TailAngle * secondsPassed);
         }
+
         public PointCollection createOutline()
         {
             PointCollection pOutlinePoints = new PointCollection();
@@ -317,6 +317,18 @@ namespace FishComponents
             {
                 SetValue(BodyAngleProperty, value);
                 OnPropertyChanged("BodyAngle");
+            }
+
+        }
+
+        public static readonly DependencyProperty BodyAngle2Property = DependencyProperty.Register("BodyAngle2", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
+        public double BodyAngle2
+        {
+            get { return (double)GetValue(BodyAngle2Property); }
+            set
+            {
+                SetValue(BodyAngle2Property, value);
+                OnPropertyChanged("BodyAngl2e");
             }
 
         }
