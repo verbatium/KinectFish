@@ -110,8 +110,8 @@ namespace FishComponents
                 BodyAngle2 = Math.Max(BodyAngle2, -30);
                 BodyAngle2 = Math.Min(BodyAngle2, 30);
                 body2PID.resetIntegral();
-                TailAngle += toRight * 0.1;
-                tailPID.resetIntegral();
+                //TailAngle += toRight * 0.1;
+                //tailPID.resetIntegral();
             }
         }
 
