@@ -328,7 +328,7 @@
             <Path.RenderTransform>
                 <TransformGroup>
                     <RotateTransform CenterX="150" CenterY="250" 
-                                     Angle="{Binding Path=TailAngle, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
+                                     Angle="{Binding Path=TailAngle, ElementName=UCFish, ConverterParameter='0,5', Converter={StaticResource DoubleMultiplyConverter1}}" />
                     <RotateTransform CenterX="150" CenterY="150" 
                                      Angle="{Binding Path=BodyAngle2, ElementName=UCFish, ConverterParameter='-0,5', Converter={StaticResource DoubleMultiplyConverter1}}"/>
                 </TransformGroup>
