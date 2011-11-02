@@ -382,110 +382,6 @@ namespace ShapeGame2
             return new Point((int)(playfield.ActualWidth * colorX / 640.0), (int)(playfield.ActualHeight * colorY / 480));
         }
         
-        //void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
-        //{
-        //    SkeletonFrame skeletonFrame = e.SkeletonFrame;
-
-        //    int iSkeletonSlot = 0;
-
-        //    foreach (SkeletonData data in skeletonFrame.Skeletons)
-        //    {
-        //        if (SkeletonTrackingState.Tracked == data.TrackingState)
-        //        {
-        //            Player player;
-        //            if (players.ContainsKey(iSkeletonSlot))
-        //            {
-        //                player = players[iSkeletonSlot];
-        //            }
-        //            else
-        //            {
-        //                player = new Player(iSkeletonSlot);
-        //                player.setBounds(playerBounds);
-        //                players.Add(iSkeletonSlot, player);
-        //            }
-
-        //            player.lastUpdated = DateTime.Now;
-
-        //            // Update player's bone and joint positions
-        //            if (data.Joints.Count > 0)
-        //            {
-        //                player.isAlive = true;
-
-        //                // Head, hands, feet (hit testing happens in order here)
-        //                player.UpdateJointPosition(data.Joints, JointID.Head);
-        //                player.UpdateJointPosition(data.Joints, JointID.HandLeft);
-        //                player.UpdateJointPosition(data.Joints, JointID.HandRight);
-        //                player.UpdateJointPosition(data.Joints, JointID.FootLeft);
-        //                player.UpdateJointPosition(data.Joints, JointID.FootRight);
-
-        //                // Hands and arms
-        //                player.UpdateBonePosition(data.Joints, JointID.HandRight, JointID.WristRight);
-        //                player.UpdateBonePosition(data.Joints, JointID.WristRight, JointID.ElbowRight);
-        //                player.UpdateBonePosition(data.Joints, JointID.ElbowRight, JointID.ShoulderRight);
-
-        //                player.UpdateBonePosition(data.Joints, JointID.HandLeft, JointID.WristLeft);
-        //                player.UpdateBonePosition(data.Joints, JointID.WristLeft, JointID.ElbowLeft);
-        //                player.UpdateBonePosition(data.Joints, JointID.ElbowLeft, JointID.ShoulderLeft);
-
-        //                // Head and Shoulders
-        //                player.UpdateBonePosition(data.Joints, JointID.ShoulderCenter, JointID.Head);
-        //                player.UpdateBonePosition(data.Joints, JointID.ShoulderLeft, JointID.ShoulderCenter);
-        //                player.UpdateBonePosition(data.Joints, JointID.ShoulderCenter, JointID.ShoulderRight);
-
-        //                // Legs
-        //                player.UpdateBonePosition(data.Joints, JointID.HipLeft, JointID.KneeLeft);
-        //                player.UpdateBonePosition(data.Joints, JointID.KneeLeft, JointID.AnkleLeft);
-        //                player.UpdateBonePosition(data.Joints, JointID.AnkleLeft, JointID.FootLeft);
-
-        //                player.UpdateBonePosition(data.Joints, JointID.HipRight, JointID.KneeRight);
-        //                player.UpdateBonePosition(data.Joints, JointID.KneeRight, JointID.AnkleRight);
-        //                player.UpdateBonePosition(data.Joints, JointID.AnkleRight, JointID.FootRight);
-
-        //                player.UpdateBonePosition(data.Joints, JointID.HipLeft, JointID.HipCenter);
-        //                player.UpdateBonePosition(data.Joints, JointID.HipCenter, JointID.HipRight);
-
-        //                // Spine
-        //                player.UpdateBonePosition(data.Joints, JointID.HipCenter, JointID.ShoulderCenter);
-        //            }
-        //        }
-        //        iSkeletonSlot++;
-        //    }
-        //}
-
-        //void CheckPlayers()
-        //{
-        //    foreach (var player in players)
-        //    {
-        //        if (!player.Value.isAlive)
-        //        {
-        //            // Player left scene since we aren't tracking it anymore, so remove from dictionary
-        //            players.Remove(player.Value.getId());
-        //            break;
-        //        }
-        //    }
-
-        //    // Count alive players
-        //    int alive = 0;
-        //    foreach (var player in players)
-        //    {
-        //        if (player.Value.isAlive)
-        //            alive++;
-        //    }
-        //    if (alive != playersAlive)
-        //    {
-        //        if (alive == 2)
-        //            fallingThings.SetGameMode(FallingThings.GameMode.TwoPlayer);
-        //        else if (alive == 1)
-        //            fallingThings.SetGameMode(FallingThings.GameMode.Solo);
-        //        else if (alive == 0)
-        //            fallingThings.SetGameMode(FallingThings.GameMode.Off);
-
-        //        if (playersAlive == 0)
-        //            BannerText.NewBanner(Properties.Resources.Vocabulary, screenRect, true, Color.FromArgb(200, 255, 255, 255));
-
-        //        playersAlive = alive;
-        //    }
-        //}
 
         private bool InitializeNui()
         {
@@ -671,16 +567,19 @@ namespace ShapeGame2
             // FourLineFish tmp = fourLineFish;
             playfield.Children.Clear();
 
-            double offsetChange = vortices.speed * actualFrameTime * fourLineFish.HeadAngle / 300.0;
-            fourLineFish.MoveHorizontally(offsetChange, screenRect.Width);
+            //double offsetChange = vortices.speed * actualFrameTime * fourLineFish.HeadAngle / 300.0;
+            //fourLineFish.MoveHorizontally(offsetChange, screenRect.Width);
 
-            fourLineFish.UpdateTail(actualFrameTime / 1000.0);
-            vortices.Draw(playfield.Children);
-            playfield.Children.Add(fourLineFish);
+            //fourLineFish.UpdateTail(actualFrameTime / 1000.0);
+            
+            //playfield.Children.Add(fourLineFish);
 
+            double offsetChange = vortices.speed * actualFrameTime * fish1.HeadAngle / 300.0;
+            fish1.MoveHorizontally(offsetChange, screenRect.Width);
             fish1.UpdateTail(actualFrameTime / 1000.0);
             playfield.Children.Add(fish1);
 
+            vortices.Draw(playfield.Children);
 
             // Calculate vortex strength and apply to feedback system
             if ((frameCount % 10) == 0)
@@ -706,7 +605,7 @@ namespace ShapeGame2
         {
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
-            Point nose = fourLineFish.NosePosition; //new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
+            Point nose = fish1.NosePosition; //new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
             const double maxDistance = 200;
             double redDistance = maxRed, blueDistance = maxBlue;
             byte leftMotor = 100, rightMotor = 100; //actual motor commands

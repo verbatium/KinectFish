@@ -79,24 +79,40 @@ namespace FishComponents
         }
 
         PID body1PID = new PID(4.0, 0.0, 0.0);
-        PID body2PID = new PID(0.6, 0.015, 10.0);
-        PID tailPID = new PID(0.2, 0.01, 0.5);
-        const double straighteningSpeed = 0.7;
-        const double body1Speed = 4.0;
-        const double body2Speed = 2.0;
+        PID body2PID = new PID(0.6, 0.0, 10.0);
+        PID tailPID = new PID(0.2, 0.001, 0.5);
+        double fishOffset = 0;
+        double maxFishOffset = 150;
 
         public void TurnFish(double angle)
         {
-            Angle = angle;
+            //Angle = angle;
             HeadAngle = angle / 2;
         }
 
         public void UpdateTail(double secondsPassed)
         {
 
-            BodyAngle -= body1PID.update((BodyAngle - Angle) * secondsPassed);
+            BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
             BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
             TailAngle -= tailPID.update(TailAngle * secondsPassed);
+        }
+
+        public void MoveHorizontally(double toRight, double screenWidth)
+        {
+            fishOffset += toRight;
+            fishOffset = Math.Max(fishOffset, -maxFishOffset);
+            fishOffset = Math.Min(fishOffset, maxFishOffset);
+            if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
+            {
+                Canvas.SetLeft(this, screenWidth / 2 - 150 + (int)fishOffset);
+                BodyAngle2 -= toRight * 2;
+                BodyAngle2 = Math.Max(BodyAngle2, -30);
+                BodyAngle2 = Math.Min(BodyAngle2, 30);
+                body2PID.resetIntegral();
+                TailAngle += toRight * 0.1;
+                tailPID.resetIntegral();
+            }
         }
 
         public PointCollection createOutline()

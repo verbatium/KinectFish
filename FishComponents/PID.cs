@@ -33,5 +33,9 @@ namespace FishComponents
             newValue = P * proportional + I * integral + D * derivative;
             return newValue;
         }
+        public void resetIntegral()
+        {
+            integral = 0.0;
+        }
     }
 }
