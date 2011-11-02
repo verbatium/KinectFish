@@ -58,8 +58,7 @@ namespace ShapeGame2
         const double DefaultDropGravity = 1.0;
 
         FourLineFish fourLineFish;
-        double fishOffset = 0; // how far from the center to the right
-        double maxFishOffset = 150;
+        
 
         bool GameStarted = false;
 
@@ -675,10 +674,9 @@ namespace ShapeGame2
             //BannerText.Draw(playfield.Children);
             //FlyingText.Draw(playfield.Children);
 
-            fishOffset += vortices.speed * actualFrameTime * fourLineFish.HeadAngle/300.0;
-            fishOffset = Math.Max(fishOffset, -maxFishOffset);
-            fishOffset = Math.Min(fishOffset, maxFishOffset);
-            Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150 + (int)fishOffset);
+
+            double offsetChange = vortices.speed * actualFrameTime * fourLineFish.HeadAngle / 300.0;
+            fourLineFish.MoveHorizontally(offsetChange, screenRect.Width);
 
             fourLineFish.UpdateTail(actualFrameTime / 1000.0);
             vortices.Draw(playfield.Children);

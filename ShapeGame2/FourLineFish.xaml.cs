@@ -150,8 +150,8 @@ namespace ShapeGame2
         const double body2Speed = 2.0;
 
         PID body1PID = new PID(4.0, 0.0, 0.0);
-        PID body2PID = new PID(0.6, 0.015, 10.0);
-        PID tailPID = new PID(0.2, 0.01, 0.5);
+        PID body2PID = new PID(0.6, 0.0, 10.0);
+        PID tailPID = new PID(0.2, 0.001, 0.5);
         
         public void UpdateTail(double secondsPassed)
         {
@@ -160,6 +160,25 @@ namespace ShapeGame2
             BodyAngle1 -= body1PID.update((BodyAngle1 - BodyAngle) * secondsPassed);
             BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle1) * secondsPassed);
             TailAngle -= tailPID.update(TailAngle * secondsPassed);
+        }
+
+        double fishOffset = 0; // how far from the center to the right
+        double maxFishOffset = 150;
+        public void MoveHorizontally(double toRight, double screenWidth)
+        {
+            fishOffset += toRight;
+            fishOffset = Math.Max(fishOffset, -maxFishOffset);
+            fishOffset = Math.Min(fishOffset, maxFishOffset);
+            if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
+            {
+                Canvas.SetLeft(this, screenWidth / 2 - 150 + (int)fishOffset);
+                BodyAngle2 -= toRight * 2;
+                BodyAngle2 = Math.Max(BodyAngle2, -30);
+                BodyAngle2 = Math.Min(BodyAngle2, 30);
+                body2PID.resetIntegral();
+                TailAngle += toRight*0.1;
+                tailPID.resetIntegral();
+            }
         }
     }
 }
