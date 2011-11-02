@@ -51,6 +51,37 @@ namespace ShapeGame2
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        static byte[] motorAddress = { 161, 162, 163, 164, 165, 166, 167, 168, 169, 170 }; // left to right
+        static byte[] prevMotorSpeeds = new byte [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        static public bool SetFanSpeeds(byte[] motorSpeeds)
+        {
+            if (feedbackPort == null)
+                return false;
+            if (!feedbackPort.IsOpen)
+                return false;
+
+            try
+            {
+                for (int i = 0; i < motorSpeeds.Length; i++)
+                {
+                    if (prevMotorSpeeds[i] != motorSpeeds[i])
+                    {
+                        prevMotorSpeeds[i] = motorSpeeds[i];
+                        feedbackPort.WriteLine(motorAddress[i].ToString());
+                        feedbackPort.WriteLine(motorSpeeds[i].ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
             }
 
             return true;

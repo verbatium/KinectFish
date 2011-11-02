@@ -779,6 +779,7 @@ namespace ShapeGame2
             double[] rightMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
             double[] leftDistances = { 400, 280, 200, 130, 80 };
             double[] rightDistances = { 80, 130, 200, 280, 400 };
+            byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
             for (int i = 0; i < leftMotors.Length; i++)
             {
@@ -786,6 +787,8 @@ namespace ShapeGame2
                     leftMotors[i] = (1 - redDistance / leftDistances[i]) * (255 - leftMotors[i]) + minvalue;
                 if (blueDistance < rightDistances[i])
                     rightMotors[i] = (1 - blueDistance / rightDistances[i]) * (255 - rightMotors[i]) + minvalue;
+                motors[i] = (byte)leftMotors[i];
+                motors[i + leftMotors.Length] = (byte)rightMotors[i];
             }
             progressBar1.Value = leftMotors[0];
             progressBar2.Value = leftMotors[1];
@@ -798,6 +801,7 @@ namespace ShapeGame2
             progressBar9.Value = rightMotors[3];
             progressBar10.Value = rightMotors[4];
 
+            SerialConnector.SetFanSpeeds(motors);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
