@@ -51,7 +51,7 @@
         <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="2" Minimum="-30.0" Maximum="30.0" Name="CenterAngle" Value="0.0"/>
         <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="3" Minimum="-30.0" Maximum="30.0" Name="TailAngle" Value="0.0"/>
 
-        <Slider Width="100" Height="28" Grid.Row="4" Grid.Column="1" Maximum="1" Name="ColarWidth" Value="0.8" />
+        <Slider Width="100" Height="28" Grid.Row="4" Grid.Column="1" Maximum="2" Name="ColarWidth" Value="1.0" />
         <Slider Width="100" Height="28" Grid.Row="4" Grid.Column="2" Maximum="200" Name="CenterWidth" Value="20"/>
         <Slider Width="100" Height="28" Grid.Row="4" Grid.Column="3" Maximum="1" Name="TailWidth" Value="0.4"/>
 

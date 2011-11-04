@@ -126,19 +126,58 @@ namespace FishComponents
                 return false;
         }
 
-        public PointCollection createOutline()
+        public Transform TailLTransform
+        {
+            get
+            {
+                TransformGroup retval = new TransformGroup();
+                retval.Children.Add(new RotateTransform(TailAngle * -0.5, TailPoint.X, TailPoint.Y));
+                retval.Children.Add(new RotateTransform(BodyAngle2 * -0.5, CenterPoint.X, CenterPoint.Y));
+                return retval;
+            }
+        }
+        public Transform TailLineTransform
+        {
+            get
+            {
+                TransformGroup retval = new TransformGroup();
+                retval.Children.Add(new RotateTransform(-TailAngle, TailPoint.X, TailPoint.Y));
+                retval.Children.Add(new RotateTransform(BodyAngle2 * -0.5, CenterPoint.X, CenterPoint.Y));
+                return retval;
+            }
+        }
+        public Transform ColarLineTransform
+        {
+            get
+            {
+                TransformGroup retval = new TransformGroup();
+                retval.Children.Add(new RotateTransform(HeadAngle * 0.5, ColarPoint.X, ColarPoint.Y));
+                retval.Children.Add(new RotateTransform(BodyAngle * 0.5, CenterPoint.X, CenterPoint.Y));
+                return retval;
+            }
+        }
+        public Transform HeadLineTransform
+        {
+            get
+            {
+                TransformGroup retval = new TransformGroup();
+                retval.Children.Add(new RotateTransform(HeadAngle, ColarPoint.X, ColarPoint.Y));
+                retval.Children.Add(new RotateTransform(BodyAngle * 0.5, CenterPoint.X, CenterPoint.Y));
+                return retval;
+            }
+        }       public PointCollection createOutline()
         {
             PointCollection pOutlinePoints = new PointCollection();
             
             Point[] pBase = new Point[]{
                 CenterPointR,
-                TailL.RenderTransform.Transform(TailPointR),
-                TailLine.RenderTransform.Transform(EndPoint),
-                TailL.RenderTransform.Transform(TailPointL),
+                TailLTransform.Transform(TailPointR),
+                TailLineTransform.Transform(EndPoint),
+                TailLTransform.Transform(TailPointL),
                 CenterPointL,
-                ColarLine.RenderTransform.Transform(ColarPointL),
-                HeadLine.RenderTransform.Transform(NosePoint),
-                ColarLine.RenderTransform.Transform(ColarPointR)
+                ColarLineTransform.Transform(ColarPointL),
+                HeadLineTransform.Transform(NosePoint),
+                ColarLineTransform.Transform(ColarPointR)
             };
             pOutlinePoints.Clear();
             pOutlinePoints.Add(pBase[0]);
