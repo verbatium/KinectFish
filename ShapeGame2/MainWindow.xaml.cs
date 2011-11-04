@@ -574,9 +574,9 @@ namespace ShapeGame2
             
             //playfield.Children.Add(fourLineFish);
 
-            double offsetChange = vortices.speed * actualFrameTime * fish1.HeadAngle / 300.0;
-            fish1.MoveHorizontally(offsetChange, screenRect.Width);
-            fish1.UpdateTail(actualFrameTime / 1000.0);
+            double offsetChange = vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
+            if(!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0))
+                fish1.UpdateTail(actualFrameTime / 1000.0);
             playfield.Children.Add(fish1);
 
             vortices.Draw(playfield.Children);

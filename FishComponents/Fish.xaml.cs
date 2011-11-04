@@ -83,36 +83,46 @@ namespace FishComponents
         PID tailPID = new PID(0.2, 0.001, 0.5);
         double fishOffset = 0;
         double maxFishOffset = 150;
+        public double inputAngle = 0;
 
         public void TurnFish(double angle)
         {
             //Angle = angle;
-            HeadAngle = angle / 2;
+            //HeadAngle = angle / 2;
+            inputAngle = angle;
         }
 
         public void UpdateTail(double secondsPassed)
         {
-
+            HeadAngle = inputAngle / 2;
+            Angle = 0;
             BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
             BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
             TailAngle -= tailPID.update(TailAngle * secondsPassed);
         }
 
-        public void MoveHorizontally(double toRight, double screenWidth)
+        public bool MoveHorizontally(double toRight, double screenWidth, double secondsPassed)
         {
             fishOffset += toRight;
             fishOffset = Math.Max(fishOffset, -maxFishOffset);
             fishOffset = Math.Min(fishOffset, maxFishOffset);
             if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
             {
-                Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth/2 + (int)fishOffset);
-                BodyAngle2 -= toRight * 2;
-                BodyAngle2 = Math.Max(BodyAngle2, -30);
-                BodyAngle2 = Math.Min(BodyAngle2, 30);
-                body2PID.resetIntegral();
+                Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth / 2 + (int)fishOffset);
+                HeadAngle = -inputAngle / 2;
+                BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
+                BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
+                Angle = inputAngle / 1.5;
+                //BodyAngle2 -= toRight * 2;
+                //BodyAngle2 = Math.Max(BodyAngle2, -30);
+                //BodyAngle2 = Math.Min(BodyAngle2, 30);
+                //body2PID.resetIntegral();
                 //TailAngle += toRight * 0.1;
                 //tailPID.resetIntegral();
+                return true;
             }
+            else
+                return false;
         }
 
         public PointCollection createOutline()
