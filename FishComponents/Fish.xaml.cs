@@ -95,7 +95,7 @@ namespace FishComponents
         public void UpdateTail(double secondsPassed)
         {
             HeadAngle = inputAngle / 2;
-            Angle = 0;
+            Angle *= 0.9;
             BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
             BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
             TailAngle -= tailPID.update(TailAngle * secondsPassed);
@@ -112,6 +112,7 @@ namespace FishComponents
                 HeadAngle = -inputAngle / 2;
                 BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
                 BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
+                TailAngle -= tailPID.update((TailAngle - BodyAngle2) * secondsPassed);
                 Angle = inputAngle / 1.5;
                 //BodyAngle2 -= toRight * 2;
                 //BodyAngle2 = Math.Max(BodyAngle2, -30);
