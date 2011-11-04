@@ -13,7 +13,7 @@
             <RowDefinition Height="155*" />
             <RowDefinition Height="30*" />
             <RowDefinition Height="30*" />
-            <RowDefinition Height="30*" />
+            <RowDefinition Height="60*" />
             <RowDefinition Height="30*" />
         </Grid.RowDefinitions>
         <Canvas>
@@ -27,6 +27,7 @@
                      TailWidth="{Binding ElementName=TailWidth, Path=Value}"
                      
                      BodyAngle="{Binding ElementName=CenterAngle, Path=Value}"
+                     BodyAngle2="{Binding ElementName=CenterAngle2, Path=Value}"
                      HeadAngle="{Binding ElementName=HeadAngle, Path=Value}"
                      TailAngle="{Binding ElementName=TailAngle, Path=Value}"
                      Angle="0"
@@ -48,7 +49,8 @@
         <Slider Width="100" Height="28" Grid.Row="2" Grid.Column="3" Maximum="1" Name="Tail" Value="0.5"/>
 
         <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="1" Minimum="-30.0" Maximum="30.0" Name="HeadAngle" Value="0.0" />
-        <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="2" Minimum="-30.0" Maximum="30.0" Name="CenterAngle" Value="0.0"/>
+        <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="2" Minimum="-30.0" Maximum="30.0" Name="CenterAngle" Value="0.0" Margin="12,0,14,33" />
+        <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="2" Minimum="-30.0" Maximum="30.0" Name="CenterAngle2" Value="0.0" Margin="12,33,14,0" />
         <Slider Width="100" Height="28" Grid.Row="3" Grid.Column="3" Minimum="-30.0" Maximum="30.0" Name="TailAngle" Value="0.0"/>
 
         <Slider Width="100" Height="28" Grid.Row="4" Grid.Column="1" Maximum="2" Name="ColarWidth" Value="1.0" />

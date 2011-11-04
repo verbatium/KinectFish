@@ -131,8 +131,8 @@ namespace FishComponents
             get
             {
                 TransformGroup retval = new TransformGroup();
-                retval.Children.Add(new RotateTransform(TailAngle * -0.5, TailPoint.X, TailPoint.Y));
-                retval.Children.Add(new RotateTransform(BodyAngle2 * -0.5, CenterPoint.X, CenterPoint.Y));
+                retval.Children.Add(new RotateTransform(-TailAngle * 0.5, TailPoint.X, TailPoint.Y));
+                retval.Children.Add(new RotateTransform(-BodyAngle2 , CenterPoint.X, CenterPoint.Y));
                 return retval;
             }
         }
@@ -142,7 +142,7 @@ namespace FishComponents
             {
                 TransformGroup retval = new TransformGroup();
                 retval.Children.Add(new RotateTransform(-TailAngle, TailPoint.X, TailPoint.Y));
-                retval.Children.Add(new RotateTransform(BodyAngle2 * -0.5, CenterPoint.X, CenterPoint.Y));
+                retval.Children.Add(new RotateTransform(-BodyAngle2 , CenterPoint.X, CenterPoint.Y));
                 return retval;
             }
         }
@@ -152,20 +152,35 @@ namespace FishComponents
             {
                 TransformGroup retval = new TransformGroup();
                 retval.Children.Add(new RotateTransform(HeadAngle * 0.5, ColarPoint.X, ColarPoint.Y));
-                retval.Children.Add(new RotateTransform(BodyAngle * 0.5, CenterPoint.X, CenterPoint.Y));
+                retval.Children.Add(new RotateTransform(BodyAngle , CenterPoint.X, CenterPoint.Y));
                 return retval;
             }
         }
+
         public Transform HeadLineTransform
         {
             get
             {
                 TransformGroup retval = new TransformGroup();
                 retval.Children.Add(new RotateTransform(HeadAngle, ColarPoint.X, ColarPoint.Y));
-                retval.Children.Add(new RotateTransform(BodyAngle * 0.5, CenterPoint.X, CenterPoint.Y));
+                retval.Children.Add(new RotateTransform(BodyAngle , CenterPoint.X, CenterPoint.Y));
                 return retval;
             }
-        }       public PointCollection createOutline()
+        }
+
+        public Transform CenterLineTransform
+        {
+            get
+            {
+                //TransformGroup retval = new TransformGroup();
+                //retval.Children.Add(new RotateTransform(0.5*(BodyAngle - BodyAngle2), ColarPoint.X, ColarPoint.Y));
+                //retval.Children.Add(new RotateTransform(BodyAngle, CenterPoint.X, CenterPoint.Y));
+                //return retval;
+                return new RotateTransform(0.5 * (BodyAngle - BodyAngle2), CenterPoint.X, CenterPoint.Y);
+            }
+        }      
+        
+        public PointCollection createOutline()
         {
             PointCollection pOutlinePoints = new PointCollection();
             
@@ -234,18 +249,32 @@ namespace FishComponents
 
         public void ReSizeBody()
         {
-            OnPropertyChanged("NosePoint");
-            OnPropertyChanged("TailPoint");
-            OnPropertyChanged("TailPointL");
-            OnPropertyChanged("TailPointR");
-            OnPropertyChanged("CenterPoint");
-            OnPropertyChanged("CenterPointL");
+            if ((Visibility)FindResource("PointVisibility")== System.Windows.Visibility.Visible)
+            {
+                OnPropertyChanged("NosePoint");
+                OnPropertyChanged("TailPoint");
+                OnPropertyChanged("TailPointL");
+                OnPropertyChanged("TailPointR");
+
+                OnPropertyChanged("CenterPoint");
+                OnPropertyChanged("CenterPointL");
+                OnPropertyChanged("ColarPoint");
+                OnPropertyChanged("ColarPointL");
+                OnPropertyChanged("ColarPointR");
+                OnPropertyChanged("EndPoint");
+            }
+
             OnPropertyChanged("CenterPointR");
-            OnPropertyChanged("ColarPoint");
-            OnPropertyChanged("ColarPointL");
-            OnPropertyChanged("ColarPointR");
-            OnPropertyChanged("EndPoint");
+
             OnPropertyChanged("OutlinePoints");
+
+            OnPropertyChanged("HeadLineTransform");
+            OnPropertyChanged("TailLTransform");
+            OnPropertyChanged("TailLineTransform");
+            OnPropertyChanged("ColarLineTransform");
+            OnPropertyChanged("CenterLineTransform");
+
+           
         }
 
         public static readonly DependencyProperty CenterProperty
@@ -422,7 +451,7 @@ namespace FishComponents
                 double ky = this.ActualHeight / 300;
 
                 Point p = new Point(Width / 2, 0);
-                //p = Head.RenderTransform.Transform(p);
+                p = HeadLineTransform.Transform(p);
 
                 x += p.X * kx;
                 y += p.Y * ky;
