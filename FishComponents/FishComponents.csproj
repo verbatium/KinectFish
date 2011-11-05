@@ -49,10 +49,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FishTest.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Fish.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

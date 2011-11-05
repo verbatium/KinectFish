@@ -24,53 +24,28 @@ namespace FishComponents
   
         public event PropertyChangedEventHandler PropertyChanged;
 
-        
-  
         public Fish()
         {
             InitializeComponent();
-
         }
-        Point[] Tangent(Point p1, Point p2, Point p3, bool tangent = true)
+        Point[] Tangent(Point p1, Point p2, Point p3, bool tangent = true, double k =0.3)
         {
             Vector v1 = new Vector(p1.X-p2.X,p1.Y-p2.Y );
             Vector v2 = new Vector(p3.X - p2.X, p3.Y - p2.Y);
-            Vector v4 = v1*0.3;
-            Vector v5 = v2*0.3;
+            Vector v4 = v1*k;
+            Vector v5 = v2*k;
             if (tangent)
             {
-                double a = Vector.AngleBetween(v1, v2);
-                double b;
-                if (a < 0)
-                {
-                    a = Vector.AngleBetween(v2, v1);
-                    b = 90 - a / 2;
-                }
-                else
-                {
-                    b = a / 2 - 90;
-                }
-
-
-                v4 = v1.Rotate(b) * 0.3;//v3.Rotate(-90)/v3.Length*v1.Length/5;//new Vector( v1.Length / 5,0).Rotate(v3.Angle()+90);
-                v5 = v2.Rotate(-b) * 0.3;// v3.Rotate(90) / v3.Length * v2.Length / 5;
+                double a = Vector.AngleBetween(v1, v2); 
+                double b = Math.Sign(a) * (Math.Abs(a)/2 - 90);
+                v4 = v4.Rotate(b);
+                v5 = v5.Rotate(-b);
             }
             else
             {
-                double a = Vector.AngleBetween(v1, v2);
-                double b;
-                if (a < 0)
-                {
-                    a = Vector.AngleBetween(v2, v1);
-                    b = -a / 4;
-                }
-                else
-                {
-                    b = -a / 4;
-                }
-                v4 = v1.Rotate(b) * 0.3;//v3.Rotate(-90)/v3.Length*v1.Length/5;//new Vector( v1.Length / 5,0).Rotate(v3.Angle()+90);
-                v5 = v2.Rotate(-b) * 0.3;// v3.Rotate(90) / v3.Length * v2.Length / 5;
-
+                double b = Math.Abs(Vector.AngleBetween(v1, v2)) / 4;
+                v4 = v4.Rotate(-b);
+                v5 = v5.Rotate(b);
             }
 
 
@@ -172,10 +147,6 @@ namespace FishComponents
         {
             get
             {
-                //TransformGroup retval = new TransformGroup();
-                //retval.Children.Add(new RotateTransform(0.5*(BodyAngle - BodyAngle2), ColarPoint.X, ColarPoint.Y));
-                //retval.Children.Add(new RotateTransform(BodyAngle, CenterPoint.X, CenterPoint.Y));
-                //return retval;
                 return new RotateTransform(0.5 * (BodyAngle - BodyAngle2), CenterPoint.X, CenterPoint.Y);
             }
         }      
@@ -185,11 +156,11 @@ namespace FishComponents
             PointCollection pOutlinePoints = new PointCollection();
             
             Point[] pBase = new Point[]{
-                CenterPointR,
+              CenterLineTransform.Transform(  CenterPointR),
                 TailLTransform.Transform(TailPointR),
                 TailLineTransform.Transform(EndPoint),
                 TailLTransform.Transform(TailPointL),
-                CenterPointL,
+                CenterLineTransform.Transform(CenterPointL),
                 ColarLineTransform.Transform(ColarPointL),
                 HeadLineTransform.Transform(NosePoint),
                 ColarLineTransform.Transform(ColarPointR)
@@ -197,47 +168,50 @@ namespace FishComponents
             pOutlinePoints.Clear();
             pOutlinePoints.Add(pBase[0]);
 
+            //TailPointR
             Point[] pp = Tangent(pBase[0], pBase[1], pBase[2]);
-            
             pOutlinePoints.Add(pp[0]);
             pOutlinePoints.Add(pBase[1]);
             pOutlinePoints.Add(pp[1]);
 
-
+            //EndPoint
             pp = Tangent( pBase[1], pBase[2],pBase[3],false);
             pOutlinePoints.Add(pp[0]);
             pOutlinePoints.Add(pBase[2]);
             pOutlinePoints.Add(pp[1]);
 
+            //TailPointL
             pp = Tangent(pBase[2], pBase[3], pBase[4]);
             pOutlinePoints.Add(pp[0]);
             pOutlinePoints.Add(pBase[3]);
             pOutlinePoints.Add(pp[1]);
 
-
-            pp = Tangent(pBase[3], pBase[4], pBase[5]);
+            //CenterPointL
+            pp = Tangent(pBase[3], pBase[4], pBase[5], true, 0.5);
             pOutlinePoints.Add(pp[0]);
             pOutlinePoints.Add(pBase[4]);
             pOutlinePoints.Add(pp[1]);
 
+            //ColarPointL
             pp = Tangent(pBase[4], pBase[5], pBase[6]);
             pOutlinePoints.Add(pp[0]);
             pOutlinePoints.Add(pBase[5]);
             pOutlinePoints.Add(pp[1]);
 
+            //NosePoint
             pp = Tangent(pBase[5], pBase[6], pBase[7]);
             pOutlinePoints.Add(pp[0]);
             pOutlinePoints.Add(pBase[6]);
             pOutlinePoints.Add(pp[1]);
-
+            
+            //ColarPointR
             pp = Tangent(pBase[6], pBase[7], pBase[0]);
             pOutlinePoints.Add(pp[0]);
             pOutlinePoints.Add(pBase[7]);
             pOutlinePoints.Add(pp[1]);
 
-            pp = Tangent(pBase[7], pBase[0], pBase[1]);
-            
-            
+            //CenterPointR
+            pp = Tangent(pBase[7], pBase[0], pBase[1], true, 0.5);         
             pOutlinePoints.Add(pp[0]);
             pOutlinePoints.Add(pBase[0]);
             pOutlinePoints[0] = pp[1];
@@ -256,14 +230,14 @@ namespace FishComponents
                 OnPropertyChanged("TailPointL");
                 OnPropertyChanged("TailPointR");
 
-                OnPropertyChanged("CenterPoint");
+                
                 OnPropertyChanged("CenterPointL");
                 OnPropertyChanged("ColarPoint");
                 OnPropertyChanged("ColarPointL");
                 OnPropertyChanged("ColarPointR");
                 OnPropertyChanged("EndPoint");
             }
-
+            OnPropertyChanged("CenterPoint");
             OnPropertyChanged("CenterPointR");
 
             OnPropertyChanged("OutlinePoints");
@@ -334,6 +308,7 @@ namespace FishComponents
             get { return (double)GetValue(TailProperty); }
             set { SetValue(TailProperty, value);         }
         }
+
         private static object CoerceProportion(DependencyObject element, object proporion)
         {
 
@@ -387,21 +362,14 @@ namespace FishComponents
         public double HeadAngle
         {
             get { return (double)GetValue(HeadAngleProperty); }
-            set
-            {
-                SetValue(HeadAngleProperty, value);
-                OnPropertyChanged("HeadAngle");
-            }
+            set {         SetValue(HeadAngleProperty, value); }
         }
 
         public static readonly DependencyProperty AngleProperty = DependencyProperty.Register("Angle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
         public double Angle
         {
             get { return (double)GetValue(AngleProperty); }
-            set
-            {
-                SetValue(AngleProperty, value);
-            }
+            set {         SetValue(AngleProperty, value); }
         }
 
         public static readonly DependencyProperty BodyAngleProperty = DependencyProperty.Register("BodyAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
@@ -537,6 +505,7 @@ namespace FishComponents
                 return new Point(Width * 0.5, 0);
             }
         }
+ 
         public PointCollection OutlinePoints
         {
             get 
@@ -544,6 +513,7 @@ namespace FishComponents
                 return createOutline();
             }
        }
+
         public Point SupportPoint(int i)
         {
             Point retval = new Point(0, 0);

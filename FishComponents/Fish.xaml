@@ -12,7 +12,7 @@
         <FrameworkElement x:Key="EllipseSize" Width="6" Height="6" />
         <converter:DoubleMultiplyConverter x:Key="DoubleMultiplyConverter1" />
         <Visibility x:Key="PointVisibility">Visible</Visibility>
-        <SolidColorBrush x:Key="FishColor" Color="#00FFFF00"></SolidColorBrush>
+        <SolidColorBrush x:Key="FishColor" Color="#00000000"></SolidColorBrush>
     </UserControl.Resources>
 
     <Canvas Background="Aqua" Name="p">
@@ -25,7 +25,8 @@
                  Width="{Binding Source={StaticResource EllipseSize}, Path=Width}" 
                  Height="{Binding Source={StaticResource EllipseSize}, Path=Height}" 
                  Stroke="Blue" 
-                 Visibility="{StaticResource PointVisibility}">
+                 Visibility="{StaticResource PointVisibility}"
+                 >
             <Ellipse.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform  X="{Binding Source={StaticResource EllipseTransform}, Path=X}" Y="{Binding Source={StaticResource EllipseTransform}, Path=Y}"/>
@@ -101,7 +102,6 @@
                     <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" 
                                      CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
                                      Angle="{Binding Path=BodyAngle2, ElementName=UCFish, ConverterParameter='-1', Converter={StaticResource DoubleMultiplyConverter1}}" />
-
 
                 </TransformGroup>
             </Ellipse.RenderTransform>
