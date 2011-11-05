@@ -28,8 +28,9 @@ namespace FishComponents
         {
             InitializeComponent();
         }
-        Point[] Tangent(Point p1, Point p2, Point p3, bool tangent = true, double k =0.3)
+        Point[] Tangent(Point p1, Point p2, Point p3, bool tangent = true, double k=0.3)
         {
+            //TranslateTransform toVector = new TranslateTransform(-p2.X, -p2.Y);
             Vector v1 = new Vector(p1.X-p2.X,p1.Y-p2.Y );
             Vector v2 = new Vector(p3.X - p2.X, p3.Y - p2.Y);
             Vector v4 = v1*k;
@@ -47,9 +48,7 @@ namespace FishComponents
                 v4 = v4.Rotate(-b);
                 v5 = v5.Rotate(b);
             }
-
-
-
+           
             return new Point[] { new Point(p2.X + v4.X, p2.Y + v4.Y), new Point(p2.X+v5.X,p2.Y+ v5.Y) };
         }
 
@@ -149,74 +148,82 @@ namespace FishComponents
             {
                 return new RotateTransform(0.5 * (BodyAngle - BodyAngle2), CenterPoint.X, CenterPoint.Y);
             }
-        }      
-        
+        } 
+     
+
+
+        PointCollection pOutlinePoints = new PointCollection(new Point[24]);
+        struct tangentProperties
+        {
+            public bool IsTangent;
+            public  double k;
+            public tangentProperties(bool IsTangent=true, double k=0.3)
+            {
+                this.IsTangent = IsTangent;
+                this.k = k;
+            }
+        }
+        tangentProperties[] pars = new tangentProperties[] {
+                new tangentProperties(true,0.3),
+                new tangentProperties(false,0.3), //Tail
+                new tangentProperties(true,0.3),
+                new tangentProperties(true,0.5), //body left
+                new tangentProperties(true,0.3),
+                new tangentProperties(true,0.3),//nose
+                new tangentProperties(true,0.3),
+                new tangentProperties(true,0.5)};//body right
+
         public PointCollection createOutline()
         {
-            PointCollection pOutlinePoints = new PointCollection();
-            
-            Point[] pBase = new Point[]{
-              CenterLineTransform.Transform(  CenterPointR),
-                TailLTransform.Transform(TailPointR),
-                TailLineTransform.Transform(EndPoint),
-                TailLTransform.Transform(TailPointL),
-                CenterLineTransform.Transform(CenterPointL),
-                ColarLineTransform.Transform(ColarPointL),
-                HeadLineTransform.Transform(NosePoint),
-                ColarLineTransform.Transform(ColarPointR)
-            };
-            pOutlinePoints.Clear();
-            pOutlinePoints.Add(pBase[0]);
-
+            pOutlinePoints[2] = (TailLTransform.Transform(TailPointR));//// (pOutlinePoints[2])
+            pOutlinePoints[5] = TailLineTransform.Transform(EndPoint);// (pOutlinePoints[5])
+            pOutlinePoints[8] = TailLTransform.Transform(TailPointL);// (pOutlinePoints[8]);
+            pOutlinePoints[11] = CenterLineTransform.Transform(CenterPointL);// (pOutlinePoints[11]);
+            pOutlinePoints[14] = ColarLineTransform.Transform(ColarPointL);//(pOutlinePoints[14]);
+            pOutlinePoints[17] = HeadLineTransform.Transform(NosePoint);//(pOutlinePoints[17]);
+            pOutlinePoints[20] = ColarLineTransform.Transform(ColarPointR);//(pOutlinePoints[20]); 
+            pOutlinePoints[23] = CenterLineTransform.Transform(CenterPointR);//(pOutlinePoints[23]); 
             //TailPointR
-            Point[] pp = Tangent(pBase[0], pBase[1], pBase[2]);
-            pOutlinePoints.Add(pp[0]);
-            pOutlinePoints.Add(pBase[1]);
-            pOutlinePoints.Add(pp[1]);
 
-            //EndPoint
-            pp = Tangent( pBase[1], pBase[2],pBase[3],false);
-            pOutlinePoints.Add(pp[0]);
-            pOutlinePoints.Add(pBase[2]);
-            pOutlinePoints.Add(pp[1]);
+            Point[] pp;
 
-            //TailPointL
-            pp = Tangent(pBase[2], pBase[3], pBase[4]);
-            pOutlinePoints.Add(pp[0]);
-            pOutlinePoints.Add(pBase[3]);
-            pOutlinePoints.Add(pp[1]);
+            for (int i = 0; i < 8; i++)
+            {
+                int j = ((i+7) * 3 + 2) % 24;
+                int k = ((i + 8) * 3 + 2) % 24;
+                int l = ((i + 9) * 3 + 2) % 24;
+                pp = Tangent(pOutlinePoints[j], pOutlinePoints[k], pOutlinePoints[l], pars[i].IsTangent,pars[i].k);
+                pOutlinePoints[k - 1] = (pp[0]); pOutlinePoints[l - 2] = (pp[1]);
+            }
 
-            //CenterPointL
-            pp = Tangent(pBase[3], pBase[4], pBase[5], true, 0.5);
-            pOutlinePoints.Add(pp[0]);
-            pOutlinePoints.Add(pBase[4]);
-            pOutlinePoints.Add(pp[1]);
+            //pp = Tangent(pOutlinePoints[23], pOutlinePoints[2], pOutlinePoints[5]);
+            //pOutlinePoints[1] = (pp[0]); pOutlinePoints[3] = (pp[1]);
+            ////EndPoint
+            //pp = Tangent(pOutlinePoints[2], pOutlinePoints[5], pOutlinePoints[5], false);
+            //pOutlinePoints[4] = (pp[0]); pOutlinePoints[6] = (pp[1]);
+            ////TailPointL
+            //pp = Tangent(pOutlinePoints[5], pOutlinePoints[8], pOutlinePoints[11]);
+            //pOutlinePoints[7] = (pp[0]); pOutlinePoints[9] = (pp[1]);
 
-            //ColarPointL
-            pp = Tangent(pBase[4], pBase[5], pBase[6]);
-            pOutlinePoints.Add(pp[0]);
-            pOutlinePoints.Add(pBase[5]);
-            pOutlinePoints.Add(pp[1]);
+            ////CenterPointL
+            //pp = Tangent(pOutlinePoints[8], pOutlinePoints[11], pOutlinePoints[14], true, 0.5);
+            //pOutlinePoints[10] = (pp[0]); pOutlinePoints[12] = (pp[1]);
 
-            //NosePoint
-            pp = Tangent(pBase[5], pBase[6], pBase[7]);
-            pOutlinePoints.Add(pp[0]);
-            pOutlinePoints.Add(pBase[6]);
-            pOutlinePoints.Add(pp[1]);
-            
-            //ColarPointR
-            pp = Tangent(pBase[6], pBase[7], pBase[0]);
-            pOutlinePoints.Add(pp[0]);
-            pOutlinePoints.Add(pBase[7]);
-            pOutlinePoints.Add(pp[1]);
+            ////ColarPointL
+            //pp = Tangent(pOutlinePoints[11], pOutlinePoints[14], pOutlinePoints[17]);
+            //pOutlinePoints[13] = (pp[0]); pOutlinePoints[15] = (pp[1]);
 
-            //CenterPointR
-            pp = Tangent(pBase[7], pBase[0], pBase[1], true, 0.5);         
-            pOutlinePoints.Add(pp[0]);
-            pOutlinePoints.Add(pBase[0]);
-            pOutlinePoints[0] = pp[1];
+            ////NosePoint
+            //pp = Tangent(pOutlinePoints[14], pOutlinePoints[17], pOutlinePoints[20]);
+            //pOutlinePoints[16] = (pp[0]); pOutlinePoints[18] = (pp[1]);
 
+            ////ColarPointR
+            //pp = Tangent(pOutlinePoints[17], pOutlinePoints[20], pOutlinePoints[23]);
+            //pOutlinePoints[19] = (pp[0]); pOutlinePoints[21] = (pp[1]);
 
+            ////CenterPointR
+            //pp = Tangent(pOutlinePoints[20], pOutlinePoints[23], pOutlinePoints[2], true, 0.5);
+            //pOutlinePoints[22] = (pp[0]); pOutlinePoints[0] = pp[1];
 
             return pOutlinePoints;
         }
@@ -229,8 +236,6 @@ namespace FishComponents
                 OnPropertyChanged("TailPoint");
                 OnPropertyChanged("TailPointL");
                 OnPropertyChanged("TailPointR");
-
-                
                 OnPropertyChanged("CenterPointL");
                 OnPropertyChanged("ColarPoint");
                 OnPropertyChanged("ColarPointL");
@@ -246,9 +251,7 @@ namespace FishComponents
             OnPropertyChanged("TailLTransform");
             OnPropertyChanged("TailLineTransform");
             OnPropertyChanged("ColarLineTransform");
-            OnPropertyChanged("CenterLineTransform");
-
-           
+            OnPropertyChanged("CenterLineTransform"); 
         }
 
         public static readonly DependencyProperty CenterProperty
@@ -404,18 +407,9 @@ namespace FishComponents
         {
             get
             {
-
-                double x = (double)this.GetValue(Canvas.LeftProperty);
-                double kx = this.ActualWidth / 100;
-                double y = (double)this.GetValue(Canvas.TopProperty);
-                double ky = this.ActualHeight / 100;
-
-                Point p = new Point(Width / 2, 0);
-                p = HeadLineTransform.Transform(p);
-
-                x += p.X * kx;
-                y += p.Y * ky;
-                return new Point(x, y);
+                Point retval = new Point((double)this.GetValue(Canvas.LeftProperty), (double)this.GetValue(Canvas.TopProperty));
+                Point p = new ScaleTransform(this.ActualWidth / this.Width,this.ActualHeight / this.Width).Transform( HeadLineTransform.Transform(NosePoint));               
+                return new TranslateTransform(p.X, p.Y).Transform(retval);
 
             }
         }
