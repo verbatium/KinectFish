@@ -379,7 +379,7 @@ namespace FishComponents
             set
             {
                 SetValue(BodyAngleProperty, value);
-                OnPropertyChanged("BodyAngle");
+                //OnPropertyChanged("BodyAngle");
             }
 
         }
@@ -388,11 +388,7 @@ namespace FishComponents
         public double BodyAngle2
         {
             get { return (double)GetValue(BodyAngle2Property); }
-            set
-            {
-                SetValue(BodyAngle2Property, value);
-                OnPropertyChanged("BodyAngl2e");
-            }
+            set {         SetValue(BodyAngle2Property, value); }
 
         }
 
@@ -400,11 +396,7 @@ namespace FishComponents
         public double TailAngle
         {
             get { return (double)GetValue(TailAngleProperty); }
-            set
-            {
-                SetValue(TailAngleProperty, value);
-                OnPropertyChanged("TailAngle");
-            }
+            set { SetValue(TailAngleProperty, value);         }
         }
 
         public static readonly DependencyProperty NosePositionProperty = DependencyProperty.Register("NosePosition", typeof(Point), typeof(Fish), new FrameworkPropertyMetadata(new Point(), FrameworkPropertyMetadataOptions.AffectsRender));
@@ -414,9 +406,9 @@ namespace FishComponents
             {
 
                 double x = (double)this.GetValue(Canvas.LeftProperty);
-                double kx = this.ActualWidth / 300;
+                double kx = this.ActualWidth / 100;
                 double y = (double)this.GetValue(Canvas.TopProperty);
-                double ky = this.ActualHeight / 300;
+                double ky = this.ActualHeight / 100;
 
                 Point p = new Point(Width / 2, 0);
                 p = HeadLineTransform.Transform(p);
