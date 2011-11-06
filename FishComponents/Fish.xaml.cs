@@ -54,7 +54,7 @@ namespace FishComponents
 
         PID body1PID = new PID(4.0, 0.0, 0.0);
         PID body2PID = new PID(0.6, 0.0, 10.0);
-        PID tailPID = new PID(0.2, 0.001, 0.5);
+        PID tailPID = new PID(0.6, 0.025, 10.5);
         double fishOffset = 0;
         double maxFishOffset = 150;
         public double inputAngle = 0;
@@ -83,11 +83,11 @@ namespace FishComponents
             if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
             {
                 Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth / 2 + (int)fishOffset);
-                HeadAngle = -inputAngle / 2;
+                HeadAngle = -inputAngle * 0.7;
                 BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
                 BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
-                TailAngle -= tailPID.update((TailAngle - BodyAngle2) * secondsPassed);
-                Angle = inputAngle / 1.5;
+                TailAngle -= tailPID.update((TailAngle - BodyAngle2*1.2) * secondsPassed);
+                Angle = inputAngle * 1.4;
                 //BodyAngle2 -= toRight * 2;
                 //BodyAngle2 = Math.Max(BodyAngle2, -30);
                 //BodyAngle2 = Math.Min(BodyAngle2, 30);
