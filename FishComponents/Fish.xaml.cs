@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Globalization;
+using System.Windows.Media.Animation;
 
 namespace FishComponents
 {
@@ -24,9 +25,12 @@ namespace FishComponents
   
         public event PropertyChangedEventHandler PropertyChanged;
 
+        Storyboard storyboard;
+
         public Fish()
         {
             InitializeComponent();
+            storyboard = (Storyboard)this.FindResource("CrashSlowdown");
         }
         Point[] Tangent(Point p1, Point p2, Point p3, bool tangent = true, double k=0.3)
         {
@@ -98,6 +102,12 @@ namespace FishComponents
             }
             else
                 return false;
+        }
+
+        public void StartCrashAnimation()
+        {
+            storyboard.Begin();
+            //Canvas.SetTop(p, 100);
         }
 
         public Transform TailLTransform

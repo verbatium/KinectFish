@@ -13,11 +13,28 @@
         <converter:DoubleMultiplyConverter x:Key="DoubleMultiplyConverter1" />
         <Visibility x:Key="PointVisibility">Visible</Visibility>
         <SolidColorBrush x:Key="FishColor" Color="#00000000"></SolidColorBrush>
+        <Storyboard x:Key="CrashSlowdown">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.Y)" Storyboard.TargetName="p">
+                <EasingDoubleKeyFrame Value="30" KeyTime="00:00:02">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame Value="0" KeyTime="00:00:04">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseInOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
     <Canvas Background="Aqua" Name="p">
         <Canvas.RenderTransform>
+            <TransformGroup>
             <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
                                      Angle="{Binding Path=Angle, ElementName=UCFish}"/>
+            <TranslateTransform/>
+            </TransformGroup>
         </Canvas.RenderTransform>
         <Ellipse Name="NoseP" 
                  Width="{Binding Source={StaticResource EllipseSize}, Path=Width}" 

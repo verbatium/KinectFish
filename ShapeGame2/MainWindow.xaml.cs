@@ -650,6 +650,7 @@ namespace ShapeGame2
             if (redDistance < crashRadius || blueDistance < crashRadius)
             {
                 vortices.speed = 0.3;
+                fish1.StartCrashAnimation();
             }
             
             // calculate fan speed commands (0...255)
