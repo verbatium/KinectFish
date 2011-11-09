@@ -480,7 +480,7 @@ namespace ShapeGame2
             //maxRed = Math.Max(redDistance, minRed); // error: never gets bigger than 0
 
             // if crashes into a vortex, slow down
-            const double crashRadius = 50;
+            const double crashRadius = 75;
             if (redDistance < crashRadius || blueDistance < crashRadius)
             {
                 vortices.speed = 0.3;
@@ -513,16 +513,16 @@ namespace ShapeGame2
                 motors[i] = (byte)leftMotors[i];
                 motors[i + leftMotors.Length] = (byte)rightMotors[i];
             }
-            progressBar1.Value = leftMotors[0];
-            progressBar2.Value = leftMotors[1];
-            progressBar3.Value = leftMotors[2];
-            progressBar4.Value = leftMotors[3];
-            progressBar5.Value = leftMotors[4];
-            progressBar6.Value = rightMotors[0];
-            progressBar7.Value = rightMotors[1];
-            progressBar8.Value = rightMotors[2];
-            progressBar9.Value = rightMotors[3];
-            progressBar10.Value = rightMotors[4];
+            progressBar1.Value = motors[0];
+            progressBar2.Value = motors[1];
+            progressBar3.Value = motors[2];
+            progressBar4.Value = motors[3];
+            progressBar5.Value = motors[4];
+            progressBar6.Value = motors[5];
+            progressBar7.Value = motors[6];
+            progressBar8.Value = motors[7];
+            progressBar9.Value = motors[8];
+            progressBar10.Value = motors[9];
 
             SerialConnector.SetFanSpeeds(motors);
         }

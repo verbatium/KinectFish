@@ -70,7 +70,8 @@ namespace ShapeGame2
             {
                 for (int i = 0; i < motorSpeeds.Length; i++)
                 {
-                    if (prevMotorSpeeds[i] != motorSpeeds[i])
+                    // This optimisation does not work -- sometimes, data is lost, so resending is a good thing.
+                    //if (prevMotorSpeeds[i] != motorSpeeds[i])
                     {
                         prevMotorSpeeds[i] = motorSpeeds[i];
                         feedbackPort.WriteLine(motorAddress[i].ToString());
