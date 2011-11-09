@@ -94,6 +94,10 @@ namespace ShapeGame2
         public MainWindow()
         {
             InitializeComponent();
+
+            if (Runtime.Kinects.Count > 0)
+                nui = Runtime.Kinects[0]; // new style of opening Kinects, instead of "nui = new Runtime();"
+
             // Restore window state to that last used
             Rect bounds = Properties.Settings.Default.PrevWinPosition;
             if (bounds.Right != bounds.Left)
@@ -123,172 +127,6 @@ namespace ShapeGame2
             serialWindow = (ShapeGame2.SerialConnector)App.Current.Windows[0];
         }
 
-        //bool nextVortexIsBlue = false;
-        //public void CreateVortex()
-        //{ 
-        //    // Create a new red vortex object
-        //    SingleVortex RV1 = new SingleVortex();
-        //    Canvas.SetTop(RV1, -500);
-        //    RV1.Randomize(); // make it look different
-        //    if (nextVortexIsBlue)
-        //    {
-        //        RV1.paintBlue();
-        //        Canvas.SetLeft(RV1, 250);
-        //        nextVortexIsBlue = false;
-        //    }
-        //    else
-        //    {
-        //        Canvas.SetLeft(RV1, 0);
-        //        nextVortexIsBlue = true;
-        //    }
-
-            
-        //    redVortices.Add(RV1);
-        //    Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
-        //    sb1.Begin(); // make it move
-
-        //    // Delete one old vortex from the list
-        //    if (redVortices.Count > 0)
-        //        if (redVortices[0].Finished)
-        //            redVortices.RemoveAt(0);
-        //}
-
-        //public void NewRedVortex(object sender, ElapsedEventArgs e)
-        ////public void NewRedVortex()
-        //{
-        //    Dispatcher.Invoke(DispatcherPriority.Normal, new Action(CreateVortex));
-        //}
-        public class Player
-        {
-            public bool isAlive;
-            public DateTime lastUpdated;
-            private Brush brJoints;
-            private Brush brBones;
-            private Rect playerBounds;
-            private Point playerCenter;
-            private double playerScale;
-            private int id;
-            private static int colorId = 0;
-
-            private const double BONE_SIZE = 0.01;
-            private const double HEAD_SIZE = 0.075;
-            private const double HAND_SIZE = 0.03;
-
-            // Keeping track of all bone segments of interest as well as head, hands and feet
-            public Dictionary<Bone, BoneData> segments = new Dictionary<Bone, BoneData>();
-
-            //public Player(int SkeletonSlot)
-            //{
-            //    id = SkeletonSlot;
-
-            //    // Generate one of 7 colors for player
-            //    int[] iMixr = { 1, 1, 1, 0, 1, 0, 0 };
-            //    int[] iMixg = { 1, 1, 0, 1, 0, 1, 0 };
-            //    int[] iMixb = { 1, 0, 1, 1, 0, 0, 1 };
-            //    byte[] iJointCols = { 245, 200 };
-            //    byte[] iBoneCols = { 235, 160 };
-
-            //    int i = colorId;
-            //    colorId = (colorId + 1) % iMixr.Count();
-
-            //    brJoints = new SolidColorBrush(Color.FromRgb(iJointCols[iMixr[i]], iJointCols[iMixg[i]], iJointCols[iMixb[i]]));
-            //    brBones = new SolidColorBrush(Color.FromRgb(iBoneCols[iMixr[i]], iBoneCols[iMixg[i]], iBoneCols[iMixb[i]]));
-            //    lastUpdated = DateTime.Now;
-            //}
-
-            public int getId()
-            {
-                return id;
-            }
-
-            public void setBounds(Rect r)
-            {
-                playerBounds = r;
-                playerCenter.X = (playerBounds.Left + playerBounds.Right) / 2;
-                playerCenter.Y = (playerBounds.Top + playerBounds.Bottom) / 2;
-                playerScale = Math.Min(playerBounds.Width, playerBounds.Height / 2);
-            }
-
-            void UpdateSegmentPosition(JointID j1, JointID j2, Segment seg)
-            {
-                var bone = new Bone(j1, j2);
-                if (segments.ContainsKey(bone))
-                {
-                    BoneData data = segments[bone];
-                    data.UpdateSegment(seg);
-                    segments[bone] = data;
-                }
-                else
-                    segments.Add(bone, new BoneData(seg));
-            }
-
-            public void UpdateBonePosition(Microsoft.Research.Kinect.Nui.JointsCollection joints, JointID j1, JointID j2)
-            {
-                var seg = new Segment(joints[j1].Position.X * playerScale + playerCenter.X,
-                                      playerCenter.Y - joints[j1].Position.Y * playerScale,
-                                      joints[j2].Position.X * playerScale + playerCenter.X,
-                                      playerCenter.Y - joints[j2].Position.Y * playerScale);
-                seg.radius = Math.Max(3.0, playerBounds.Height * BONE_SIZE) / 2;
-                UpdateSegmentPosition(j1, j2, seg);
-            }
-
-            public void UpdateJointPosition(Microsoft.Research.Kinect.Nui.JointsCollection joints, JointID j)
-            {
-                var seg = new Segment(joints[j].Position.X * playerScale + playerCenter.X,
-                                      playerCenter.Y - joints[j].Position.Y * playerScale);
-                seg.radius = playerBounds.Height * ((j == JointID.Head) ? HEAD_SIZE : HAND_SIZE) / 2;
-                UpdateSegmentPosition(j, j, seg);
-            }
-
-            public void Draw(UIElementCollection children)
-            {
-                if (!isAlive)
-                    return;
-
-                // Draw all bones first, then circles (head and hands).
-                DateTime cur = DateTime.Now;
-                foreach (var segment in segments)
-                {
-                    Segment seg = segment.Value.GetEstimatedSegment(cur);
-                    if (!seg.IsCircle())
-                    {
-                        var line = new Line();
-                        line.StrokeThickness = seg.radius * 2;
-                        line.X1 = seg.x1;
-                        line.Y1 = seg.y1;
-                        line.X2 = seg.x2;
-                        line.Y2 = seg.y2;
-                        line.Stroke = brBones;
-                        line.StrokeEndLineCap = PenLineCap.Round;
-                        line.StrokeStartLineCap = PenLineCap.Round;
-                        children.Add(line);
-                    }
-                }
-                foreach (var segment in segments)
-                {
-                    Segment seg = segment.Value.GetEstimatedSegment(cur);
-                    if (seg.IsCircle())
-                    {
-                        var circle = new Ellipse();
-                        circle.Width = seg.radius * 2;
-                        circle.Height = seg.radius * 2;
-                        circle.SetValue(Canvas.LeftProperty, seg.x1 - seg.radius);
-                        circle.SetValue(Canvas.TopProperty, seg.y1 - seg.radius);
-                        circle.Stroke = brJoints;
-                        circle.StrokeThickness = 1;
-                        circle.Fill = brBones;
-                        children.Add(circle);
-                    }
-                }
-
-                // Remove unused players after 1/2 second.
-                if (DateTime.Now.Subtract(lastUpdated).TotalMilliseconds > 500)
-                    isAlive = false;
-            }
-        }
-
-        public Dictionary<int, Player> players = new Dictionary<int, Player>();
-
         double dropRate = DefaultDropRate;
         double dropSize = DefaultDropSize;
         double dropGravity = DefaultDropGravity;
@@ -306,12 +144,11 @@ namespace ShapeGame2
         bool nuiInitialized = false;
         FallingThings fallingThings = null;
 
-        int playersAlive = 0;
         SoundPlayer popSound = new SoundPlayer();
         SoundPlayer hitSound = new SoundPlayer();
         SoundPlayer squeezeSound = new SoundPlayer();
 
-        Runtime nui = new Runtime();
+        Runtime nui;
 
 
         void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
@@ -433,9 +270,6 @@ namespace ShapeGame2
             playerBounds.Width = playfield.ActualWidth;
             playerBounds.Y = playfield.ActualHeight * 0.2;
             playerBounds.Height = playfield.ActualHeight * 0.75;
-
-            foreach (var player in players)
-                player.Value.setBounds(playerBounds);
 
             Rect rFallingBounds = playerBounds;
             rFallingBounds.Y = 0;
@@ -606,9 +440,9 @@ namespace ShapeGame2
             //approximate the fish nose position
             //subject to change, because it is positioned using margins
             Point nose = fish1.NosePosition; //new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
-            const double maxDistance = 200;
+            //const double maxDistance = 200;
             double redDistance = maxRed, blueDistance = maxBlue;
-            byte leftMotor = 100, rightMotor = 100; //actual motor commands
+            //byte leftMotor = 100, rightMotor = 100; //actual motor commands
 
             //// find closest red and blue vortices
             //foreach (SingleVortex vortex in redVortices)
