@@ -104,6 +104,11 @@ namespace ShapeGame2
             foreach (SingleVortex sv in vortex)
             {
                 Point center = sv.GetCenter();
+
+                // discard vortices that are past the nose already
+                if (center.Y > to.Y)
+                    continue;
+
                 double distance = (center - to).Length;
                 if (distance < mindistance)
                 {

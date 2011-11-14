@@ -401,6 +401,11 @@ namespace ShapeGame2
             // FourLineFish tmp = fourLineFish;
             playfield.Children.Clear();
 
+            Canvas.SetLeft(NoseButton, fish1.NosePosition.X);
+            Canvas.SetTop(NoseButton, fish1.NosePosition.Y);
+
+            playfield.Children.Add(NoseButton);
+
             //double offsetChange = vortices.speed * actualFrameTime * fourLineFish.HeadAngle / 300.0;
             //fourLineFish.MoveHorizontally(offsetChange, screenRect.Width);
 
@@ -497,22 +502,55 @@ namespace ShapeGame2
             //debugLabelLeft.Content = leftMotor;
             //debugLabelRight.Content = rightMotor;
 
-            double minvalue = 30;
-            double[] leftMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
-            double[] rightMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
-            double[] leftDistances = { 400, 280, 200, 130, 80 };
-            double[] rightDistances = { 80, 130, 200, 280, 400 };
+            Point closestRed = vortices.FindClosest(nose, false);
+            Point closestBlue = vortices.FindClosest(nose, true);
+
+            byte minvalue = 30;
+            //double[] leftMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
+            //double[] rightMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
+            //double[] leftDistances = { 400, 280, 200, 130, 80 };
+            //double[] rightDistances = { 80, 130, 200, 280, 400 };
             byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-            for (int i = 0; i < leftMotors.Length; i++)
+            //for (int i = 0; i < leftMotors.Length; i++)
+            //{
+            //    if (redDistance < leftDistances[i])
+            //        leftMotors[i] = (1 - redDistance / leftDistances[i]) * (255 - leftMotors[i]) + minvalue;
+            //    if (blueDistance < rightDistances[i])
+            //        rightMotors[i] = (1 - blueDistance / rightDistances[i]) * (255 - rightMotors[i]) + minvalue;
+            //    motors[i] = (byte)leftMotors[i];
+            //    motors[i + leftMotors.Length] = (byte)rightMotors[i];
+            //}
+
+            double movementFreedom = 300;
+            int steps = motors.Length;
+            double stepSize = movementFreedom / steps;
+            double maxDistance = 400;
+            double turbo = 1.3;
+            for (int i = 0; i < motors.Length; i++)
             {
-                if (redDistance < leftDistances[i])
-                    leftMotors[i] = (1 - redDistance / leftDistances[i]) * (255 - leftMotors[i]) + minvalue;
-                if (blueDistance < rightDistances[i])
-                    rightMotors[i] = (1 - blueDistance / rightDistances[i]) * (255 - rightMotors[i]) + minvalue;
-                motors[i] = (byte)leftMotors[i];
-                motors[i + leftMotors.Length] = (byte)rightMotors[i];
+                double xDistance = (nose - closestBlue).X + (i - steps/2)*stepSize;
+                double distance = Math.Sqrt(Math.Pow(3*xDistance, 2.0) + Math.Pow((nose - closestBlue).Y, 2.0));
+                if (distance < maxDistance)
+                    motors[i] += (byte)((1 - distance / maxDistance) * 255);
+
+                //if (i > 1 && motors[i] < motors[i - 1] && motors[i-1] > motors[i-2])
+                //{
+                //    for (int j = 0; j < i; j++)
+                //        motors[j] = motors[i - 1];
+                //}
+
+                distance = Math.Sqrt(Math.Pow(3 * ((nose - closestRed).X + (i - steps / 2) * stepSize), 2.0) + Math.Pow((nose - closestRed).Y, 2.0));
+                if (distance < maxDistance)
+                    motors[i] += (byte)((1 - distance / maxDistance) * 255);
             }
+            for (int i = 0; i < motors.Length; i++)
+            {
+                motors[i] = (byte)Math.Min(turbo * (double)motors[i], 255);
+                motors[i] = Math.Max(motors[i], minvalue);
+
+            }
+
             progressBar1.Value = motors[0];
             progressBar2.Value = motors[1];
             progressBar3.Value = motors[2];
