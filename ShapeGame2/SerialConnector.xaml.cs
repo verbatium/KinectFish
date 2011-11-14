@@ -57,7 +57,8 @@ namespace ShapeGame2
             return true;
         }
 
-        static byte[] motorAddress = { 161, 162, 163, 164, 165, 166, 167, 168, 169, 170 }; // left to right
+        //static byte[] motorAddress = { 161, 162, 163, 164, 165, 166, 167, 168, 169, 170 }; // left to right
+        static byte[] motorAddress = { 168, 167, 166, 165, 160, 160, 164, 163, 162, 161 }; // for 8 ventilators
         static byte[] prevMotorSpeeds = new byte [] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         static public bool SetFanSpeeds(byte[] motorSpeeds)
         {

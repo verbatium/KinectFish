@@ -17,8 +17,8 @@
 
             <!--<local:FourLineFish x:Name="UCFish" Width="300" Height="300" Canvas.Left="100" Canvas.Top="300"  />-->
             <my:Fish Name="fish1" 
-                     Width="20" 
-                     Height="200" 
+                     Width="60" 
+                     Height="600" 
                      Center="0.3" 
                      Colar="0.3" 
                      ColarWidth="0.8"

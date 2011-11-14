@@ -57,16 +57,18 @@ namespace FishComponents
         }
 
         PID body1PID = new PID(4.0, 0.0, 0.0);
-        PID body2PID = new PID(0.6, 0.0, 10.0);
-        PID tailPID = new PID(0.6, 0.025, 10.5);
+        PID body2PID = new PID(0.6, 0.0, 5.0);
+        PID tailPID = new PID(0.6, 0.005, 4.5);
         double fishOffset = 0;
-        double maxFishOffset = 150;
+        double maxFishOffset = 100;
         public double inputAngle = 0;
 
         public void TurnFish(double angle)
         {
             //Angle = angle;
             //HeadAngle = angle / 2;
+            //BodyAngle2 -= (angle - Angle)/2;
+            //body2PID.resetIntegral();
             inputAngle = angle;
         }
 
@@ -91,7 +93,9 @@ namespace FishComponents
                 BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
                 BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
                 TailAngle -= tailPID.update((TailAngle - BodyAngle2*1.2) * secondsPassed);
+                double oldAngle = Angle;
                 Angle = inputAngle * 1.4;
+                BodyAngle2 += (Angle - oldAngle);
                 //BodyAngle2 -= toRight * 2;
                 //BodyAngle2 = Math.Max(BodyAngle2, -30);
                 //BodyAngle2 = Math.Min(BodyAngle2, 30);
