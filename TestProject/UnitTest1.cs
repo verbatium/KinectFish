@@ -51,7 +51,6 @@ namespace TestProject
                 double a = v.Angle();
                 d.Add(i, a);
             }
-            int j = 0;
             
         }
         [TestMethod]

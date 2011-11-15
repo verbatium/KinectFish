@@ -265,7 +265,8 @@ namespace FishComponents
             OnPropertyChanged("TailLTransform");
             OnPropertyChanged("TailLineTransform");
             OnPropertyChanged("ColarLineTransform");
-            OnPropertyChanged("CenterLineTransform"); 
+            OnPropertyChanged("CenterLineTransform");
+            createOutline();
         }
 
         public static readonly DependencyProperty CenterProperty
@@ -511,7 +512,8 @@ namespace FishComponents
         {
             get 
             {
-                return createOutline();
+
+                return pOutlinePoints;
             }
        }
 

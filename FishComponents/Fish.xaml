@@ -211,7 +211,7 @@
         <Path Stroke="Purple" Fill="{StaticResource FishColor}">
             <Path.Data>
                 <PathGeometry>
-                    <PathFigure StartPoint="{Binding Path=CenterPointR, ElementName=UCFish}">
+                    <PathFigure StartPoint="{Binding Path=OutlinePoints[23], ElementName=UCFish}">
                         <PolyBezierSegment Points="{Binding Path=OutlinePoints, ElementName=UCFish}">
                         </PolyBezierSegment>
                         </PathFigure>
