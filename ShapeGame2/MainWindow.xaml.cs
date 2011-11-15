@@ -480,7 +480,7 @@ namespace ShapeGame2
             //maxRed = Math.Max(redDistance, minRed); // error: never gets bigger than 0
 
             // if crashes into a vortex, slow down
-            const double crashRadius = 75;
+            const double crashRadius = 120;
             if (redDistance < crashRadius || blueDistance < crashRadius)
             {
                 vortices.speed = 0.3;
@@ -520,7 +520,7 @@ namespace ShapeGame2
             double movementFreedom = 300;
             int steps = motors.Length;
             double stepSize = movementFreedom / steps;
-            double maxDistance = 400;
+            double maxDistance = 600;
             double turbo = 1.5;
             for (int i = 0; i < motors.Length; i++)
             {
