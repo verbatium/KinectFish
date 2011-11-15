@@ -94,7 +94,7 @@ namespace ShapeGame2
         public MainWindow()
         {
             InitializeComponent();
-
+            
             if (Runtime.Kinects.Count > 0)
                 nui = Runtime.Kinects[0]; // new style of opening Kinects, instead of "nui = new Runtime();"
 
