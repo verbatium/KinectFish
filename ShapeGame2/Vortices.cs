@@ -50,9 +50,10 @@ namespace ShapeGame2
             // Create a new red vortex object
             SingleVortex RV1 = new SingleVortex();
             Canvas.SetTop(RV1, -500);
-            //RV1.Randomize(); // make it look different
-            double blueleft = screenWidth / 2 - 100;
-            double redleft = screenWidth / 2 - 300 + 100;
+            double distFromScreenCenter = 110;
+            RV1.Randomize(); // make it look different
+            double blueleft = screenWidth / 2 - 300 / 2 + distFromScreenCenter;
+            double redleft = screenWidth / 2 - 300 / 2 - distFromScreenCenter;
             if (nextVortexIsBlue)
             {
                 RV1.paintBlue();

@@ -401,11 +401,6 @@ namespace ShapeGame2
             // FourLineFish tmp = fourLineFish;
             playfield.Children.Clear();
 
-            Canvas.SetLeft(NoseButton, fish1.NosePosition.X);
-            Canvas.SetTop(NoseButton, fish1.NosePosition.Y);
-
-            playfield.Children.Add(NoseButton);
-
             //double offsetChange = vortices.speed * actualFrameTime * fourLineFish.HeadAngle / 300.0;
             //fourLineFish.MoveHorizontally(offsetChange, screenRect.Width);
 
@@ -526,7 +521,7 @@ namespace ShapeGame2
             int steps = motors.Length;
             double stepSize = movementFreedom / steps;
             double maxDistance = 400;
-            double turbo = 1.3;
+            double turbo = 1.5;
             for (int i = 0; i < motors.Length; i++)
             {
                 double xDistance = (nose - closestBlue).X + (i - steps/2)*stepSize;
