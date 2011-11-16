@@ -28,7 +28,7 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Canvas Background="Aqua" Name="p">
+    <Canvas Background="Transparent" Name="p">
         <Canvas.RenderTransform>
             <TransformGroup>
             <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
