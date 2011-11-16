@@ -26,7 +26,7 @@
                      TailWidth="0.4"
                      
                      Canvas.Left="200" 
-                     Canvas.Top="300"/>
+                     Canvas.Top="150"/>
         </Canvas>
         <Slider Grid.Row="1" Height="27" HorizontalAlignment="Left" Margin="190,0,0,0" Name="angleSlider" VerticalAlignment="Top" Width="222" Minimum="-30" Maximum="30" ValueChanged="angleSlider_ValueChanged" />
             <!--<local:Vortices Height="1200" Width="800" />-->
