@@ -125,6 +125,7 @@ namespace ShapeGame2
             
 
             serialWindow = (ShapeGame2.SerialConnector)App.Current.Windows[0];
+            serialWindow.Changed += new EventHandler(PortChanged);
         }
 
         double dropRate = DefaultDropRate;
@@ -170,6 +171,11 @@ namespace ShapeGame2
                 }
                 iSkeleton++;
             } // for each skeleton
+        }
+        private void PortChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("This is called when the event fires.");
+            StartGame();
         }
 
         private double getFishAngle(Microsoft.Research.Kinect.Nui.JointsCollection joints)
@@ -587,6 +593,10 @@ namespace ShapeGame2
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            StartGame();
+        }
+        public void StartGame()
+        {            
             StartButton.Visibility = System.Windows.Visibility.Hidden;
             countdownTimer.Enabled = true;
             GameStarted = true;
@@ -596,6 +606,7 @@ namespace ShapeGame2
             vortices.speed = 0.3;
             vortices.StartFlow();
         }
+
     }
 }
 

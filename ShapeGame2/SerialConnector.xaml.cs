@@ -137,11 +137,22 @@ namespace ShapeGame2
                 feedbackPort.NewLine = ((Char)(0x0D)).ToString();
                 feedbackPort.Open();
                 FeedbackConnectButton.IsEnabled = false;
+
+                feedbackPort.RtsEnable = true;
+                feedbackPort.PinChanged += new SerialPinChangedEventHandler(feedbackPort_PinChanged);
+
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        void feedbackPort_PinChanged(object sender, SerialPinChangedEventArgs e)
+        {
+            if (e.EventType == SerialPinChange.CtsChanged) 
+                ResetButton(((SerialPort)sender).CtsHolding);
         }
 
         // TODO Add a timer that checks if any data is received. If boot position data is received, 
@@ -212,5 +223,33 @@ namespace ShapeGame2
         {
             RobotConnectButton.Content = "Robot ready!";
         }
+
+        private void ResetButton(bool pressed)
+        {
+            if (pressed)
+                Dispatcher.Invoke(DispatcherPriority.Normal, new Action(ResetPressed));
+            else
+                Dispatcher.Invoke(DispatcherPriority.Normal, new Action(ResetUnPressed));
+        }
+        private void ResetPressed()
+        {
+            FeedbackConnectButton.Content = "Reset Pressed";
+            //OnChanged(EventArgs.Empty);
+        }
+        private void ResetUnPressed()
+        {
+            FeedbackConnectButton.Content = "Reset Un Pressed";
+            OnChanged(EventArgs.Empty);
+        }
+
+        public event EventHandler Changed;
+
+        // Invoke the Changed event; called whenever list changes:
+        protected virtual void OnChanged(EventArgs e)
+        {
+            if (Changed != null)
+                Changed(this, e);
+        }
+
     }
 }
