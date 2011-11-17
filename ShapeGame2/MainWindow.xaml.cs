@@ -521,11 +521,12 @@ namespace ShapeGame2
             int steps = motors.Length;
             double stepSize = movementFreedom / steps;
             double maxDistance = 600;
-            double turbo = 1.5;
+            double turbo = 1.6;
+            double sensitivityX = 3.3;
             for (int i = 0; i < motors.Length; i++)
             {
                 double xDistance = (nose - closestBlue).X + (i - steps/2)*stepSize;
-                double distance = Math.Sqrt(Math.Pow(3*xDistance, 2.0) + Math.Pow((nose - closestBlue).Y, 2.0));
+                double distance = Math.Sqrt(Math.Pow(sensitivityX * xDistance, 2.0) + Math.Pow((nose - closestBlue).Y, 2.0));
                 if (distance < maxDistance)
                     motors[i] += (byte)((1 - distance / maxDistance) * 255);
 
@@ -535,7 +536,8 @@ namespace ShapeGame2
                 //        motors[j] = motors[i - 1];
                 //}
 
-                distance = Math.Sqrt(Math.Pow(3 * ((nose - closestRed).X + (i - steps / 2) * stepSize), 2.0) + Math.Pow((nose - closestRed).Y, 2.0));
+                xDistance = (nose - closestRed).X + (i - steps / 2) * stepSize;
+                distance = Math.Sqrt(Math.Pow(sensitivityX * xDistance, 2.0) + Math.Pow((nose - closestRed).Y, 2.0));
                 if (distance < maxDistance)
                     motors[i] += (byte)((1 - distance / maxDistance) * 255);
             }

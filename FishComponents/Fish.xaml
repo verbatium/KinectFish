@@ -11,8 +11,8 @@
         <ScaleTransform x:Key="CenterTransform" ScaleY="{Binding ElementName=UCFish, Path=Center}"/>
         <FrameworkElement x:Key="EllipseSize" Width="6" Height="6" />
         <converter:DoubleMultiplyConverter x:Key="DoubleMultiplyConverter1" />
-        <Visibility x:Key="PointVisibility">Visible</Visibility>
-        <SolidColorBrush x:Key="FishColor" Color="#00000000"></SolidColorBrush>
+        <Visibility x:Key="PointVisibility">Hidden</Visibility>
+        <SolidColorBrush x:Key="FishColor" Color="#000000"></SolidColorBrush>
         <Storyboard x:Key="CrashSlowdown">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.Y)" Storyboard.TargetName="p">
                 <EasingDoubleKeyFrame Value="30" KeyTime="00:00:02">
