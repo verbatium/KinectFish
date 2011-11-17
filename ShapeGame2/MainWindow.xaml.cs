@@ -58,9 +58,16 @@ namespace ShapeGame2
         const double DefaultDropGravity = 1.0;
 
         //FourLineFish fourLineFish;
-        
 
-        bool GameStarted = false;
+        enum GamePhases
+        {
+            Standby,
+            Instructions,
+            Started,
+            GameOver
+        }
+
+        GamePhases GamePhase = GamePhases.Standby;
 
         double swimDistance = 0; // total distance the fish has already moved
         public SerialConnector serialWindow;
@@ -84,7 +91,7 @@ namespace ShapeGame2
             }
             else
             {
-                GameStarted = false;
+                GamePhase = GamePhases.GameOver;
                 countdownTimer.Enabled = false;
                 vortices.StopFlow();
                 StartButton.Visibility = System.Windows.Visibility.Visible;
@@ -174,8 +181,22 @@ namespace ShapeGame2
         }
         private void PortChanged(object sender, EventArgs e)
         {
-            Console.WriteLine("This is called when the event fires.");
-            StartGame();
+            switch (GamePhase)
+            {
+                case GamePhases.Standby:
+                    GamePhase = GamePhases.Instructions; // this is yet to be created
+                    break;
+                case GamePhases.Instructions:
+                    StartGame();
+                    break;
+                case GamePhases.Started:
+                    ResetGame();
+                    break;
+                case GamePhases.GameOver: // TODO display high scores or some other indication ("Very good!"/"Try harder!")
+                    GamePhase = GamePhases.Standby;
+                    break;
+            }
+            
         }
 
         private double getFishAngle(Microsoft.Research.Kinect.Nui.JointsCollection joints)
@@ -424,7 +445,7 @@ namespace ShapeGame2
             // Calculate vortex strength and apply to feedback system
             if ((frameCount % 10) == 0)
                 TactileFeedback();
-            if ((frameCount % 100) == 0 && GameStarted)
+            if ((frameCount % 100) == 0 && GamePhase == GamePhases.Started)
                 vortices.speed += 0.1;
 
             //CheckPlayers();
@@ -432,7 +453,7 @@ namespace ShapeGame2
 
         void updateDistance()
         {
-            if (!GameStarted)
+            if (GamePhase != GamePhases.Started)
                 return;
 
             swimDistance += actualFrameTime / 1000.0 * vortices.speed;
@@ -602,12 +623,24 @@ namespace ShapeGame2
         {            
             StartButton.Visibility = System.Windows.Visibility.Hidden;
             countdownTimer.Enabled = true;
-            GameStarted = true;
+            GamePhase = GamePhases.Started;
             countdownValue = 60;
             swimDistance = 0;
             distanceLabel.Content = swimDistance;
             vortices.speed = 0.3;
             vortices.StartFlow();
+        }
+        public void ResetGame()
+        {
+            StartButton.Visibility = System.Windows.Visibility.Visible;
+            countdownTimer.Enabled = false;
+            GamePhase = GamePhases.Standby;
+            countdownValue = 60;
+            swimDistance = 0;
+            distanceLabel.Content = swimDistance;
+            vortices.speed = 0.3;
+            vortices.StopFlow();
+
         }
 
     }
