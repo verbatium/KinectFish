@@ -523,12 +523,15 @@ namespace ShapeGame2
             //    motors[i + leftMotors.Length] = (byte)rightMotors[i];
             //}
 
+            double moveAway = 120;
+            closestBlue.X += moveAway;
+            closestRed.X -= moveAway;
             double movementFreedom = 300;
             int steps = motors.Length;
             double stepSize = movementFreedom / steps;
             double maxDistance = 600;
-            double turbo = 1.6;
-            double sensitivityX = 3.3;
+            double turbo = 2.6;
+            double sensitivityX = 2.1;
             for (int i = 0; i < motors.Length; i++)
             {
                 double xDistance = (nose - closestBlue).X + (i - steps/2)*stepSize;
