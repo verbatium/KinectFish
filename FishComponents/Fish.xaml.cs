@@ -56,7 +56,8 @@ namespace FishComponents
             return new Point[] { new Point(p2.X + v4.X, p2.Y + v4.Y), new Point(p2.X+v5.X,p2.Y+ v5.Y) };
         }
 
-        PID body1PID = new PID(4.0, 0.0, 0.0);
+        PID rotatePID = new PID(6.0, 0.0, 0.5);
+        PID body1PID = new PID(0.6, 0.0, 4.5);
         PID body2PID = new PID(0.6, 0.0, 5.0);
         PID tailPID = new PID(0.6, 0.005, 4.5);
         double fishOffset = 0;
@@ -94,7 +95,7 @@ namespace FishComponents
                 BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
                 TailAngle -= tailPID.update((TailAngle - BodyAngle2*1.2) * secondsPassed);
                 double oldAngle = Angle;
-                Angle = inputAngle * 1.4;
+                Angle -= rotatePID.update((Angle - inputAngle * 1.4) * secondsPassed);
                 BodyAngle2 += (Angle - oldAngle);
                 //BodyAngle2 -= toRight * 2;
                 //BodyAngle2 = Math.Max(BodyAngle2, -30);
