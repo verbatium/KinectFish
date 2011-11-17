@@ -74,10 +74,10 @@ namespace FishComponents
 
         public void UpdateTail(double secondsPassed)
         {
-            HeadAngle = inputAngle / 2;
-            Angle *= 0.9;
-            BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
-            BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
+            HeadAngle *= 0.995;
+            Angle *= 0.99;
+            BodyAngle -= body1PID.update((BodyAngle) * secondsPassed);
+            BodyAngle2 -= body2PID.update((BodyAngle2) * secondsPassed);
             TailAngle -= tailPID.update(TailAngle * secondsPassed);
         }
 
@@ -89,7 +89,7 @@ namespace FishComponents
             if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
             {
                 Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth / 2 + (int)fishOffset);
-                HeadAngle = -inputAngle * 0.7;
+                HeadAngle = -inputAngle * 0.3;
                 BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
                 BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
                 TailAngle -= tailPID.update((TailAngle - BodyAngle2*1.2) * secondsPassed);
