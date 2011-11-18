@@ -64,7 +64,6 @@
     <Compile Include="Converters\DoubleMultiplyConverter.cs" />
     <Compile Include="Converters\TransformConverter.cs" />
     <Compile Include="LineExtensions.cs" />
-    <Compile Include="PID.cs" />
     <Compile Include="SingleVortex.xaml.cs">
       <DependentUpon>SingleVortex.xaml</DependentUpon>
     </Compile>
@@ -72,9 +71,6 @@
       <DependentUpon>SerialConnector.xaml</DependentUpon>
     </Compile>
     <Compile Include="SimpleJoystick.cs" />
-    <Compile Include="FourLineFish.xaml.cs">
-      <DependentUpon>FourLineFish.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vortices.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -95,10 +91,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SerialConnector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="FourLineFish.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
