@@ -527,7 +527,7 @@ namespace ShapeGame2
             Point closestRed = vortices.FindClosest(nose, false);
             Point closestBlue = vortices.FindClosest(nose, true);
 
-            byte minvalue = 30;
+            byte minvalue = 0;
             //double[] leftMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
             //double[] rightMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
             //double[] leftDistances = { 400, 280, 200, 130, 80 };
