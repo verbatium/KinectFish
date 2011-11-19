@@ -392,8 +392,6 @@ namespace ShapeGame2
             if (joystick != null)
             {
                 double angle = joystick.State.X * 30 / 100;
-                debugLabelCenter.Content = 1000/actualFrameTime;
-                //fourLineFish.TurnFish(angle);
                 fish1.TurnFish(angle);
                 serialWindow.turnFish(angle);
             }
