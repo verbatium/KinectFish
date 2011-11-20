@@ -174,7 +174,7 @@ namespace ShapeGame2
                     //fourLineFish.TurnFish(angle);
                     fish1.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
-                    serialWindow.turnFish(angle);
+                    serialWindow.RobotAngle = angle;
                 }
                 iSkeleton++;
             } // for each skeleton
@@ -393,7 +393,7 @@ namespace ShapeGame2
             {
                 double angle = joystick.State.X * 30 / 100;
                 fish1.TurnFish(angle);
-                serialWindow.turnFish(angle);
+                serialWindow.RobotAngle = angle;
             }
             //else
             //{
@@ -610,7 +610,7 @@ namespace ShapeGame2
             //fourLineFish.TurnFish(e.NewValue);
             fish1.TurnFish(e.NewValue);
             //debugLabelTopCenter.Content = "Nose: " + fourLineFish.NosePosition.ToString();
-            serialWindow.turnFish(e.NewValue);
+            serialWindow.RobotAngle = e.NewValue;
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
