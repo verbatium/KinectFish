@@ -36,7 +36,7 @@
             <TranslateTransform/>
             </TransformGroup>
         </Canvas.RenderTransform>
-        <Path Stroke="Purple" Fill="{StaticResource FishColor}">
+        <Path Stroke="Purple" x:Name="FishOutline" Fill="{StaticResource FishColor}">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="{Binding Path=OutlinePoints[23], ElementName=UCFish}">

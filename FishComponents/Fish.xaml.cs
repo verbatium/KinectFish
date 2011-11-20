@@ -32,6 +32,22 @@ namespace FishComponents
             InitializeComponent();
             storyboard = (Storyboard)this.FindResource("CrashSlowdown");
         }
+        public Fish(Fish clonedFrom)
+        {
+            InitializeComponent();
+            storyboard = (Storyboard)this.FindResource("CrashSlowdown");
+
+            Width=clonedFrom.Width;
+            Height=clonedFrom.Height;
+            Center=clonedFrom.Center;
+            Colar=clonedFrom.Colar;
+            ColarWidth=clonedFrom.ColarWidth;
+            Tail=clonedFrom.Tail;
+            TailWidth = clonedFrom.TailWidth;
+
+            SolidColorBrush shadow = new SolidColorBrush(Color.FromArgb(100, 0, 0, 0));
+            ((Path)this.FindName("FishOutline")).Fill = shadow;
+        }
         Point[] Tangent(Point p1, Point p2, Point p3, bool tangent = true, double k=0.3)
         {
             //TranslateTransform toVector = new TranslateTransform(-p2.X, -p2.Y);
@@ -87,9 +103,9 @@ namespace FishComponents
             fishOffset += toRight;
             fishOffset = Math.Max(fishOffset, -maxFishOffset);
             fishOffset = Math.Min(fishOffset, maxFishOffset);
+            Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth / 2 + (int)fishOffset);
             if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
             {
-                Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth / 2 + (int)fishOffset);
                 HeadAngle = -inputAngle * 0.3;
                 BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
                 BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);

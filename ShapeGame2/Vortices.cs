@@ -29,6 +29,8 @@ namespace ShapeGame2
 
         public void StartFlow()
         {
+            reds.Clear();
+            blues.Clear();
             vortexGeneratorTimer.Interval = 100;
             vortexGeneratorTimer.Enabled = true;
             //CreateVortex();

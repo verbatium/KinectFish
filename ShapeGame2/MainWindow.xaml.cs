@@ -62,12 +62,16 @@ namespace ShapeGame2
         enum GamePhases
         {
             Standby,
-            Instructions,
+            InstructionsLeftPose,
+            InstructionsRightPose,
+            Countdown,
             Started,
             GameOver
         }
 
         GamePhases GamePhase = GamePhases.Standby;
+
+        FishComponents.Fish shadowFish;
 
         double swimDistance = 0; // total distance the fish has already moved
         public SerialConnector serialWindow;
@@ -87,14 +91,23 @@ namespace ShapeGame2
             if (countdownValue > 0)
             {
                 countdownValue--;
-                countdownLabel.Content = countdownValue;
+                if(GamePhase == GamePhases.Started)
+                    countdownLabel.Content = countdownValue;
+                else if (GamePhase == GamePhases.Countdown)
+                    InstructionLabel.Content = "Avoid vortices in " + countdownValue.ToString() + "!";
             }
             else
             {
-                GamePhase = GamePhases.GameOver;
                 countdownTimer.Enabled = false;
-                vortices.StopFlow();
-                StartButton.Visibility = System.Windows.Visibility.Visible;
+
+                if (GamePhase == GamePhases.Started)
+                {
+                    GamePhase = GamePhases.GameOver;
+                    vortices.StopFlow();
+                    StartButton.Visibility = System.Windows.Visibility.Visible;
+                }
+                else if (GamePhase == GamePhases.Countdown)
+                    StartGame();
             }
         }
 
@@ -133,6 +146,9 @@ namespace ShapeGame2
 
             serialWindow = (ShapeGame2.SerialConnector)App.Current.Windows[0];
             serialWindow.Changed += new EventHandler(PortChanged);
+
+            shadowFish = new FishComponents.Fish(fish1);
+            shadowFish.Visibility = System.Windows.Visibility.Hidden;
         }
 
         double dropRate = DefaultDropRate;
@@ -184,9 +200,24 @@ namespace ShapeGame2
             switch (GamePhase)
             {
                 case GamePhases.Standby:
-                    GamePhase = GamePhases.Instructions; // this is yet to be created
-                    break;
-                case GamePhases.Instructions:
+                    {
+                        GamePhase = GamePhases.InstructionsLeftPose;
+
+                        Canvas.SetTop(shadowFish, Canvas.GetTop(fish1));
+                        shadowFish.Visibility = System.Windows.Visibility.Visible;
+                        shadowFish.TurnFish(-30);
+                        shadowFish.MoveHorizontally(-500, screenRect.Width, 1.0);
+                        shadowFish.HeadAngle = 30*0.3;
+                        shadowFish.BodyAngle = shadowFish.HeadAngle;
+                        shadowFish.BodyAngle2 = shadowFish.BodyAngle;
+                        shadowFish.TailAngle = shadowFish.BodyAngle2 * 1.2;
+                        shadowFish.Angle = -30 * 1.4;
+                        InstructionLabel.Content = "Try to match the shadow!";
+                        InstructionLabel.Visibility = System.Windows.Visibility.Visible;
+                        break;
+                    }
+                case GamePhases.InstructionsLeftPose:
+                case GamePhases.InstructionsRightPose:
                     StartGame();
                     break;
                 case GamePhases.Started:
@@ -395,30 +426,10 @@ namespace ShapeGame2
                 fish1.TurnFish(angle);
                 serialWindow.RobotAngle = angle;
             }
-            //else
-            //{
-            //    debugLabelCenter.Content = angleSlider.Value;
-            //    fourLineFish.TurnFish((double)angleSlider.Value);
-            //}
+
             // Every so often, notify what our actual framerate is
             if ((frameCount % 100) == 0)
                 fallingThings.SetFramerate(1000.0 / actualFrameTime);
-
-            //// Advance animations, and do hit testing.
-            //for (int i = 0; i < NumIntraFrames; ++i)
-            //{
-            //    foreach (var pair in players)
-            //    {
-            //        HitType hit = fallingThings.LookForHits(pair.Value.segments, pair.Value.getId());
-            //        if ((hit & HitType.Squeezed) != 0)
-            //            squeezeSound.Play();
-            //        else if ((hit & HitType.Popped) != 0)
-            //            popSound.Play();
-            //        else if ((hit & HitType.Hand) != 0)
-            //            hitSound.Play();
-            //    }
-            //    fallingThings.AdvanceFrame();
-            //}
 
             updateDistance(); // in top right corner
 
@@ -427,30 +438,61 @@ namespace ShapeGame2
             serialWindow.turnFish(); // move the robot fish, if necessary
 
             // Draw new Wpf scene by adding all objects to canvas
-            // FourLineFish tmp = fourLineFish;
             playfield.Children.Clear();
-
-            //double offsetChange = vortices.speed * actualFrameTime * fourLineFish.HeadAngle / 300.0;
-            //fourLineFish.MoveHorizontally(offsetChange, screenRect.Width);
-
-            //fourLineFish.UpdateTail(actualFrameTime / 1000.0);
-            
-            //playfield.Children.Add(fourLineFish);
 
             double offsetChange = vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
             if(!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0))
                 fish1.UpdateTail(actualFrameTime / 1000.0);
             playfield.Children.Add(fish1);
 
-            vortices.Draw(playfield.Children);
 
-            // Calculate vortex strength and apply to feedback system
-            if ((frameCount % 10) == 0)
-                TactileFeedback();
-            if ((frameCount % 100) == 0 && GamePhase == GamePhases.Started)
-                vortices.speed += 0.1;
+            switch (GamePhase)
+            {
+                case GamePhases.Started:
+                    {
+                        // Calculate vortex strength and apply to feedback system
+                        if ((frameCount % 10) == 0)
+                            TactileFeedback();
+                        // make the flow faster
+                        if ((frameCount % 100) == 0)
+                            vortices.speed += 0.1;
+                        vortices.Draw(playfield.Children);
+                        break;
+                    }
+                case GamePhases.InstructionsLeftPose:
+                    {
+                        if(Math.Abs(Canvas.GetLeft(shadowFish) - Canvas.GetLeft(fish1)) < 10)
+                        {
+                            GamePhase = GamePhases.InstructionsRightPose;
 
-            //CheckPlayers();
+                            shadowFish.TurnFish(30);
+                            shadowFish.MoveHorizontally(500, screenRect.Width, 1.0);
+                            shadowFish.HeadAngle = -30 * 0.3;
+                            shadowFish.BodyAngle = shadowFish.HeadAngle;
+                            shadowFish.BodyAngle2 = shadowFish.BodyAngle;
+                            shadowFish.TailAngle = shadowFish.BodyAngle2 * 1.2;
+                            shadowFish.Angle = 30 * 1.4;
+                            InstructionLabel.Content = "Good! Once more!";
+                        }
+                        playfield.Children.Add(shadowFish);
+                        break;
+                    }
+                case GamePhases.InstructionsRightPose:
+                    {
+                        if (Math.Abs(Canvas.GetLeft(shadowFish) - Canvas.GetLeft(fish1)) < 10)
+                        {
+                            GamePhase = GamePhases.Countdown;
+                            countdownValue = 5;
+                            shadowFish.Visibility = System.Windows.Visibility.Hidden;
+                            countdownTimer.Enabled = true;
+                        }
+                        playfield.Children.Add(shadowFish);
+                        break;
+                    }
+            }
+            
+
+
         }
 
         void updateDistance()
@@ -471,42 +513,9 @@ namespace ShapeGame2
             Point nose = fish1.NosePosition; //new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
             //const double maxDistance = 200;
             double redDistance = maxRed, blueDistance = maxBlue;
-            //byte leftMotor = 100, rightMotor = 100; //actual motor commands
-
-            //// find closest red and blue vortices
-            //foreach (SingleVortex vortex in redVortices)
-            //{
-            //    if (((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y - 500 > nose.Y) continue;
-
-            //    // vortex.ActualWidth = 300
-            //    Point vortexCenter = vortex.GetCenter();
-            //    //new Point(Canvas.GetLeft(vortex) + 300 / 2,
-            //    // ((TranslateTransform)(((TransformGroup)(vortex.Vortex.RenderTransform)).Children[3])).Y + Canvas.GetTop(vortex) + vortex.ActualHeight / 2);
-
-            //    double distanceSquared = Math.Pow((nose.X - vortexCenter.X), 2) + Math.Pow((nose.Y - vortexCenter.Y), 2);
-
-            //    if (vortex.Blue)
-            //    {
-            //        if (distanceSquared < blueDistance)
-            //        {
-            //            blueDistance = Math.Sqrt(distanceSquared);
-            //        }
-            //    }
-            //    else
-            //        if (distanceSquared < redDistance)
-            //        {
-            //            redDistance = Math.Sqrt(distanceSquared);
-            //        }
-            //}
 
             redDistance = vortices.minRedDistance(nose);
             blueDistance = vortices.minBlueDistance(nose);
-
-            //minRed = Math.Min(redDistance, minRed);
-            //minBlue = Math.Min(blueDistance, minBlue);
-
-            //maxBlue = Math.Max(blueDistance, minBlue);
-            //maxRed = Math.Max(redDistance, minRed); // error: never gets bigger than 0
 
             // if crashes into a vortex, slow down
             const double crashRadius = 120;
@@ -516,35 +525,11 @@ namespace ShapeGame2
                 fish1.StartCrashAnimation();
             }
             
-            // calculate fan speed commands (0...255)
-            //if (redDistance < 150) //150*150)
-            //    leftMotor = 255;// (byte)(Math.Sqrt(redDistance / maxDistance) * 255);
-            //if (blueDistance < 120) //*120)
-            //    rightMotor = 255;// (byte)(Math.Sqrt(blueDistance / maxDistance) * 255);
-            //        //(byte)(127+Math.Sqrt(blueDistance / maxDistance) * 127);
-            //SerialConnector.SetFanSpeeds(leftMotor, rightMotor);
-            //debugLabelLeft.Content = leftMotor;
-            //debugLabelRight.Content = rightMotor;
-
             Point closestRed = vortices.FindClosest(nose, false);
             Point closestBlue = vortices.FindClosest(nose, true);
 
             byte minvalue = 0;
-            //double[] leftMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
-            //double[] rightMotors = { minvalue, minvalue, minvalue, minvalue, minvalue };
-            //double[] leftDistances = { 400, 280, 200, 130, 80 };
-            //double[] rightDistances = { 80, 130, 200, 280, 400 };
             byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-            //for (int i = 0; i < leftMotors.Length; i++)
-            //{
-            //    if (redDistance < leftDistances[i])
-            //        leftMotors[i] = (1 - redDistance / leftDistances[i]) * (255 - leftMotors[i]) + minvalue;
-            //    if (blueDistance < rightDistances[i])
-            //        rightMotors[i] = (1 - blueDistance / rightDistances[i]) * (255 - rightMotors[i]) + minvalue;
-            //    motors[i] = (byte)leftMotors[i];
-            //    motors[i + leftMotors.Length] = (byte)rightMotors[i];
-            //}
 
             double moveAway = 120;
             closestBlue.X += moveAway;
@@ -561,12 +546,6 @@ namespace ShapeGame2
                 double distance = Math.Sqrt(Math.Pow(sensitivityX * xDistance, 2.0) + Math.Pow((nose - closestBlue).Y, 2.0));
                 if (distance < maxDistance)
                     motors[i] += (byte)((1 - distance / maxDistance) * 255);
-
-                //if (i > 1 && motors[i] < motors[i - 1] && motors[i-1] > motors[i-2])
-                //{
-                //    for (int j = 0; j < i; j++)
-                //        motors[j] = motors[i - 1];
-                //}
 
                 xDistance = (nose - closestRed).X + (i - steps / 2) * stepSize;
                 distance = Math.Sqrt(Math.Pow(sensitivityX * xDistance, 2.0) + Math.Pow((nose - closestRed).Y, 2.0));
@@ -622,7 +601,9 @@ namespace ShapeGame2
             StartGame();
         }
         public void StartGame()
-        {            
+        {
+            InstructionLabel.Visibility = System.Windows.Visibility.Hidden;
+            shadowFish.Visibility = System.Windows.Visibility.Hidden;
             StartButton.Visibility = System.Windows.Visibility.Hidden;
             countdownTimer.Enabled = true;
             GamePhase = GamePhases.Started;
