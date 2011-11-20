@@ -13,7 +13,17 @@
         </Grid.RowDefinitions>
 
 
-        <Canvas Margin="12" Name="playfield" SizeChanged="Playfield_SizeChanged" Grid.RowSpan="2" Background="#FF10C6F5">
+        <Canvas Margin="12" Name="playfield" SizeChanged="Playfield_SizeChanged" Grid.RowSpan="2">
+            <Canvas.Background>
+                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                    <GradientStop Color="#FF1016F5"/>
+                    <GradientStop Color="#FF1016F5" Offset="0.25"/>
+                    <GradientStop Color="#FF10C6F5" Offset="0.40"/>
+                    <GradientStop Color="#FF10C6F5" Offset="0.60"/>
+                    <GradientStop Color="#FF1016F5" Offset="0.75"/>
+                    <GradientStop Color="#FF1016F5" Offset="1"/>
+                </LinearGradientBrush>
+            </Canvas.Background>
 
             <my:Fish Name="fish1" 
                      Width="60" 
