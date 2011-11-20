@@ -192,29 +192,53 @@ namespace ShapeGame2
             return (byte)(3.7 * angle + 143.5);
         }
 
-        byte previousCommand = 143;
+        byte previousCommand = 143, newCommand;
         // if you access this method at 50Hz, then it moves the fish robot to desired position quickly
         // prevents too quick turns
-        public void turnFish(double angle)
+        double targetAngle = 0, realAngle = 0;
+        double maxTurningAcceleration = 20.0; // deg/s^2
+        double previousSpeed = 0; // deg/s^2
+        double dataRate = 50.0; // commands per second
+        public void turnFish()
         {
             if (robotReady)
             {
-                byte target = motorCommand(angle);
+                double newAngle;
+                // calculate angle change
+                double angleDifference = targetAngle - realAngle;
+                //calculate angular velocity, assuming 50 Hz data rate
+                double angularSpeed = angleDifference * dataRate;
+                double speedDifference = angularSpeed - previousSpeed;
+                double acceleration = speedDifference * dataRate;
 
-                if (target > previousCommand)
+                // limit max torque by limiting max turning speed
+                if (Math.Abs(acceleration) > maxTurningAcceleration)
                 {
-                    previousCommand += 8;
-                    robotFishPort.Write(new byte[] { (byte)previousCommand }, 0, 1);
+                    acceleration = maxTurningAcceleration * Math.Sign(acceleration);
+                    // find new angle from reduced acceleration
+                    angularSpeed = acceleration / dataRate + previousSpeed;
+                    newAngle = angularSpeed * dataRate + realAngle;
                 }
-                else if (target < previousCommand)
+                else
+                    newAngle = targetAngle;
+
+                previousSpeed = angularSpeed;
+                
+                newCommand = motorCommand(newAngle);
+
+                if (newCommand != previousCommand)
                 {
-                    previousCommand -= 8;
-                    robotFishPort.Write(new byte[] { (byte)previousCommand }, 0, 1);
+                    robotFishPort.Write(new byte[] { (byte)newCommand }, 0, 1);
                 }
-                
-                
+                previousCommand = newCommand;
             }
         }
+        public double RobotAngle
+        {
+            set { targetAngle = 0.8*realAngle + 0.2*value; } //reduce jitter
+            get { return realAngle; }
+        }
+
         private void robotConnected()
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action(changeRobotButton));
