@@ -196,46 +196,61 @@ namespace ShapeGame2
         // if you access this method at 50Hz, then it moves the fish robot to desired position quickly
         // prevents too quick turns
         double targetAngle = 0, realAngle = 0;
-        double maxTurningAcceleration = 20.0; // deg/s^2
+        // these are sensible limits
+        double maxTurningAcceleration = 1500.0; // deg/s^2, too low value makes the fish overshoot
+        double maxAngularVelocity = 250.0; // deg/s, needed to limit overshoot
         double previousSpeed = 0; // deg/s^2
         double dataRate = 50.0; // commands per second
         public void turnFish()
         {
             if (robotReady)
             {
-                double newAngle;
                 // calculate angle change
                 double angleDifference = targetAngle - realAngle;
                 //calculate angular velocity, assuming 50 Hz data rate
                 double angularSpeed = angleDifference * dataRate;
+                
+                // limit top speed to prevent overshoot
+                if (angularSpeed > maxAngularVelocity)
+                    angularSpeed = maxAngularVelocity;
+                else if (angularSpeed < -maxAngularVelocity)
+                    angularSpeed = -maxAngularVelocity;
+
                 double speedDifference = angularSpeed - previousSpeed;
                 double acceleration = speedDifference * dataRate;
 
-                // limit max torque by limiting max turning speed
+                // limit max torque by limiting maximum change of turning speed
                 if (Math.Abs(acceleration) > maxTurningAcceleration)
                 {
                     acceleration = maxTurningAcceleration * Math.Sign(acceleration);
                     // find new angle from reduced acceleration
                     angularSpeed = acceleration / dataRate + previousSpeed;
-                    newAngle = angularSpeed * dataRate + realAngle;
+                    realAngle = angularSpeed / dataRate + realAngle;
                 }
+                // if speed limit reached, but not acceleration limit
+                else if (Math.Abs(angularSpeed) == maxAngularVelocity)
+                {
+                    realAngle = angularSpeed / dataRate + realAngle;
+                }
+                // if no limits were exceeded
                 else
-                    newAngle = targetAngle;
+                    realAngle = targetAngle;
 
                 previousSpeed = angularSpeed;
                 
-                newCommand = motorCommand(newAngle);
+                newCommand = motorCommand(realAngle);
 
                 if (newCommand != previousCommand)
                 {
-                    robotFishPort.Write(new byte[] { (byte)newCommand }, 0, 1);
+                    robotFishPort.Write(new byte[] { (byte)(newCommand) }, 0, 1);
                 }
+
                 previousCommand = newCommand;
             }
         }
         public double RobotAngle
         {
-            set { targetAngle = 0.8*realAngle + 0.2*value; } //reduce jitter
+            set { targetAngle = 0.8*targetAngle + 0.2*value; } //reduce jitter
             get { return realAngle; }
         }
 

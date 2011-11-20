@@ -422,6 +422,10 @@ namespace ShapeGame2
 
             updateDistance(); // in top right corner
 
+            // if you change this, remember to change dataRate variable in turnFish()
+            //if ((frameCount % 2) == 0) // if fps is 50, this means "at 25 Hz"
+            serialWindow.turnFish(); // move the robot fish, if necessary
+
             // Draw new Wpf scene by adding all objects to canvas
             // FourLineFish tmp = fourLineFish;
             playfield.Children.Clear();
