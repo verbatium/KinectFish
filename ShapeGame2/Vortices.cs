@@ -42,7 +42,7 @@ namespace ShapeGame2
 
         private void GenerateVortex(object sender, ElapsedEventArgs e)
         {
-            vortexGeneratorTimer.Interval = timerValue / vortexSpeed;
+            vortexGeneratorTimer.Interval = timerValue / scaledSpeed;
             dispatcher.Invoke(DispatcherPriority.Normal, new Action(CreateVortex));
         }
 
@@ -72,7 +72,7 @@ namespace ShapeGame2
             Storyboard sb1 = RV1.FindResource("Flow") as Storyboard;
             
             sb1.Begin(); // make it move
-            sb1.SetSpeedRatio(vortexSpeed);
+            sb1.SetSpeedRatio(scaledSpeed);
 
             // Delete one old vortex from the list
             if (reds.Count > 0)
@@ -140,10 +140,15 @@ namespace ShapeGame2
             {
                 vortexSpeed = value;
                 foreach (SingleVortex sv in reds)
-                    sv.speed = value;
+                    sv.speed = scaledSpeed;
                 foreach (SingleVortex sv in blues)
-                    sv.speed = value;
+                    sv.speed = scaledSpeed;
             }
+        }
+        double scaledSpeed
+        {
+            get { return vortexSpeed * screenHeight / 1200.0; }
+            set { }
         }
         public void screenResized(double newWidth, double newHeight, double tunnelWidth)
         {
