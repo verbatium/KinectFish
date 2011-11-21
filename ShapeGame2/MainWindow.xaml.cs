@@ -339,8 +339,10 @@ namespace ShapeGame2
             }
             if (fish1 !=null)
             {
+                double ratio = fish1.Height; // to preserve fish proportions
                 fish1.Height = playfield.ActualHeight * 0.5;
-                fish1.Width = fish1.Height * 0.10;
+                ratio /= fish1.Height;
+                fish1.Width /= ratio;
                 //Canvas.SetLeft(fish1, playfield.ActualWidth - fish1.Width / 2);
                 //Canvas.SetTop(fish1, playfield.ActualHeight - fish1.Height / 2);
 
