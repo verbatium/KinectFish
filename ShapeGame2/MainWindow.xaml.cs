@@ -558,27 +558,28 @@ namespace ShapeGame2
             redDistance = vortices.minRedDistance(nose);
             blueDistance = vortices.minBlueDistance(nose);
 
+            Point closestRed = vortices.FindClosest(nose, false);
+            Point closestBlue = vortices.FindClosest(nose, true);
+
             // if crashes into a vortex, slow down
-            const double crashRadius = 120;
-            if (redDistance < crashRadius || blueDistance < crashRadius)
+            //const double crashRadius = 120;
+            if (redDistance < playfield.ActualHeight / 8 || blueDistance < playfield.ActualHeight / 8)
             {
                 vortices.speed = 0.3;
                 fish1.StartCrashAnimation();
             }
             
-            Point closestRed = vortices.FindClosest(nose, false);
-            Point closestBlue = vortices.FindClosest(nose, true);
 
             byte minvalue = 0;
             byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-            double moveAway = 120;
+            double moveAway = playfield.ActualHeight / 7.5;
             closestBlue.X += moveAway;
             closestRed.X -= moveAway;
-            double movementFreedom = 300;
+            double movementFreedom = playfield.ActualHeight / 3.0; ;
             int steps = motors.Length;
             double stepSize = movementFreedom / steps;
-            double maxDistance = 600;
+            double maxDistance = screenRect.Height/2;
             double turbo = 2.6;
             double sensitivityX = 2.1;
             for (int i = 0; i < motors.Length; i++)

@@ -86,13 +86,14 @@ namespace ShapeGame2
         public SingleVortex()
         {
             InitializeComponent();
-            storyboard = (Storyboard) this.FindResource("Flow");            
+            storyboard = (Storyboard) this.FindResource("Flow");
         }
 
         public Point GetCenter()
         {
             double x = (double)this.GetValue(Canvas.LeftProperty);
             x += Vortex.ActualWidth / 2;
+            x += vortexOffset;
             double y = (double)this.GetValue(Canvas.TopProperty);
             y += Vortex.ActualHeight / 2;
             y += vortexTranslateTransform.Y;
@@ -109,8 +110,9 @@ namespace ShapeGame2
             TransformGroup tg = Vortex.RenderTransform as TransformGroup;
             ((ScaleTransform)(tg.Children[0])).ScaleX = tunnelWidth / Vortex.Width;
             ((ScaleTransform)(tg.Children[0])).ScaleY = tunnelWidth / Vortex.Width;
-
         }
+
+        
 
         public void paintBlue()
         {
