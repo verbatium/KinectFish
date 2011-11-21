@@ -74,7 +74,7 @@ namespace FishComponents
         PID body2PID = new PID(0.6, 0.0, 5.0);
         PID tailPID = new PID(0.6, 0.005, 4.5);
         //double fishOffset = 0;
-        double maxFishOffset = 100;
+        public double maxFishOffset = 100;
         public double inputAngle = 0;
 
         public void TurnFish(double angle)

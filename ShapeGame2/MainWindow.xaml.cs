@@ -347,9 +347,33 @@ namespace ShapeGame2
                 fish1.Width /= ratio;
                 Canvas.SetLeft(fish1, playfield.ActualWidth/2 - fish1.Width / 2);
                 Canvas.SetTop(fish1, playfield.ActualHeight/2 - fish1.Height / 2);
+                fish1.fishOffset /= ratio;
 
             }
             shadowFish.FishClone(fish1);
+
+            double tunnelWidth = playfield.ActualHeight / 3.0;
+            double edgeWidth = tunnelWidth / 2.0;
+            Point StartPoint = new Point(0, 0.5);
+            Point EndPoint = new Point(1, 0.5);
+            GradientStopCollection stops = new GradientStopCollection(6);
+            stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0x16, 0xF5), 0));
+            stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0x16, 0xF5), (playfield.ActualWidth-tunnelWidth-edgeWidth)/(2*playfield.ActualWidth)));
+            stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0xC6, 0xF5), (playfield.ActualWidth - tunnelWidth) / (2 * playfield.ActualWidth)));
+            stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0xC6, 0xF5), (playfield.ActualWidth + tunnelWidth) / (2 * playfield.ActualWidth)));
+            stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0x16, 0xF5), (playfield.ActualWidth + tunnelWidth + edgeWidth) / (2 * playfield.ActualWidth)));
+            stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0x16, 0xF5), 1));
+
+                    //<GradientStop Color="#FF1016F5"/>
+                    //<GradientStop Color="#FF1016F5" Offset="0.25"/>
+                    //<GradientStop Color="#FF10C6F5" Offset="0.40"/>
+                    //<GradientStop Color="#FF10C6F5" Offset="0.60"/>
+                    //<GradientStop Color="#FF1016F5" Offset="0.75"/>
+                    //<GradientStop Color="#FF1016F5" Offset="1"/>
+
+            LinearGradientBrush tunnelBrush = new LinearGradientBrush(stops, StartPoint, EndPoint);
+            playfield.Background = tunnelBrush;
+            fish1.maxFishOffset = tunnelWidth / 2;
         }
 
         private void Window_Loaded(object sender, EventArgs e)
@@ -454,7 +478,7 @@ namespace ShapeGame2
             // Draw new Wpf scene by adding all objects to canvas
             playfield.Children.Clear();
 
-            double offsetChange = vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
+            double offsetChange = fish1.maxFishOffset/100.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
             if(!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0))
                 fish1.UpdateTail(actualFrameTime / 1000.0);
             playfield.Children.Add(fish1);
