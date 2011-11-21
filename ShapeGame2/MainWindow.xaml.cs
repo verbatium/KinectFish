@@ -349,9 +349,13 @@ namespace ShapeGame2
                 Canvas.SetTop(fish1, playfield.ActualHeight/2 - fish1.Height / 2);
                 fish1.fishOffset /= ratio;
 
+                Canvas.SetLeft(shadowFish, playfield.ActualWidth / 2 - fish1.Width / 2);
+                Canvas.SetTop(shadowFish, playfield.ActualHeight / 2 - fish1.Height / 2);
+                shadowFish.fishOffset /= ratio;
             }
-            shadowFish.FishClone(fish1);
+            
 
+            // resize the background gradient
             double tunnelWidth = playfield.ActualHeight / 3.0;
             double edgeWidth = tunnelWidth / 2.0;
             Point StartPoint = new Point(0, 0.5);
@@ -363,17 +367,14 @@ namespace ShapeGame2
             stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0xC6, 0xF5), (playfield.ActualWidth + tunnelWidth) / (2 * playfield.ActualWidth)));
             stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0x16, 0xF5), (playfield.ActualWidth + tunnelWidth + edgeWidth) / (2 * playfield.ActualWidth)));
             stops.Add(new GradientStop(Color.FromArgb(0xff, 0x10, 0x16, 0xF5), 1));
-
-                    //<GradientStop Color="#FF1016F5"/>
-                    //<GradientStop Color="#FF1016F5" Offset="0.25"/>
-                    //<GradientStop Color="#FF10C6F5" Offset="0.40"/>
-                    //<GradientStop Color="#FF10C6F5" Offset="0.60"/>
-                    //<GradientStop Color="#FF1016F5" Offset="0.75"/>
-                    //<GradientStop Color="#FF1016F5" Offset="1"/>
-
             LinearGradientBrush tunnelBrush = new LinearGradientBrush(stops, StartPoint, EndPoint);
             playfield.Background = tunnelBrush;
+
+            // limit fish movement
             fish1.maxFishOffset = tunnelWidth / 2;
+
+            shadowFish.FishClone(fish1);
+
         }
 
         private void Window_Loaded(object sender, EventArgs e)
@@ -499,7 +500,7 @@ namespace ShapeGame2
                     }
                 case GamePhases.InstructionsLeftPose:
                     {
-                        if(Math.Abs(Canvas.GetLeft(shadowFish) - Canvas.GetLeft(fish1)) < 10)
+                        if(Math.Abs(shadowFish.fishOffset - fish1.fishOffset) < 10)
                         {
                             GamePhase = GamePhases.InstructionsRightPose;
 
@@ -517,7 +518,7 @@ namespace ShapeGame2
                     }
                 case GamePhases.InstructionsRightPose:
                     {
-                        if (Math.Abs(Canvas.GetLeft(shadowFish) - Canvas.GetLeft(fish1)) < 10)
+                        if (Math.Abs(shadowFish.fishOffset - fish1.fishOffset) < 10)
                         {
                             GamePhase = GamePhases.Countdown;
                             countdownValue = 5;

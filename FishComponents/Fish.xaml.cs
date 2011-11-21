@@ -41,6 +41,7 @@ namespace FishComponents
             ColarWidth=clonedFrom.ColarWidth;
             Tail=clonedFrom.Tail;
             TailWidth = clonedFrom.TailWidth;
+            maxFishOffset = clonedFrom.maxFishOffset;
 
             SolidColorBrush shadow = new SolidColorBrush(Color.FromArgb(100, 0, 0, 0));
             ((Path)this.FindName("FishOutline")).Fill = shadow;
