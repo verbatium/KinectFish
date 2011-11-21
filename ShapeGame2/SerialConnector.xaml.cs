@@ -169,20 +169,48 @@ namespace ShapeGame2
                 //0,0,0,0,0,3000     0 
                 //0,0,0,0,0,2306    -30
 
-                bootLog += input;
-                robotReady = checkForCMD();
-                if (robotReady)
+                string[] inputArray = input.Split('\n');
+
+                for (int i = 0; i < inputArray.Length; i++)
                 {
-                    //RobotConnectButton.Content = "Robot ready!";
-                    
-                    robotFishPort.WriteLine("./pwm -b");
-                    robotConnected();
+                    //looking for command prompt
+                    robotReady = checkForCMD(bootLog + inputArray[i]);
+                    if (robotReady)
+                    {
+                        //start programm
+                        robotFishPort.WriteLine("./pwm -b");
+                        robotConnected();
+                    }
+
+                    //analize data for output from fis
+                    string[] inputData = inputArray[i].Split(',');
+                    if (inputData.Length == 5)
+                    {
+                        int value = 0;
+                        if (int.TryParse(inputData[4], out value))
+                        {
+                            if (value > 2300 && value < 3700)
+                            {
+                                //if data found when connection succesfull
+                                robotReady = true;
+                                robotConnected();
+                            }
+                        }
+                    }
+                    //if data in array is last line without \n then save it to futer use
+                    if (i != inputArray.Length - 1 && !input.EndsWith("\n"))
+                        bootLog += inputArray[i];
+                    else
+                        bootLog = "";
+
                 }
+                    
+
             }
         }
-        bool checkForCMD()
+        bool checkForCMD(string val)
         {
-            return bootLog.Contains("[root@netus]/root#");
+            return val.Contains("[root@netus]/root#");
         }
 
         double maxAngle = 30;
