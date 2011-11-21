@@ -227,42 +227,13 @@ namespace FishComponents
                 pOutlinePoints[k - 1] = (pp[0]); pOutlinePoints[l - 2] = (pp[1]);
             }
 
-            //pp = Tangent(pOutlinePoints[23], pOutlinePoints[2], pOutlinePoints[5]);
-            //pOutlinePoints[1] = (pp[0]); pOutlinePoints[3] = (pp[1]);
-            ////EndPoint
-            //pp = Tangent(pOutlinePoints[2], pOutlinePoints[5], pOutlinePoints[5], false);
-            //pOutlinePoints[4] = (pp[0]); pOutlinePoints[6] = (pp[1]);
-            ////TailPointL
-            //pp = Tangent(pOutlinePoints[5], pOutlinePoints[8], pOutlinePoints[11]);
-            //pOutlinePoints[7] = (pp[0]); pOutlinePoints[9] = (pp[1]);
-
-            ////CenterPointL
-            //pp = Tangent(pOutlinePoints[8], pOutlinePoints[11], pOutlinePoints[14], true, 0.5);
-            //pOutlinePoints[10] = (pp[0]); pOutlinePoints[12] = (pp[1]);
-
-            ////ColarPointL
-            //pp = Tangent(pOutlinePoints[11], pOutlinePoints[14], pOutlinePoints[17]);
-            //pOutlinePoints[13] = (pp[0]); pOutlinePoints[15] = (pp[1]);
-
-            ////NosePoint
-            //pp = Tangent(pOutlinePoints[14], pOutlinePoints[17], pOutlinePoints[20]);
-            //pOutlinePoints[16] = (pp[0]); pOutlinePoints[18] = (pp[1]);
-
-            ////ColarPointR
-            //pp = Tangent(pOutlinePoints[17], pOutlinePoints[20], pOutlinePoints[23]);
-            //pOutlinePoints[19] = (pp[0]); pOutlinePoints[21] = (pp[1]);
-
-            ////CenterPointR
-            //pp = Tangent(pOutlinePoints[20], pOutlinePoints[23], pOutlinePoints[2], true, 0.5);
-            //pOutlinePoints[22] = (pp[0]); pOutlinePoints[0] = pp[1];
-
             return pOutlinePoints;
         }
 
         public void ReSizeBody()
         {
             if ((Visibility)FindResource("PointVisibility")== System.Windows.Visibility.Visible)
-            {
+            {   
                 OnPropertyChanged("NosePoint");
                 OnPropertyChanged("TailPoint");
                 OnPropertyChanged("TailPointL");
@@ -272,11 +243,11 @@ namespace FishComponents
                 OnPropertyChanged("ColarPointL");
                 OnPropertyChanged("ColarPointR");
                 OnPropertyChanged("EndPoint");
-            }
+         }
             OnPropertyChanged("CenterPoint");
             OnPropertyChanged("CenterPointR");
 
-            OnPropertyChanged("OutlinePoints");
+
 
             OnPropertyChanged("HeadLineTransform");
             OnPropertyChanged("TailLTransform");
@@ -284,6 +255,7 @@ namespace FishComponents
             OnPropertyChanged("ColarLineTransform");
             OnPropertyChanged("CenterLineTransform");
             createOutline();
+            OnPropertyChanged("OutlinePoints");      
         }
 
         public static readonly DependencyProperty CenterProperty
@@ -561,6 +533,7 @@ namespace FishComponents
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
             {
+
                 handler(this, new PropertyChangedEventArgs(name));
             }
         }
