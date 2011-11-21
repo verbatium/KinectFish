@@ -345,8 +345,8 @@ namespace ShapeGame2
                 fish1.Height = playfield.ActualHeight * 0.5;
                 ratio /= fish1.Height;
                 fish1.Width /= ratio;
-                //Canvas.SetLeft(fish1, playfield.ActualWidth - fish1.Width / 2);
-                //Canvas.SetTop(fish1, playfield.ActualHeight - fish1.Height / 2);
+                Canvas.SetLeft(fish1, playfield.ActualWidth/2 - fish1.Width / 2);
+                Canvas.SetTop(fish1, playfield.ActualHeight/2 - fish1.Height / 2);
 
             }
             shadowFish.FishClone(fish1);

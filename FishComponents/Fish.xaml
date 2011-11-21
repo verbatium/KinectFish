@@ -33,7 +33,7 @@
             <TransformGroup>
             <RotateTransform CenterX="{Binding Path=CenterPoint.X, ElementName=UCFish}" CenterY="{Binding Path=CenterPoint.Y, ElementName=UCFish}" 
                                      Angle="{Binding Path=Angle, ElementName=UCFish}"/>
-            <TranslateTransform/>
+            <TranslateTransform X="{Binding Path=fishOffset, ElementName=UCFish}"/>
             </TransformGroup>
         </Canvas.RenderTransform>
         <Path Stroke="Purple" x:Name="FishOutline" Fill="{StaticResource FishColor}">

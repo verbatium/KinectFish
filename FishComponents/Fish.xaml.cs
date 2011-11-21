@@ -73,7 +73,7 @@ namespace FishComponents
         PID body1PID = new PID(0.6, 0.0, 4.5);
         PID body2PID = new PID(0.6, 0.0, 5.0);
         PID tailPID = new PID(0.6, 0.005, 4.5);
-        double fishOffset = 0;
+        //double fishOffset = 0;
         double maxFishOffset = 100;
         public double inputAngle = 0;
 
@@ -100,7 +100,7 @@ namespace FishComponents
             fishOffset += toRight;
             fishOffset = Math.Max(fishOffset, -maxFishOffset);
             fishOffset = Math.Min(fishOffset, maxFishOffset);
-            Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth / 2 + (int)fishOffset);
+            //Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth / 2 + (int)fishOffset);
             if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
             {
                 HeadAngle = -inputAngle * 0.3;
@@ -360,6 +360,13 @@ namespace FishComponents
         protected virtual void OnProportionChanged(RoutedPropertyChangedEventArgs<double> args)
         {
             RaiseEvent(args);
+        }
+
+        public static readonly DependencyProperty fishOffsetProperty = DependencyProperty.Register("fishOffset", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
+        public double fishOffset
+        {
+            get { return (double)GetValue(fishOffsetProperty); }
+            set { SetValue(fishOffsetProperty, value); }
         }
 
         public static readonly DependencyProperty HeadAngleProperty = DependencyProperty.Register("HeadAngle", typeof(double), typeof(Fish), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
