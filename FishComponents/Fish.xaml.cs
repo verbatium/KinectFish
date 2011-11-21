@@ -419,6 +419,7 @@ namespace FishComponents
                 Point retval = new Point((double)this.GetValue(Canvas.LeftProperty), (double)this.GetValue(Canvas.TopProperty));
                 Point p = new ScaleTransform(this.ActualWidth / this.Width,this.ActualHeight / this.Height).Transform( HeadLineTransform.Transform(NosePoint));
                 p = new RotateTransform(Angle, CenterPoint.X, CenterPoint.Y).Transform(p);
+                p = new TranslateTransform(fishOffset, 0.0).Transform(p);
                 return new TranslateTransform(p.X, p.Y).Transform(retval);
 
             }
