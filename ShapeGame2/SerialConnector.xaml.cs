@@ -122,6 +122,8 @@ namespace ShapeGame2
                 RobotConnectButton.IsEnabled = false;
                 RobotConnectButton.Content = "Waiting for robot";
                 robotFishPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(robotFishPort_DataReceived);
+                //robotConnected();
+                //robotReady = true;
             }
             catch (Exception ex)
             {
@@ -197,7 +199,7 @@ namespace ShapeGame2
         // prevents too quick turns
         double targetAngle = 0, realAngle = 0;
         // these are sensible limits
-        double maxTurningAcceleration = 1500.0; // deg/s^2, too low value makes the fish overshoot
+        double maxTurningAcceleration = 1700.0; // deg/s^2, too low value makes the fish overshoot
         double maxAngularVelocity = 250.0; // deg/s, needed to limit overshoot
         double previousSpeed = 0; // deg/s^2
         double dataRate = 50.0; // commands per second
