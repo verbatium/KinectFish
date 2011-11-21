@@ -104,6 +104,8 @@ namespace ShapeGame2
                 {
                     GamePhase = GamePhases.GameOver;
                     vortices.StopFlow();
+                    byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                    SerialConnector.SetFanSpeeds(motors);
                     StartButton.Visibility = System.Windows.Visibility.Visible;
                 }
                 else if (GamePhase == GamePhases.Countdown)
