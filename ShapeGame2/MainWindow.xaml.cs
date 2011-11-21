@@ -147,7 +147,7 @@ namespace ShapeGame2
             serialWindow = (ShapeGame2.SerialConnector)App.Current.Windows[0];
             serialWindow.Changed += new EventHandler(PortChanged);
 
-            shadowFish = new FishComponents.Fish(fish1);
+            shadowFish = new FishComponents.Fish();
             shadowFish.Visibility = System.Windows.Visibility.Hidden;
         }
 
@@ -203,6 +203,7 @@ namespace ShapeGame2
                     {
                         GamePhase = GamePhases.InstructionsLeftPose;
 
+                        shadowFish.FishClone(fish1);
                         Canvas.SetTop(shadowFish, Canvas.GetTop(fish1));
                         shadowFish.Visibility = System.Windows.Visibility.Visible;
                         shadowFish.TurnFish(-30);
@@ -344,6 +345,7 @@ namespace ShapeGame2
                 //Canvas.SetTop(fish1, playfield.ActualHeight - fish1.Height / 2);
 
             }
+            shadowFish.FishClone(fish1);
         }
 
         private void Window_Loaded(object sender, EventArgs e)

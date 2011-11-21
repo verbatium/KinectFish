@@ -32,11 +32,8 @@ namespace FishComponents
             InitializeComponent();
             storyboard = (Storyboard)this.FindResource("CrashSlowdown");
         }
-        public Fish(Fish clonedFrom)
+        public void FishClone(Fish clonedFrom)
         {
-            InitializeComponent();
-            storyboard = (Storyboard)this.FindResource("CrashSlowdown");
-
             Width=clonedFrom.Width;
             Height=clonedFrom.Height;
             Center=clonedFrom.Center;

@@ -184,10 +184,10 @@ namespace ShapeGame2
 
                     //analize data for output from fis
                     string[] inputData = inputArray[i].Split(',');
-                    if (inputData.Length == 5)
+                    if (inputData.Length == 6)
                     {
                         int value = 0;
-                        if (int.TryParse(inputData[4], out value))
+                        if (int.TryParse(inputData[5], out value))
                         {
                             if (value > 2300 && value < 3700)
                             {
