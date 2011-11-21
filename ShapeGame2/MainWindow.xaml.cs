@@ -323,7 +323,7 @@ namespace ShapeGame2
             screenRect.Width = playfield.ActualWidth;
             screenRect.Height = playfield.ActualHeight;
             //Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150);
-            vortices.screenResized(playfield.ActualWidth, playfield.ActualHeight);
+            
 
             BannerText.UpdateBounds(screenRect);
 
@@ -374,6 +374,8 @@ namespace ShapeGame2
             fish1.maxFishOffset = tunnelWidth / 2;
 
             shadowFish.FishClone(fish1);
+
+            vortices.screenResized(playfield.ActualWidth, playfield.ActualHeight, tunnelWidth);
 
         }
 

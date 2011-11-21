@@ -12,17 +12,76 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using System.ComponentModel;
 
 namespace ShapeGame2
 {
     /// <summary>
     /// Interaction logic for RedVortex.xaml
     /// </summary>
-    public partial class SingleVortex : UserControl
+    public partial class SingleVortex : UserControl, INotifyPropertyChanged
     {
         public bool Finished = false;
         public bool Blue = false;
         private Storyboard storyboard;
+
+
+        // Blindly copied from Fish.xaml.cs
+        public event PropertyChangedEventHandler PropertyChanged;
+        public static readonly DependencyProperty vortexOffsetProperty = DependencyProperty.Register("vortexOffsetOffset", typeof(double), typeof(SingleVortex), new FrameworkPropertyMetadata(new double(), FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnProportionChanged)));
+        public double vortexOffset
+        {
+            get { return (double)GetValue(vortexOffsetProperty); }
+            set { SetValue(vortexOffsetProperty, value); }
+        }
+        // Create the OnPropertyChanged method to raise the event
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        private static void OnProportionChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            SingleVortex control = (SingleVortex)obj;
+
+            RoutedPropertyChangedEventArgs<double> e = new RoutedPropertyChangedEventArgs<double>(
+                (double)args.OldValue, (double)args.NewValue, ProportionChangedEvent);
+            control.ReSizeBody();
+            control.OnProportionChanged(e);
+
+        }
+        public void ReSizeBody()
+        {
+            OnPropertyChanged("vortexOffset");
+        }
+        /// <summary>
+        /// Identifies the TailChanged routed event.
+        /// </summary>
+        public static readonly RoutedEvent ProportionChangedEvent = EventManager.RegisterRoutedEvent("TailChanged", RoutingStrategy.Bubble,
+            typeof(RoutedPropertyChangedEventHandler<double>), typeof(SingleVortex));
+
+        /// <summary>
+        /// Occurs when the Tail property changes.
+        /// </summary>
+        public event RoutedPropertyChangedEventHandler<double> ProportionChanged
+        {
+            add { AddHandler(ProportionChangedEvent, value); }
+            remove { RemoveHandler(ProportionChangedEvent, value); }
+        }
+
+        /// <summary>
+        /// Raises the ValueChanged event.
+        /// </summary>
+        /// <param name="args">Arguments associated with the ValueChanged event.</param>
+        protected virtual void OnProportionChanged(RoutedPropertyChangedEventArgs<double> args)
+        {
+            RaiseEvent(args);
+        }
 
         public SingleVortex()
         {
@@ -40,14 +99,17 @@ namespace ShapeGame2
             return new Point(x, y);
         }
 
-        public void PlayfieldResized(int width, int height)
+        public void PlayfieldResized(double tunnelWidth)
         {
-            double newX = width / 2 - Vortex.ActualWidth / 2;
             if (Blue)
-                newX += 100;
+                vortexOffset = tunnelWidth / 3;
             else
-                newX -= 100;
-            this.SetValue(Canvas.LeftProperty, newX);
+                vortexOffset = -tunnelWidth / 3;
+
+            TransformGroup tg = Vortex.RenderTransform as TransformGroup;
+            ((ScaleTransform)(tg.Children[0])).ScaleX = tunnelWidth / Vortex.Width;
+            ((ScaleTransform)(tg.Children[0])).ScaleY = tunnelWidth / Vortex.Width;
+
         }
 
         public void paintBlue()
@@ -69,8 +131,8 @@ namespace ShapeGame2
             gb.GradientStops[0].Color = Color.FromArgb(255, 255, (byte)(50+random.Next(0,50)), 4);
             gb.GradientStops[1].Offset = random.NextDouble() / 3;
             TransformGroup tg = Vortex.RenderTransform as TransformGroup;
-            ((ScaleTransform)(tg.Children[0])).ScaleX = (1 + random.NextDouble());
-            ((ScaleTransform)(tg.Children[0])).ScaleY = (1 + random.NextDouble());
+            //((ScaleTransform)(tg.Children[0])).ScaleX = (1 + random.NextDouble());
+            //((ScaleTransform)(tg.Children[0])).ScaleY = (1 + random.NextDouble());
 
             ((SkewTransform)(tg.Children[1])).AngleX = random.Next(-20, 20);
             ((SkewTransform)(tg.Children[1])).AngleY = random.Next(-20, 20);

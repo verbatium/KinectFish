@@ -18,7 +18,7 @@ namespace ShapeGame2
         System.Timers.Timer vortexGeneratorTimer = new System.Timers.Timer(timerValue);
         Dispatcher dispatcher;
         double vortexSpeed = 0.3;
-        double screenWidth = 100, screenHeight = 100;
+        double screenWidth = 100, screenHeight = 100, tunnelWidth;
 
         public Vortices(Dispatcher MainWindowDispatcher)
         {
@@ -52,20 +52,19 @@ namespace ShapeGame2
             // Create a new red vortex object
             SingleVortex RV1 = new SingleVortex();
             Canvas.SetTop(RV1, -500);
-            double distFromScreenCenter = 110;
+            Canvas.SetLeft(RV1, (screenWidth - RV1.Vortex.Width) / 2);
             RV1.Randomize(); // make it look different
-            double blueleft = screenWidth / 2 - 300 / 2 + distFromScreenCenter;
-            double redleft = screenWidth / 2 - 300 / 2 - distFromScreenCenter;
+
             if (nextVortexIsBlue)
             {
                 RV1.paintBlue();
-                Canvas.SetLeft(RV1, blueleft);
+                RV1.vortexOffset = tunnelWidth/3;
                 nextVortexIsBlue = false;
                 blues.Add(RV1);
             }
             else
             {
-                Canvas.SetLeft(RV1, redleft);
+                RV1.vortexOffset = -tunnelWidth/3;
                 nextVortexIsBlue = true;
                 reds.Add(RV1);
             }
@@ -146,17 +145,21 @@ namespace ShapeGame2
                     sv.speed = value;
             }
         }
-        public void screenResized(double newWidth, double newHeight)
+        public void screenResized(double newWidth, double newHeight, double tunnelWidth)
         {
             screenWidth = newWidth;
             screenHeight = newHeight;
-            double blueleft = newWidth / 2;
-            double redleft = newWidth / 2 - 300;
-
+            this.tunnelWidth = tunnelWidth;
             foreach (SingleVortex sv in reds)
-                Canvas.SetLeft(sv, redleft);
+            {
+                sv.PlayfieldResized(tunnelWidth);
+                Canvas.SetLeft(sv, (screenWidth - sv.Vortex.Width) / 2);
+            }
             foreach (SingleVortex sv in blues)
-                Canvas.SetLeft(sv, blueleft);
+            {
+                sv.PlayfieldResized(tunnelWidth);
+                Canvas.SetLeft(sv, (screenWidth - sv.Vortex.Width) / 2);
+            }
         }
     }
 }
