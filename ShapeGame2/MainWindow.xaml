@@ -5,7 +5,18 @@
         Title="Shape Game" Height="688" Width="619" FontStyle="Italic"
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" 
         xmlns:my="clr-namespace:FishComponents;assembly=FishComponents"
+         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+
         >
+    <i:Interaction.Behaviors>
+
+        <my:FullScreenBehavior
+                FullScreenOnDoubleClick="True"
+                FullScreenOnMaximize="True"
+                RestoreOnEscape="True" />
+
+    </i:Interaction.Behaviors>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="622*" />
