@@ -96,9 +96,10 @@ namespace FishComponents
         private void ButtonStateChanged(bool pressed)
         {
             if (pressed)
-                Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, new Action(ResetPressed));
+
+                ResetPressed();// Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, new Action(ResetPressed));
             else
-                Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, new Action(ResetUnPressed));
+                ResetUnPressed(); // Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Normal, new Action(ResetUnPressed));
         }
         private void ResetPressed()
         {
