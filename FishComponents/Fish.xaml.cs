@@ -70,10 +70,10 @@ namespace FishComponents
             return new Point[] { new Point(p2.X + v4.X, p2.Y + v4.Y), new Point(p2.X+v5.X,p2.Y+ v5.Y) };
         }
 
-        PID rotatePID = new PID(6.0, 0.0, 0.5);
+        PID rotatePID = new PID(6.0, 0.0, 0.0);
         PID body1PID = new PID(0.6, 0.0, 4.5);
         PID body2PID = new PID(0.6, 0.0, 5.0);
-        PID tailPID = new PID(0.6, 0.005, 4.5);
+        PID tailPID = new PID(0.8, 0.015, 4.5);
         //double fishOffset = 0;
         public double maxFishOffset = 100;
         public double inputAngle = 0;
@@ -96,7 +96,7 @@ namespace FishComponents
             TailAngle -= tailPID.update(TailAngle * secondsPassed);
         }
 
-        public bool MoveHorizontally(double toRight, double screenWidth, double secondsPassed)
+        public bool MoveHorizontally(double toRight, double screenWidth, double secondsPassed, double currentspeed)
         {
             fishOffset += toRight;
             fishOffset = Math.Max(fishOffset, -maxFishOffset);
@@ -104,13 +104,15 @@ namespace FishComponents
             //Canvas.SetLeft(this, screenWidth / 2 - this.ActualWidth / 2 + (int)fishOffset);
             if (fishOffset != maxFishOffset && fishOffset != -maxFishOffset)
             {
-                HeadAngle = -inputAngle * 0.3;
-                BodyAngle -= body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
-                BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
-                TailAngle -= tailPID.update((TailAngle - BodyAngle2*1.2) * secondsPassed);
+                HeadAngle = -inputAngle * 0.2;
+                BodyAngle = HeadAngle; //body1PID.update((BodyAngle - HeadAngle) * secondsPassed);
+                //BodyAngle2 -= body2PID.update((BodyAngle2 - BodyAngle) * secondsPassed);
+                
                 double oldAngle = Angle;
-                Angle -= rotatePID.update((Angle - inputAngle * 1.4) * secondsPassed);
-                BodyAngle2 += (Angle - oldAngle);
+                Angle -= rotatePID.update((Angle - inputAngle * 0.5) * secondsPassed);
+                //BodyAngle2 += (Angle - oldAngle);
+                TailAngle += (Angle - oldAngle);
+                TailAngle -= tailPID.update((TailAngle - BodyAngle2*1.2) * secondsPassed);
                 //BodyAngle2 -= toRight * 2;
                 //BodyAngle2 = Math.Max(BodyAngle2, -30);
                 //BodyAngle2 = Math.Min(BodyAngle2, 30);

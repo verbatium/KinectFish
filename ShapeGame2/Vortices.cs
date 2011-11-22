@@ -18,7 +18,7 @@ namespace ShapeGame2
         const double timerValue = 4500;
         System.Timers.Timer vortexGeneratorTimer = new System.Timers.Timer(timerValue);
         Dispatcher dispatcher;
-        double vortexSpeed = 0.5;
+        double vortexSpeed = 0.7;
         double screenWidth = 100, screenHeight = 100, tunnelWidth;
         double vortexDistance = 100;
 
@@ -163,7 +163,7 @@ namespace ShapeGame2
                 //}
             }
         }
-        double scaledSpeed
+        public double scaledSpeed
         {
             get { return vortexSpeed * screenHeight / 1200.0; }
             set { }
@@ -183,7 +183,7 @@ namespace ShapeGame2
                 sv.PlayfieldResized(tunnelWidth);
                 Canvas.SetLeft(sv, (screenWidth - sv.Vortex.Width) / 2);
             }
-            vortexDistance = screenHeight / 1.1;
+            vortexDistance = screenHeight * 1.5;
         }
     }
 }

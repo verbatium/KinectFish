@@ -209,7 +209,7 @@ namespace ShapeGame2
                         Canvas.SetTop(shadowFish, Canvas.GetTop(fish1));
                         shadowFish.Visibility = System.Windows.Visibility.Visible;
                         shadowFish.TurnFish(-30);
-                        shadowFish.MoveHorizontally(-500, screenRect.Width, 1.0);
+                        shadowFish.MoveHorizontally(-500, screenRect.Width, 1.0, vortices.scaledSpeed);
                         shadowFish.HeadAngle = 30*0.3;
                         shadowFish.BodyAngle = shadowFish.HeadAngle;
                         shadowFish.BodyAngle2 = shadowFish.BodyAngle;
@@ -481,8 +481,8 @@ namespace ShapeGame2
             // Draw new Wpf scene by adding all objects to canvas
             playfield.Children.Clear();
 
-            double offsetChange = fish1.maxFishOffset/100.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
-            if(!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0))
+            double offsetChange = fish1.maxFishOffset/300.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
+            if(!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0, vortices.scaledSpeed))
                 fish1.UpdateTail(actualFrameTime / 1000.0);
             playfield.Children.Add(fish1);
 
@@ -507,7 +507,7 @@ namespace ShapeGame2
                             GamePhase = GamePhases.InstructionsRightPose;
 
                             shadowFish.TurnFish(30);
-                            shadowFish.MoveHorizontally(500, screenRect.Width, 1.0);
+                            shadowFish.MoveHorizontally(500, screenRect.Width, 1.0, vortices.scaledSpeed);
                             shadowFish.HeadAngle = -30 * 0.3;
                             shadowFish.BodyAngle = shadowFish.HeadAngle;
                             shadowFish.BodyAngle2 = shadowFish.BodyAngle;
@@ -649,7 +649,7 @@ namespace ShapeGame2
             StartButton.Visibility = System.Windows.Visibility.Hidden;
             countdownTimer.Enabled = true;
             GamePhase = GamePhases.Started;
-            countdownValue = 60;
+            countdownValue = 120;
             swimDistance = 0;
             distanceLabel.Content = swimDistance;
             vortices.speed = 0.3;
