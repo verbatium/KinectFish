@@ -56,6 +56,7 @@ namespace ShapeGame2
         const double DefaultDropRate = 2.5;
         const double DefaultDropSize = 32.0;
         const double DefaultDropGravity = 1.0;
+        double recommendedAngle = 0.0;
 
         //FourLineFish fourLineFish;
 
@@ -66,7 +67,8 @@ namespace ShapeGame2
             InstructionsRightPose,
             Countdown,
             Started,
-            GameOver
+            GameOver,
+            Demo
         }
 
         GamePhases GamePhase = GamePhases.Standby;
@@ -94,7 +96,7 @@ namespace ShapeGame2
             if (countdownValue > 0)
             {
                 countdownValue--;
-                if(GamePhase == GamePhases.Started)
+                if(GamePhase == GamePhases.Started || GamePhase == GamePhases.Demo)
                     countdownLabel.Content = countdownValue;
                 else if (GamePhase == GamePhases.Countdown)
                     InstructionLabel.Content = "Avoid vortices in " + countdownValue.ToString() + "!";
@@ -103,7 +105,7 @@ namespace ShapeGame2
             {
                 countdownTimer.Enabled = false;
 
-                if (GamePhase == GamePhases.Started)
+                if (GamePhase == GamePhases.Started || GamePhase == GamePhases.Demo)
                 {
                     GamePhase = GamePhases.GameOver;
                     vortices.StopFlow();
@@ -484,6 +486,9 @@ namespace ShapeGame2
             // Draw new Wpf scene by adding all objects to canvas
             playfield.Children.Clear();
 
+            if (GamePhase == GamePhases.Demo)
+                fish1.inputAngle = recommendedAngle;
+
             double offsetChange = fish1.maxFishOffset/150.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
             if(!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0, vortices.scaledSpeed))
                 fish1.UpdateTail(actualFrameTime / 1000.0);
@@ -492,6 +497,7 @@ namespace ShapeGame2
 
             switch (GamePhase)
             {
+                case GamePhases.Demo:
                 case GamePhases.Started:
                     {
                         // Calculate vortex strength and apply to feedback system
@@ -619,6 +625,20 @@ namespace ShapeGame2
             progressBar10.Value = motors[9];
 
             feedback.SetFanSpeeds(motors);
+
+            int centerlevel = Math.Max(motors[3], motors[6]);
+            if (centerlevel > 127)
+            {
+                if (motors[4] > motors[5])
+                    recommendedAngle = 30.0 * centerlevel/255.0;
+                else if (motors[4] < motors[5])
+                    recommendedAngle = -30.0 * centerlevel / 255.0;
+                else
+                    recommendedAngle = 0.0;
+            }
+            else
+                recommendedAngle = 0.0;
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -660,6 +680,11 @@ namespace ShapeGame2
             distanceLabel.Content = swimDistance;
             vortices.speed = 0.3;
             vortices.StartFlow();
+        }
+        public void StartDemo()
+        {
+            StartGame();
+            GamePhase = GamePhases.Demo;
         }
         public void ResetGame()
         {
