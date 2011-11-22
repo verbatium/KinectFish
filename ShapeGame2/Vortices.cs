@@ -6,6 +6,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace ShapeGame2
@@ -17,8 +18,9 @@ namespace ShapeGame2
         const double timerValue = 4500;
         System.Timers.Timer vortexGeneratorTimer = new System.Timers.Timer(timerValue);
         Dispatcher dispatcher;
-        double vortexSpeed = 0.3;
+        double vortexSpeed = 0.5;
         double screenWidth = 100, screenHeight = 100, tunnelWidth;
+        double vortexDistance = 100;
 
         public Vortices(Dispatcher MainWindowDispatcher)
         {
@@ -42,7 +44,7 @@ namespace ShapeGame2
 
         private void GenerateVortex(object sender, ElapsedEventArgs e)
         {
-            vortexGeneratorTimer.Interval = timerValue / scaledSpeed;
+            vortexGeneratorTimer.Interval = vortexDistance / (0.3 * scaledSpeed);
             dispatcher.Invoke(DispatcherPriority.Normal, new Action(CreateVortex));
         }
 
@@ -53,7 +55,7 @@ namespace ShapeGame2
             SingleVortex RV1 = new SingleVortex();
             Canvas.SetTop(RV1, -500);
             Canvas.SetLeft(RV1, (screenWidth - RV1.Vortex.Width) / 2);
-            RV1.Randomize(); // make it look different
+            //RV1.Randomize(); // make it look different
 
             if (nextVortexIsBlue)
             {
@@ -143,6 +145,21 @@ namespace ShapeGame2
                     sv.speed = scaledSpeed;
                 foreach (SingleVortex sv in blues)
                     sv.speed = scaledSpeed;
+                
+                //SingleVortex SV = null;
+                //if (nextVortexIsBlue && reds.Count > 0)
+                //    SV = reds[reds.Count -1];
+                //else if ( blues.Count > 0)
+                //    SV = blues[blues.Count -1];
+                //if (SV != null)
+                //{
+                //    double vortexPosition = SV.vortexTranslateTransform.Y;
+                //    double distanceToGo = vortexDistance - vortexPosition;
+                //    double newTimerInterval = distanceToGo / (0.3 * scaledSpeed);
+                //    vortexGeneratorTimer.Stop();
+                //    vortexGeneratorTimer.Interval = newTimerInterval;
+                //    vortexGeneratorTimer.Start();
+                //}
             }
         }
         double scaledSpeed
@@ -165,6 +182,7 @@ namespace ShapeGame2
                 sv.PlayfieldResized(tunnelWidth);
                 Canvas.SetLeft(sv, (screenWidth - sv.Vortex.Width) / 2);
             }
+            vortexDistance = screenHeight / 1.5;
         }
     }
 }

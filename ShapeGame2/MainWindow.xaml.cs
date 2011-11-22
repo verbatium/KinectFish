@@ -461,7 +461,7 @@ namespace ShapeGame2
 
         private void HandleGameTimer(int param)
         {
-            if (joystick != null)
+            if (joystick != null && nui == null)
             {
                 double angle = joystick.State.X * 30 / 100;
                 fish1.TurnFish(angle);
@@ -523,7 +523,7 @@ namespace ShapeGame2
                         if (Math.Abs(shadowFish.fishOffset - fish1.fishOffset) < 10)
                         {
                             GamePhase = GamePhases.Countdown;
-                            countdownValue = 5;
+                            countdownValue = 6;
                             shadowFish.Visibility = System.Windows.Visibility.Hidden;
                             countdownTimer.Enabled = true;
                         }
@@ -565,7 +565,7 @@ namespace ShapeGame2
             //const double crashRadius = 120;
             if (redDistance < playfield.ActualHeight / 8 || blueDistance < playfield.ActualHeight / 8)
             {
-                vortices.speed = 0.3;
+                vortices.speed = 0.7;
                 fish1.StartCrashAnimation();
             }
             
