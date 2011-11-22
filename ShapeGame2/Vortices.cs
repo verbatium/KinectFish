@@ -56,6 +56,7 @@ namespace ShapeGame2
             Canvas.SetTop(RV1, -500);
             Canvas.SetLeft(RV1, (screenWidth - RV1.Vortex.Width) / 2);
             RV1.Randomize(); // make it look different
+            RV1.PlayfieldResized(tunnelWidth);
 
             if (nextVortexIsBlue)
             {
