@@ -484,7 +484,7 @@ namespace ShapeGame2
             // Draw new Wpf scene by adding all objects to canvas
             playfield.Children.Clear();
 
-            double offsetChange = fish1.maxFishOffset/300.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
+            double offsetChange = fish1.maxFishOffset/150.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
             if(!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0, vortices.scaledSpeed))
                 fish1.UpdateTail(actualFrameTime / 1000.0);
             playfield.Children.Add(fish1);
@@ -533,6 +533,9 @@ namespace ShapeGame2
                         playfield.Children.Add(shadowFish);
                         break;
                     }
+                case GamePhases.GameOver:
+                    vortices.Draw(playfield.Children);
+                    break;
             }
             
 
@@ -584,7 +587,7 @@ namespace ShapeGame2
             double stepSize = movementFreedom / steps;
             double maxDistance = screenRect.Height/2;
             double turbo = 2.6;
-            double sensitivityX = 2.1;
+            double sensitivityX = 1.5;
             for (int i = 0; i < motors.Length; i++)
             {
                 double xDistance = (nose - closestBlue).X + (i - steps/2)*stepSize;
