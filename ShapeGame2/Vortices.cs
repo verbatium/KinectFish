@@ -55,7 +55,7 @@ namespace ShapeGame2
             SingleVortex RV1 = new SingleVortex();
             Canvas.SetTop(RV1, -500);
             Canvas.SetLeft(RV1, (screenWidth - RV1.Vortex.Width) / 2);
-            //RV1.Randomize(); // make it look different
+            RV1.Randomize(); // make it look different
 
             if (nextVortexIsBlue)
             {
@@ -182,7 +182,7 @@ namespace ShapeGame2
                 sv.PlayfieldResized(tunnelWidth);
                 Canvas.SetLeft(sv, (screenWidth - sv.Vortex.Width) / 2);
             }
-            vortexDistance = screenHeight / 1.5;
+            vortexDistance = screenHeight / 1.1;
         }
     }
 }
