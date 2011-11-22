@@ -35,7 +35,7 @@ using System.Timers;
 // increase the resolution to get framerates above between 50fps with any
 // consistency.
 using System.Runtime.InteropServices;
-
+using FishComponents;
 
 
 namespace ShapeGame2
@@ -74,7 +74,10 @@ namespace ShapeGame2
         FishComponents.Fish shadowFish;
 
         double swimDistance = 0; // total distance the fish has already moved
-        public SerialConnector serialWindow;
+        //public SerialConnector serialWindow;
+        //TODO: ADD Comport configuration
+        public FeedBack feedback = new FeedBack(Properties.Settings.Default.FeedbackPort);
+        public RoboticFish roboticfish = new RoboticFish(Properties.Settings.Default.RobotFishPort);
         //List<SingleVortex> redVortices = new List<SingleVortex>();
         //System.Timers.Timer redVortexTimer;
         SimpleJoystick joystick;
@@ -105,7 +108,7 @@ namespace ShapeGame2
                     GamePhase = GamePhases.GameOver;
                     vortices.StopFlow();
                     byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-                    SerialConnector.SetFanSpeeds(motors);
+                    feedback.SetFanSpeeds(motors);
                     StartButton.Visibility = System.Windows.Visibility.Visible;
                 }
                 else if (GamePhase == GamePhases.Countdown)
@@ -146,8 +149,8 @@ namespace ShapeGame2
             countdownTimer.Elapsed += new ElapsedEventHandler(countdownTimerElapsed);
             
 
-            serialWindow = (ShapeGame2.SerialConnector)App.Current.Windows[0];
-            serialWindow.Changed += new EventHandler(PortChanged);
+            //serialWindow = (ShapeGame2.SerialConnector)App.Current.Windows[0];
+            feedback.Changed += new EventHandler(PortChanged);
 
             shadowFish = new FishComponents.Fish();
             shadowFish.Visibility = System.Windows.Visibility.Hidden;
@@ -192,7 +195,7 @@ namespace ShapeGame2
                     //fourLineFish.TurnFish(angle);
                     fish1.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
-                    serialWindow.RobotAngle = angle;
+                    roboticfish.RobotAngle = angle;
                 }
                 iSkeleton++;
             } // for each skeleton
@@ -465,7 +468,7 @@ namespace ShapeGame2
             {
                 double angle = joystick.State.X * 30 / 100;
                 fish1.TurnFish(angle);
-                serialWindow.RobotAngle = angle;
+                roboticfish.RobotAngle = angle;
             }
 
             // Every so often, notify what our actual framerate is
@@ -476,7 +479,7 @@ namespace ShapeGame2
 
             // if you change this, remember to change dataRate variable in turnFish()
             //if ((frameCount % 2) == 0) // if fps is 50, this means "at 25 Hz"
-            serialWindow.turnFish(); // move the robot fish, if necessary
+            roboticfish.turnFish(); // move the robot fish, if necessary
 
             // Draw new Wpf scene by adding all objects to canvas
             playfield.Children.Clear();
@@ -612,7 +615,7 @@ namespace ShapeGame2
             progressBar9.Value = motors[8];
             progressBar10.Value = motors[9];
 
-            SerialConnector.SetFanSpeeds(motors);
+            feedback.SetFanSpeeds(motors);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -635,7 +638,7 @@ namespace ShapeGame2
             //fourLineFish.TurnFish(e.NewValue);
             fish1.TurnFish(e.NewValue);
             //debugLabelTopCenter.Content = "Nose: " + fourLineFish.NosePosition.ToString();
-            serialWindow.RobotAngle = e.NewValue;
+            roboticfish.RobotAngle = e.NewValue;
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)

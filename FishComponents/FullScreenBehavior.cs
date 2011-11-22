@@ -151,6 +151,7 @@ namespace FishComponents
                 if ( newValue ) {
                     window.WindowStyle = WindowStyle.None;
                     window.Topmost = true;
+                    
                     window.WindowState = WindowState.Maximized;
                 }   // if
                 else {

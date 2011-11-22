@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -59,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Converters\DoubleMultiplyConverter.cs" />
     <Compile Include="Converters\TransformConverter.cs" />
+    <Compile Include="FeedBack.cs" />
     <Compile Include="FullScreenBehavior.cs" />
     <Compile Include="LineExtensions.cs" />
     <Compile Include="PID.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Fish.xaml.cs">
       <DependentUpon>Fish.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RoboticFish.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
