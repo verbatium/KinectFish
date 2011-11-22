@@ -200,7 +200,7 @@ namespace ShapeGame2
                 iSkeleton++;
             } // for each skeleton
         }
-        private void PortChanged(object sender, EventArgs e)
+        private void ButtonPressed()
         {
             switch (GamePhase)
             {
@@ -213,7 +213,7 @@ namespace ShapeGame2
                         shadowFish.Visibility = System.Windows.Visibility.Visible;
                         shadowFish.TurnFish(-30);
                         shadowFish.MoveHorizontally(-500, screenRect.Width, 1.0, vortices.scaledSpeed);
-                        shadowFish.HeadAngle = 30*0.3;
+                        shadowFish.HeadAngle = 30 * 0.3;
                         shadowFish.BodyAngle = shadowFish.HeadAngle;
                         shadowFish.BodyAngle2 = shadowFish.BodyAngle;
                         shadowFish.TailAngle = shadowFish.BodyAngle2 * 1.2;
@@ -233,7 +233,11 @@ namespace ShapeGame2
                     GamePhase = GamePhases.Standby;
                     break;
             }
-            
+      
+        }
+        private void PortChanged(object sender, EventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(ButtonPressed));
         }
 
         private double getFishAngle(Microsoft.Research.Kinect.Nui.JointsCollection joints)
