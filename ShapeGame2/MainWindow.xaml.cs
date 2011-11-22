@@ -530,6 +530,9 @@ namespace ShapeGame2
                         playfield.Children.Add(shadowFish);
                         break;
                     }
+                case GamePhases.GameOver:
+                    vortices.Draw(playfield.Children);
+                    break;
             }
             
 
