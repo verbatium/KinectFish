@@ -5,9 +5,8 @@
         Title="Shape Game" Height="688" Width="619" FontStyle="Italic"
         Loaded="Window_Loaded" Closed="Window_Closed" Closing="Window_Closing" 
         xmlns:my="clr-namespace:FishComponents;assembly=FishComponents"
-         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-
-        >
+         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+      >
     <i:Interaction.Behaviors>
 
         <my:FullScreenBehavior
@@ -47,7 +46,9 @@
                      
                      Canvas.Left="200" 
                      Canvas.Top="150"/>
+           
         </Canvas>
+
         <Slider Grid.Row="1" Height="27" HorizontalAlignment="Left" Margin="190,0,0,0" Name="angleSlider" VerticalAlignment="Top" Width="222" Minimum="-30" Maximum="30" ValueChanged="angleSlider_ValueChanged" />
         <Label Content="60" Height="100" Name="countdownLabel" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72" />
         <Label Content="0.0" Height="100" Name="distanceLabel" Width="200" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="72" />

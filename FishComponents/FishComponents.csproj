@@ -56,6 +56,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Particle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DoubleMultiplyConverter.cs" />
@@ -63,6 +67,9 @@
     <Compile Include="FeedBack.cs" />
     <Compile Include="FullScreenBehavior.cs" />
     <Compile Include="LineExtensions.cs" />
+    <Compile Include="Particle.xaml.cs">
+      <DependentUpon>Particle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PID.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -90,6 +97,17 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\available.png" />
+    <Resource Include="images\Away.png" />
+    <Resource Include="images\blocked.png" />
+    <Resource Include="images\Busy.png" />
+    <Resource Include="images\Dnd.png" />
+    <Resource Include="images\Inactive.png" />
+    <Resource Include="images\InMtg.png" />
+    <Resource Include="images\Offline.png" />
+    <Resource Include="images\Unknown.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

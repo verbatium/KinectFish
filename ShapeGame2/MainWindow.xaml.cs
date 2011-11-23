@@ -117,11 +117,19 @@ namespace ShapeGame2
                     StartGame();
             }
         }
-
+        Particle p = new Particle();
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            p.Status = Status.Unknown;
+
+            p.Radius = 35;
+            p.Mass = p.Radius * .01;
+            p.Opacity = p.Radius * .02;
+            Canvas.SetTop(p, 100     );
+            Canvas.SetLeft(p, 100);
+
             if (Runtime.Kinects.Count > 0)
                 nui = Runtime.Kinects[0]; // new style of opening Kinects, instead of "nui = new Runtime();"
 
@@ -499,6 +507,9 @@ namespace ShapeGame2
             playfield.Children.Add(fish1);
 
 
+           // p.Status = (Status)_r.Next(1, 9);
+
+            playfield.Children.Add(p);
             switch (GamePhase)
             {
                 case GamePhases.Demo:
