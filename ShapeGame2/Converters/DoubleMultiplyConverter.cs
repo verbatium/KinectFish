@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-// TODO Fix this class
 namespace ShapeGame2.Converters
 {
     class DoubleMultiplyConverter : IValueConverter

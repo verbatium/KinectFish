@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Data;
 using System.Globalization;
 
-// TODO Fix this class
 namespace FishComponents.Converters
 {
     class DoubleMultiplyConverter : IValueConverter

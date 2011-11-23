@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
 
 
-        <Canvas Margin="12" Name="playfield" SizeChanged="Playfield_SizeChanged" Grid.RowSpan="2">
+        <Canvas Name="playfield" SizeChanged="Playfield_SizeChanged" Grid.RowSpan="2">
             <Canvas.Background>
                 <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
                     <GradientStop Color="#FF1016F5"/>

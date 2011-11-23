@@ -186,7 +186,7 @@ namespace ShapeGame2
         {
             SkeletonFrame skeletonFrame = e.SkeletonFrame;
             int iSkeleton = 0;
-
+            //TODO trycatch
             foreach (SkeletonData data in skeletonFrame.Skeletons)
             {
                 if (SkeletonTrackingState.Tracked == data.TrackingState)
