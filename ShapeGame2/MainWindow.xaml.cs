@@ -509,7 +509,10 @@ namespace ShapeGame2
 
            // p.Status = (Status)_r.Next(1, 9);
 
+            Canvas.SetLeft(p, fish1.NosePosition.X - p.ActualWidth/2);
+            Canvas.SetTop(p, fish1.NosePosition.Y - 2*p.ActualHeight);
             playfield.Children.Add(p);
+
             switch (GamePhase)
             {
                 case GamePhases.Demo:
