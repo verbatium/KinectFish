@@ -254,15 +254,19 @@ namespace ShapeGame2
         {
 
             Point a = getDisplayPosition(joints[JointID.Head]);
+            a = getDisplayPosition(joints[JointID.ShoulderCenter]);
+
             Point b = getDisplayPosition(joints[JointID.Spine]);
-            Point c = Average(
-            getDisplayPosition(joints[JointID.AnkleLeft]),
-            getDisplayPosition(joints[JointID.AnkleRight]));
 
-            System.Windows.Vector v1 = new System.Windows.Vector(c.X-b.X,c.Y - b.Y);
-            System.Windows.Vector v2 = new System.Windows.Vector(a.X - b.X, a.Y - b.Y);
+            //Point c = new Point(a.X, b.Y + (b.Y-a.Y));
+            //Point c = Average(
+            //getDisplayPosition(joints[JointID.AnkleLeft]),
+            //getDisplayPosition(joints[JointID.AnkleRight]));
 
-            return AngleConstrain (- NormalizeAngle(180.0 - System.Windows.Vector.AngleBetween(v1, v2)), -30,30);
+            //System.Windows.Vector v1 = new System.Windows.Vector(c.X-b.X,c.Y - b.Y);
+            System.Windows.Vector v2 = new System.Windows.Vector(b.X - a.X, b.Y - a.Y);
+
+            return AngleConstrain(2*(v2.Angle() - 90.0), -30, 30);//AngleConstrain(-NormalizeAngle(180.0 - v2.Angle()), -30, 30);
         }
        public static Double AngleConstrain(double angle, double Min, double Max)
         {

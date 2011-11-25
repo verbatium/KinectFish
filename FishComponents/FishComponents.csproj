@@ -52,6 +52,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BubleTunnel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Fish.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -62,6 +66,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BubleTunnel.xaml.cs">
+      <DependentUpon>BubleTunnel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\DoubleMultiplyConverter.cs" />
     <Compile Include="Converters\TransformConverter.cs" />
     <Compile Include="FeedBack.cs" />
