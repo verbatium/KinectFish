@@ -18,7 +18,7 @@ namespace ShapeGame2
         const double timerValue = 4500;
         System.Timers.Timer vortexGeneratorTimer = new System.Timers.Timer(timerValue);
         Dispatcher dispatcher;
-        double vortexSpeed = 0.7;
+        double vortexSpeed = 4.7;
         double screenWidth = 100, screenHeight = 100, tunnelWidth;
         double vortexDistance = 100;
 
