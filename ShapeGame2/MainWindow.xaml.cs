@@ -55,7 +55,7 @@ namespace ShapeGame2
         const double DefaultDropRate = 2.5;
         const double DefaultDropSize = 32.0;
         const double DefaultDropGravity = 1.0;
-        const int GameTime = 10;
+        static int GameTime = 120;
         double recommendedAngle = 0.0;
 
         //FourLineFish fourLineFish;
@@ -130,6 +130,8 @@ namespace ShapeGame2
     angleLabel.Visibility = System.Windows.Visibility.Visible;
     spedLabel.Visibility = System.Windows.Visibility.Visible;
     angleSlider.Focus();
+    GameTime = 10;
+    StartSpeed = 0.5;
 #endif
 
             //p.Status = Status.Unknown;
@@ -619,6 +621,7 @@ namespace ShapeGame2
         }
         //double minRed = double.MaxValue, minBlue=double.MaxValue;
         double maxRed = 0, maxBlue = 0;
+        private double StartSpeed=4.3;
 
         void TactileFeedback()
         {
@@ -750,7 +753,7 @@ namespace ShapeGame2
             countdownValue = GameTime;
             swimDistance = 0;
             distanceLabel.Content = swimDistance;
-            vortices.speed = 0.3;
+            vortices.speed = StartSpeed;
             vortices.StartFlow();
         }
         public void StartDemo()
