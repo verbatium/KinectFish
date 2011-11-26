@@ -55,9 +55,9 @@
         <Label Content=" " Height="100" Name="countdownLabel"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72" />
         <Label Content="0.0" Height="100" Name="distanceLabel" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="72" />
 
-        <Button Content="Start game" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" Width="80" Name="StartButton" Click="StartButton_Click" />
-        <Label Content="Try to match the shadow!" Height="100" Name="InstructionLabel" Width="1000" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="72" Visibility="Hidden"/>
-        <Label Content="Game Over" Height="100" Name="GameOverLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="72" Opacity="0" Foreground="#FFAE1010" />
+        <Button Content="Start game" HorizontalAlignment="Center" VerticalAlignment="Top"  Name="StartButton" Click="StartButton_Click" />
+        <Label Content="Try to match the shadow!" Name="InstructionLabel" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="72" Visibility="Hidden"/>
+        <Label Content="Game Over"  Name="GameOverLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="144" Opacity="0" Foreground="#FFAE1010" FontWeight="Bold" />
 
         <StackPanel  Height="100" Name="stackPanel1"  VerticalAlignment="Bottom" Orientation="Horizontal" Visibility="Hidden">
             <ProgressBar Height="100" Name="progressBar1" Width="10" Orientation="Vertical" Maximum="255" />
