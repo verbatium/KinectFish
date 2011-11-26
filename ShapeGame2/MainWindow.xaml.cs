@@ -56,6 +56,7 @@ namespace ShapeGame2
         const double DefaultDropRate = 2.5;
         const double DefaultDropSize = 32.0;
         const double DefaultDropGravity = 1.0;
+        const int GameTime = 10;
         double recommendedAngle = 0.0;
 
         //FourLineFish fourLineFish;
@@ -87,7 +88,7 @@ namespace ShapeGame2
         SimpleJoystick joystick;
         Vortices vortices = new Vortices(Dispatcher.CurrentDispatcher);
 
-        int countdownValue = 60;
+        int countdownValue = GameTime;
         System.Timers.Timer countdownTimer = new System.Timers.Timer(1000);
         private void countdownTimerElapsed(object sender, ElapsedEventArgs e)
         {
@@ -123,7 +124,6 @@ namespace ShapeGame2
         public MainWindow()
         {
             InitializeComponent();
-
             //p.Status = Status.Unknown;
 
             //p.Radius = 35;
@@ -248,6 +248,40 @@ namespace ShapeGame2
             }
       
         }
+
+        private void GameOver_fadeinout(FrameworkElement element)
+        {
+
+            Storyboard storyboard = new Storyboard();
+            TimeSpan duration = TimeSpan.FromMilliseconds(1000); //
+
+            DoubleAnimation fadeInAnimation = new DoubleAnimation() { From = 0.0, To = 1.0, Duration = new Duration(duration) };
+            Storyboard.SetTargetName(fadeInAnimation, element.Name);
+            Storyboard.SetTargetProperty(fadeInAnimation, new PropertyPath("Opacity", 1));
+            storyboard.Children.Add(fadeInAnimation);
+            storyboard.Begin(element);
+
+            DoubleAnimation fadeOutAnimation = new DoubleAnimation() { From = 1.0, To = 0.0, Duration = new Duration(duration) };
+            fadeOutAnimation.BeginTime = TimeSpan.FromSeconds(5);
+
+            Storyboard.SetTargetName(fadeOutAnimation, element.Name);
+            Storyboard.SetTargetProperty(fadeOutAnimation, new PropertyPath("Opacity", 0));
+            storyboard.Children.Add(fadeOutAnimation);
+            //EventArgs e = new ControlAnimationEventArgs(element, "fadeout");
+            storyboard.Completed += new EventHandler(GameOver_Completed);
+            storyboard.Begin(element);
+        }
+
+
+        void GameOver_Completed(object sender, EventArgs e)
+        {
+            //switch (e.ToString())
+            //{
+            //    case "GameOverLabel": break;
+            //    default: break;
+            //}
+        }
+
         private void PortChanged(object sender, EventArgs e)
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action(ButtonPressed));
@@ -570,7 +604,9 @@ namespace ShapeGame2
                         break;
                     }
                 case GamePhases.GameOver:
+                    GameOver_fadeinout(GameOverLabel);
                     vortices.Draw(playfield.Children);
+                    GamePhase = GamePhases.Standby;
                     break;
             }
             
@@ -705,7 +741,7 @@ namespace ShapeGame2
             StartButton.Visibility = System.Windows.Visibility.Hidden;
             countdownTimer.Enabled = true;
             GamePhase = GamePhases.Started;
-            countdownValue = 120;
+            countdownValue = GameTime;
             swimDistance = 0;
             distanceLabel.Content = swimDistance;
             vortices.speed = 0.3;
@@ -721,7 +757,7 @@ namespace ShapeGame2
             StartButton.Visibility = System.Windows.Visibility.Visible;
             countdownTimer.Enabled = false;
             GamePhase = GamePhases.Standby;
-            countdownValue = 60;
+            countdownValue = GameTime;
             swimDistance = 0;
             distanceLabel.Content = swimDistance;
             vortices.speed = 0.3;

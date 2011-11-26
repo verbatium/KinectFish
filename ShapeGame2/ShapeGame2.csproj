@@ -62,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ControlAnimationEventArgs.cs" />
     <Compile Include="Converters\DoubleMultiplyConverter.cs" />
     <Compile Include="Converters\TransformConverter.cs" />
     <Compile Include="LineExtensions.cs" />
