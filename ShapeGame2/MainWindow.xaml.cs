@@ -129,6 +129,7 @@ namespace ShapeGame2
     angleSlider.Visibility = System.Windows.Visibility.Visible;
     angleLabel.Visibility = System.Windows.Visibility.Visible;
     spedLabel.Visibility = System.Windows.Visibility.Visible;
+    stackPanel1.Visibility = System.Windows.Visibility.Visible;
     angleSlider.Focus();
     GameTime = 10;
     StartSpeed = 0.5;
@@ -655,7 +656,7 @@ namespace ShapeGame2
                 byte minvalue = 0;
                 byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-                double moveAway = playfield.ActualHeight / 7.5;
+                double moveAway = playfield.ActualHeight / 3.5;
                 closestBlue.X += moveAway;
                 closestRed.X -= moveAway;
                 double movementFreedom = playfield.ActualHeight / 3.0; ;
