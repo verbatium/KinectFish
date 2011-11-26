@@ -557,8 +557,9 @@ namespace ShapeGame2
                             // make the flow faster
                             if ((frameCount % 100) == 0)
                             {
-                                double diff = Math.Abs(oldangle - fish1.inputAngle);
-                                vortices.speed += 0.1 * diff;
+                                if (Math.Sign(oldangle * fish1.Angle) < 0)
+                                    vortices.speed += 0.5;
+                                vortices.speed += 0.1;
                             }
                             oldangle = fish1.inputAngle;
                             vortices.Draw(playfield.Children);
