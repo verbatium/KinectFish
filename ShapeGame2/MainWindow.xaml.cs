@@ -475,140 +475,159 @@ namespace ShapeGame2
 
         private void GameThread()
         {
-            runningGameThread = true;
-            predNextFrame = DateTime.Now;
-            actualFrameTime = 1000.0 / targetFramerate;
-
-            //redVortexTimer = new System.Timers.Timer(4500);
-            //redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
-            //redVortexTimer.Enabled = true;
-
-            // Try to dispatch at as constant of a framerate as possible by sleeping just enough since
-            // the last time we dispatched.
-            while (runningGameThread)
+            try
             {
-                // Calculate average framerate.  
-                DateTime now = DateTime.Now;
-                if (lastFrameDrawn == DateTime.MinValue)
-                    lastFrameDrawn = now;
-                double ms = now.Subtract(lastFrameDrawn).TotalMilliseconds;
-                actualFrameTime = actualFrameTime * 0.95 + 0.05 * ms;
-                lastFrameDrawn = now;
 
-                // Adjust target framerate down if we're not achieving that rate
-                frameCount++;
-                if (((frameCount % 100) == 0) && (1000.0 / actualFrameTime < targetFramerate * 0.92))
-                    targetFramerate = Math.Max(MinFramerate, (targetFramerate + 1000.0 / actualFrameTime) / 2);
 
-                if (now > predNextFrame)
-                    predNextFrame = now;
-                else
+                runningGameThread = true;
+                predNextFrame = DateTime.Now;
+                actualFrameTime = 1000.0 / targetFramerate;
+
+                //redVortexTimer = new System.Timers.Timer(4500);
+                //redVortexTimer.Elapsed += new ElapsedEventHandler( NewRedVortex);
+                //redVortexTimer.Enabled = true;
+
+                // Try to dispatch at as constant of a framerate as possible by sleeping just enough since
+                // the last time we dispatched.
+                while (runningGameThread)
                 {
-                    double msSleep = predNextFrame.Subtract(now).TotalMilliseconds;
-                    if (msSleep >= TimerResolution)
-                        Thread.Sleep((int)(msSleep + 0.5));
-                }
-                predNextFrame += TimeSpan.FromMilliseconds(1000.0 / targetFramerate);
+                    // Calculate average framerate.  
+                    DateTime now = DateTime.Now;
+                    if (lastFrameDrawn == DateTime.MinValue)
+                        lastFrameDrawn = now;
+                    double ms = now.Subtract(lastFrameDrawn).TotalMilliseconds;
+                    actualFrameTime = actualFrameTime * 0.95 + 0.05 * ms;
+                    lastFrameDrawn = now;
 
-                Dispatcher.Invoke(DispatcherPriority.Send,
-                    new Action<int>(HandleGameTimer), 0);
+                    // Adjust target framerate down if we're not achieving that rate
+                    frameCount++;
+                    if (((frameCount % 100) == 0) && (1000.0 / actualFrameTime < targetFramerate * 0.92))
+                        targetFramerate = Math.Max(MinFramerate, (targetFramerate + 1000.0 / actualFrameTime) / 2);
+
+                    if (now > predNextFrame)
+                        predNextFrame = now;
+                    else
+                    {
+                        double msSleep = predNextFrame.Subtract(now).TotalMilliseconds;
+                        if (msSleep >= TimerResolution)
+                            Thread.Sleep((int)(msSleep + 0.5));
+                    }
+                    predNextFrame += TimeSpan.FromMilliseconds(1000.0 / targetFramerate);
+
+                    Dispatcher.Invoke(DispatcherPriority.Send,
+                        new Action<int>(HandleGameTimer), 0);
+                }
+            }
+            catch (Exception)
+            {
+
+                //   throw;
             }
         }
 
         private void HandleGameTimer(int param)
         {
-            if (joystick != null && nui == null)
+            try
             {
-                double angle = joystick.State.X * 30 / 100;
-                fish1.TurnFish(angle);
+
+
+                if (joystick != null && nui == null)
+                {
+                    double angle = joystick.State.X * 30 / 100;
+                    fish1.TurnFish(angle);
 
                     roboticfish.RobotAngle = angle;
 
-            }
+                }
 
-            // Every so often, notify what our actual framerate is
-            if ((frameCount % 100) == 0)
-                fallingThings.SetFramerate(1000.0 / actualFrameTime);
+                // Every so often, notify what our actual framerate is
+                if ((frameCount % 100) == 0)
+                    fallingThings.SetFramerate(1000.0 / actualFrameTime);
 
-            updateDistance(); // in top right corner
+                updateDistance(); // in top right corner
 
-            // if you change this, remember to change dataRate variable in turnFish()
-            //if ((frameCount % 2) == 0) // if fps is 50, this means "at 25 Hz"
-            if (GamePhase != GamePhases.Started)
-                roboticfish.RobotAngle = 0;
-            roboticfish.turnFish(); // move the robot fish, if necessary
+                // if you change this, remember to change dataRate variable in turnFish()
+                //if ((frameCount % 2) == 0) // if fps is 50, this means "at 25 Hz"
+                if (GamePhase != GamePhases.Started)
+                    roboticfish.RobotAngle = 0;
+                roboticfish.turnFish(); // move the robot fish, if necessary
 
-            // Draw new Wpf scene by adding all objects to canvas
-            playfield.Children.Clear();
+                // Draw new Wpf scene by adding all objects to canvas
+                playfield.Children.Clear();
 
-            if (GamePhase == GamePhases.Demo)
-                fish1.inputAngle = recommendedAngle;
+                if (GamePhase == GamePhases.Demo)
+                    fish1.inputAngle = recommendedAngle;
 
-            double offsetChange = fish1.maxFishOffset/150.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
-            if(!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0, vortices.scaledSpeed))
-                fish1.UpdateTail(actualFrameTime / 1000.0);
-            playfield.Children.Add(fish1);
+                double offsetChange = fish1.maxFishOffset / 150.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
+                if (!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0, vortices.scaledSpeed))
+                    fish1.UpdateTail(actualFrameTime / 1000.0);
+                playfield.Children.Add(fish1);
 
 
-           // p.Status = (Status)_r.Next(1, 9);
+                // p.Status = (Status)_r.Next(1, 9);
 
-            //Canvas.SetLeft(p, fish1.NosePosition.X - p.ActualWidth/2);
-            //Canvas.SetTop(p, fish1.NosePosition.Y - 2*p.ActualHeight);
-            //playfield.Children.Add(p);
+                //Canvas.SetLeft(p, fish1.NosePosition.X - p.ActualWidth/2);
+                //Canvas.SetTop(p, fish1.NosePosition.Y - 2*p.ActualHeight);
+                //playfield.Children.Add(p);
 
-            switch (GamePhase)
-            {
-                case GamePhases.Demo:
-                case GamePhases.Started:
-                    {
-                        // Calculate vortex strength and apply to feedback system
-                        if ((frameCount % 10) == 0)
-                            TactileFeedback();
-                        // make the flow faster
-                        if ((frameCount % 100) == 0)
-                            vortices.speed += 0.1;
+                switch (GamePhase)
+                {
+                    case GamePhases.Demo:
+                    case GamePhases.Started:
+                        {
+                            // Calculate vortex strength and apply to feedback system
+                            if ((frameCount % 10) == 0)
+                                TactileFeedback();
+                            // make the flow faster
+                            if ((frameCount % 100) == 0)
+                                vortices.speed += 0.1;
+                            vortices.Draw(playfield.Children);
+                            break;
+                        }
+                    case GamePhases.InstructionsLeftPose:
+                        {
+                            if (Math.Abs(shadowFish.fishOffset - fish1.fishOffset) < 10)
+                            {
+                                GamePhase = GamePhases.InstructionsRightPose;
+
+                                shadowFish.TurnFish(30);
+                                shadowFish.MoveHorizontally(500, screenRect.Width, 1.0, vortices.scaledSpeed);
+                                shadowFish.HeadAngle = -30 * 0.3;
+                                shadowFish.BodyAngle = shadowFish.HeadAngle;
+                                shadowFish.BodyAngle2 = shadowFish.BodyAngle;
+                                shadowFish.TailAngle = shadowFish.BodyAngle2 * 1.2;
+                                shadowFish.Angle = 30 * 1.4;
+                                InstructionLabel.Content = "Good! Once more!";
+                            }
+                            playfield.Children.Add(shadowFish);
+                            break;
+                        }
+                    case GamePhases.InstructionsRightPose:
+                        {
+                            if (Math.Abs(shadowFish.fishOffset - fish1.fishOffset) < 10)
+                            {
+                                GamePhase = GamePhases.Countdown;
+                                countdownValue = 6;
+                                shadowFish.Visibility = System.Windows.Visibility.Hidden;
+                                countdownTimer.Enabled = true;
+                            }
+                            playfield.Children.Add(shadowFish);
+                            break;
+                        }
+                    case GamePhases.GameOver:
+
                         vortices.Draw(playfield.Children);
-                        break;
-                    }
-                case GamePhases.InstructionsLeftPose:
-                    {
-                        if(Math.Abs(shadowFish.fishOffset - fish1.fishOffset) < 10)
-                        {
-                            GamePhase = GamePhases.InstructionsRightPose;
 
-                            shadowFish.TurnFish(30);
-                            shadowFish.MoveHorizontally(500, screenRect.Width, 1.0, vortices.scaledSpeed);
-                            shadowFish.HeadAngle = -30 * 0.3;
-                            shadowFish.BodyAngle = shadowFish.HeadAngle;
-                            shadowFish.BodyAngle2 = shadowFish.BodyAngle;
-                            shadowFish.TailAngle = shadowFish.BodyAngle2 * 1.2;
-                            shadowFish.Angle = 30 * 1.4;
-                            InstructionLabel.Content = "Good! Once more!";
-                        }
-                        playfield.Children.Add(shadowFish);
                         break;
-                    }
-                case GamePhases.InstructionsRightPose:
-                    {
-                        if (Math.Abs(shadowFish.fishOffset - fish1.fishOffset) < 10)
-                        {
-                            GamePhase = GamePhases.Countdown;
-                            countdownValue = 6;
-                            shadowFish.Visibility = System.Windows.Visibility.Hidden;
-                            countdownTimer.Enabled = true;
-                        }
-                        playfield.Children.Add(shadowFish);
-                        break;
-                    }
-                case GamePhases.GameOver:
-                   
-                    vortices.Draw(playfield.Children);
+                }
 
-                    break;
+
             }
-            
+            catch (Exception)
+            {
 
-
+               // throw;
+            }
         }
 
         void updateDistance()
@@ -624,84 +643,93 @@ namespace ShapeGame2
 
         void TactileFeedback()
         {
-            //approximate the fish nose position
-            //subject to change, because it is positioned using margins
-            Point nose = fish1.NosePosition; //new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
-            //const double maxDistance = 200;
-            double redDistance = maxRed, blueDistance = maxBlue;
-
-            redDistance = vortices.minRedDistance(nose);
-            blueDistance = vortices.minBlueDistance(nose);
-
-            Point closestRed = vortices.FindClosest(nose, false);
-            Point closestBlue = vortices.FindClosest(nose, true);
-
-            // if crashes into a vortex, slow down
-            //const double crashRadius = 120;
-            if (redDistance < playfield.ActualHeight / 8 || blueDistance < playfield.ActualHeight / 8)
+            try
             {
-                vortices.speed = 0.7;
-                fish1.StartCrashAnimation();
-            }
-            
 
-            byte minvalue = 0;
-            byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-            double moveAway = playfield.ActualHeight / 7.5;
-            closestBlue.X += moveAway;
-            closestRed.X -= moveAway;
-            double movementFreedom = playfield.ActualHeight / 3.0; ;
-            int steps = motors.Length;
-            double stepSize = movementFreedom / steps;
-            double maxDistance = screenRect.Height/2;
-            double turbo = 2.6;
-            double sensitivityX = 1.5;
-            for (int i = 0; i < motors.Length; i++)
-            {
-                double xDistance = (nose - closestBlue).X + (i - steps/2)*stepSize;
-                double distance = Math.Sqrt(Math.Pow(sensitivityX * xDistance, 2.0) + Math.Pow((nose - closestBlue).Y, 2.0));
-                if (distance < maxDistance)
-                    motors[i] += (byte)((1 - distance / maxDistance) * 255);
+                //approximate the fish nose position
+                //subject to change, because it is positioned using margins
+                Point nose = fish1.NosePosition; //new Point(290+fourLineFish.HeadAngle*3, 260);//new Point(fourLineFish.Margin.Left + fourLineFish.ActualWidth / 2 + fourLineFish.HeadAngle, fourLineFish.Margin.Left);
+                //const double maxDistance = 200;
+                double redDistance = maxRed, blueDistance = maxBlue;
 
-                xDistance = (nose - closestRed).X + (i - steps / 2) * stepSize;
-                distance = Math.Sqrt(Math.Pow(sensitivityX * xDistance, 2.0) + Math.Pow((nose - closestRed).Y, 2.0));
-                if (distance < maxDistance)
-                    motors[i] += (byte)((1 - distance / maxDistance) * 255);
-            }
-            for (int i = 0; i < motors.Length; i++)
-            {
-                motors[i] = (byte)Math.Min(turbo * (double)motors[i], 255);
-                motors[i] = Math.Max(motors[i], minvalue);
+                redDistance = vortices.minRedDistance(nose);
+                blueDistance = vortices.minBlueDistance(nose);
 
-            }
+                Point closestRed = vortices.FindClosest(nose, false);
+                Point closestBlue = vortices.FindClosest(nose, true);
 
-            progressBar1.Value = motors[0];
-            progressBar2.Value = motors[1];
-            progressBar3.Value = motors[2];
-            progressBar4.Value = motors[3];
-            progressBar5.Value = motors[4];
-            progressBar6.Value = motors[5];
-            progressBar7.Value = motors[6];
-            progressBar8.Value = motors[7];
-            progressBar9.Value = motors[8];
-            progressBar10.Value = motors[9];
+                // if crashes into a vortex, slow down
+                //const double crashRadius = 120;
+                if (redDistance < playfield.ActualHeight / 8 || blueDistance < playfield.ActualHeight / 8)
+                {
+                    vortices.speed = 0.7;
+                    fish1.StartCrashAnimation();
+                }
 
-            feedback.SetFanSpeeds(motors);
 
-            int centerlevel = Math.Max(motors[3], motors[6]);
-            if (centerlevel > 127)
-            {
-                if (motors[4] > motors[5])
-                    recommendedAngle = 30.0 * centerlevel/255.0;
-                else if (motors[4] < motors[5])
-                    recommendedAngle = -30.0 * centerlevel / 255.0;
+                byte minvalue = 0;
+                byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+                double moveAway = playfield.ActualHeight / 7.5;
+                closestBlue.X += moveAway;
+                closestRed.X -= moveAway;
+                double movementFreedom = playfield.ActualHeight / 3.0; ;
+                int steps = motors.Length;
+                double stepSize = movementFreedom / steps;
+                double maxDistance = screenRect.Height / 2;
+                double turbo = 2.6;
+                double sensitivityX = 1.5;
+                for (int i = 0; i < motors.Length; i++)
+                {
+                    double xDistance = (nose - closestBlue).X + (i - steps / 2) * stepSize;
+                    double distance = Math.Sqrt(Math.Pow(sensitivityX * xDistance, 2.0) + Math.Pow((nose - closestBlue).Y, 2.0));
+                    if (distance < maxDistance)
+                        motors[i] += (byte)((1 - distance / maxDistance) * 255);
+
+                    xDistance = (nose - closestRed).X + (i - steps / 2) * stepSize;
+                    distance = Math.Sqrt(Math.Pow(sensitivityX * xDistance, 2.0) + Math.Pow((nose - closestRed).Y, 2.0));
+                    if (distance < maxDistance)
+                        motors[i] += (byte)((1 - distance / maxDistance) * 255);
+                }
+                for (int i = 0; i < motors.Length; i++)
+                {
+                    motors[i] = (byte)Math.Min(turbo * (double)motors[i], 255);
+                    motors[i] = Math.Max(motors[i], minvalue);
+
+                }
+
+                progressBar1.Value = motors[0];
+                progressBar2.Value = motors[1];
+                progressBar3.Value = motors[2];
+                progressBar4.Value = motors[3];
+                progressBar5.Value = motors[4];
+                progressBar6.Value = motors[5];
+                progressBar7.Value = motors[6];
+                progressBar8.Value = motors[7];
+                progressBar9.Value = motors[8];
+                progressBar10.Value = motors[9];
+
+                feedback.SetFanSpeeds(motors);
+
+                int centerlevel = Math.Max(motors[3], motors[6]);
+                if (centerlevel > 127)
+                {
+                    if (motors[4] > motors[5])
+                        recommendedAngle = 30.0 * centerlevel / 255.0;
+                    else if (motors[4] < motors[5])
+                        recommendedAngle = -30.0 * centerlevel / 255.0;
+                    else
+                        recommendedAngle = 0.0;
+                }
                 else
                     recommendedAngle = 0.0;
             }
-            else
-                recommendedAngle = 0.0;
+            catch (Exception)
+            {
 
+                //throw;
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
