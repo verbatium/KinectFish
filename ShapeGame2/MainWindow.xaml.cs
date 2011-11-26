@@ -28,7 +28,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Research.Kinect.Nui;
-using ShapeGame_Utils;
 using System.Timers;
 
 // Since the timer resolution defaults to about 10ms precisely, we need to
@@ -189,7 +188,7 @@ namespace ShapeGame2
         int frameCount = 0;
         bool runningGameThread = false;
         bool nuiInitialized = false;
-        FallingThings fallingThings = null;
+
 
         SoundPlayer popSound = new SoundPlayer();
         SoundPlayer hitSound = new SoundPlayer();
@@ -284,6 +283,7 @@ namespace ShapeGame2
 
         void GameOver_Completed(object sender, EventArgs e)
         {
+            vortices.speed = 4.7;
             GamePhase = GamePhases.Standby;
         }
 
@@ -389,7 +389,7 @@ namespace ShapeGame2
             //Canvas.SetLeft(fourLineFish, screenRect.Width / 2 - 150);
             
 
-            BannerText.UpdateBounds(screenRect);
+          
 
             playerBounds.X = 0;
             playerBounds.Width = playfield.ActualWidth;
@@ -399,10 +399,7 @@ namespace ShapeGame2
             Rect rFallingBounds = playerBounds;
             rFallingBounds.Y = 0;
             rFallingBounds.Height = playfield.ActualHeight;
-            if (fallingThings != null)
-            {
-                fallingThings.SetBoundaries(rFallingBounds);
-            }
+           
             if (fish1 !=null)
             {
                 double ratio = fish1.Height; // to preserve fish proportions
@@ -447,24 +444,14 @@ namespace ShapeGame2
         {
             playfield.ClipToBounds = true;
 
-            fallingThings = new FallingThings(MaxShapes, targetFramerate, NumIntraFrames);
-
             UpdatePlayfieldSize();
 
-            fallingThings.SetGravity(dropGravity);
-            fallingThings.SetDropRate(dropRate);
-            fallingThings.SetSize(dropSize);
-            fallingThings.SetPolies(PolyType.All);
-            fallingThings.SetGameMode(FallingThings.GameMode.Off);
+
 
             if ((nui != null) && InitializeNui())
             {
                 //nui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_ColorFrameReady);
                 nui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(nui_SkeletonFrameReady);
-            }
-            else
-            {
-                BannerText.NewBanner(Properties.Resources.NoKinectError, screenRect, false, Color.FromArgb(90, 255, 255, 255));
             }
 
             popSound.Stream = Properties.Resources.Pop_5;
@@ -478,7 +465,6 @@ namespace ShapeGame2
             gameThread.SetApartmentState(ApartmentState.STA);
             gameThread.Start();
 
-            FlyingText.NewFlyingText(screenRect.Width / 30, new Point(screenRect.Width / 2, screenRect.Height / 2), "Shapes!");
         }
 
         private void GameThread()
@@ -549,8 +535,6 @@ namespace ShapeGame2
                 }
 
                 // Every so often, notify what our actual framerate is
-                if ((frameCount % 100) == 0)
-                    fallingThings.SetFramerate(1000.0 / actualFrameTime);
 
                 updateDistance(); // in top right corner
 
@@ -671,7 +655,7 @@ namespace ShapeGame2
                 //const double crashRadius = 120;
                 if (redDistance < playfield.ActualHeight / 8 || blueDistance < playfield.ActualHeight / 8)
                 {
-                    vortices.speed *= 0.95;
+                    vortices.speed *= 0.8;
                     if (vortices.speed < 0.3)
                         vortices.speed = 0.3;
                     fish1.StartCrashAnimation();
