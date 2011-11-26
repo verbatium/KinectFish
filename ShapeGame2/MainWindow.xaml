@@ -55,7 +55,7 @@
         <Label Content=" " Height="100" Name="countdownLabel"  HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72" />
         <Label Content="0.0" Height="100" Name="distanceLabel" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="72" />
 
-        <Button Content="Start game" HorizontalAlignment="Center" VerticalAlignment="Top"  Name="StartButton" Click="StartButton_Click" />
+        <Button Content="Start demo" HorizontalAlignment="Center" VerticalAlignment="Top"  Name="StartButton" Click="StartButton_Click" />
         <Label Content="Try to match the shadow!" Name="InstructionLabel" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="72" Visibility="Hidden"/>
         <Label Content="Game Over"  Name="GameOverLabel" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="144" Opacity="0" Foreground="#FFAE1010" FontWeight="Bold" />
 

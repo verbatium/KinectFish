@@ -55,7 +55,7 @@ namespace ShapeGame2
         const double DefaultDropRate = 2.5;
         const double DefaultDropSize = 32.0;
         const double DefaultDropGravity = 1.0;
-        static int GameTime = 120;
+        static int GameTime = 60;
         double recommendedAngle = 0.0;
 
         //FourLineFish fourLineFish;
@@ -131,8 +131,8 @@ namespace ShapeGame2
     spedLabel.Visibility = System.Windows.Visibility.Visible;
     stackPanel1.Visibility = System.Windows.Visibility.Visible;
     angleSlider.Focus();
-    GameTime = 10;
-    StartSpeed = 0.5;
+    //GameTime = 10;
+    //StartSpeed = 0.5;
 #endif
 
             //p.Status = Status.Unknown;
@@ -656,7 +656,7 @@ namespace ShapeGame2
                 byte minvalue = 0;
                 byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-                double moveAway = playfield.ActualHeight / 3.5;
+                double moveAway = playfield.ActualHeight / 7.5;
                 closestBlue.X += moveAway;
                 closestRed.X -= moveAway;
                 double movementFreedom = playfield.ActualHeight / 3.0; ;
@@ -719,6 +719,8 @@ namespace ShapeGame2
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            feedback.SetFanSpeeds(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
+            roboticfish.rapidCenter();
             runningGameThread = false;
             Properties.Settings.Default.PrevWinPosition = this.RestoreBounds;
             Properties.Settings.Default.WindowState = (int)this.WindowState;
@@ -742,7 +744,8 @@ namespace ShapeGame2
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            StartGame();
+            //StartGame();
+            StartDemo();
         }
         public void StartGame()
         {

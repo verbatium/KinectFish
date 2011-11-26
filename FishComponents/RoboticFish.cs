@@ -168,6 +168,16 @@ namespace FishComponents
             set { targetAngle = 0.8 * targetAngle + 0.2 * value; } //reduce jitter
             get { return realAngle; }
         }
+        public void rapidCenter()
+        {
+            try
+            {
+                robotFishPort.Write(new byte[] { 143 }, 0, 1);
+            }
+            catch
+            {
+            }
+        }
 
     }
 }
