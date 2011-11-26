@@ -125,6 +125,11 @@ namespace ShapeGame2
         public MainWindow()
         {
             InitializeComponent();
+
+#if DEBUG
+    angleSlider.Visibility = System.Windows.Visibility.Visible;
+#endif
+
             //p.Status = Status.Unknown;
 
             //p.Radius = 35;
@@ -221,6 +226,7 @@ namespace ShapeGame2
                 case GamePhases.Standby:
                     {
                         GamePhase = GamePhases.InstructionsLeftPose;
+                        vortices.speed = 5.0;
 
                         shadowFish.FishClone(fish1);
                         Canvas.SetTop(shadowFish, Canvas.GetTop(fish1));
@@ -242,9 +248,11 @@ namespace ShapeGame2
                     break;
                 case GamePhases.Started:
                     ResetGame();
+                    vortices.speed = 5.0;
                     break;
                 case GamePhases.GameOver: // TODO display high scores or some other indication ("Very good!"/"Try harder!")
                     GamePhase = GamePhases.Standby;
+                    vortices.speed = 5.0;
                     break;
             }
       
