@@ -40,7 +40,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Research.Kinect, Version=1.0.0.45, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="SlimDX, Version=4.0.12.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -69,7 +68,6 @@
     <Compile Include="SingleVortex.xaml.cs">
       <DependentUpon>SingleVortex.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SimpleJoystick.cs" />
     <Compile Include="Vortices.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

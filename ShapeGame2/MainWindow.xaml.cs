@@ -84,7 +84,7 @@ namespace ShapeGame2
         public RoboticFish roboticfish = new RoboticFish("COM7");
         //List<SingleVortex> redVortices = new List<SingleVortex>();
         //System.Timers.Timer redVortexTimer;
-        SimpleJoystick joystick;
+
         Vortices vortices = new Vortices(Dispatcher.CurrentDispatcher);
 
         int countdownValue = GameTime;
@@ -152,16 +152,7 @@ namespace ShapeGame2
             this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
             //fourLineFish = this.FindName("UCFish") as FourLineFish;
             
-            // find a joystick
-            try
-            {
-                joystick = new SimpleJoystick();
-            }
-            catch (Exception)
-            {
 
-
-            }
 
             countdownTimer.Elapsed += new ElapsedEventHandler(countdownTimerElapsed);
             
@@ -173,9 +164,7 @@ namespace ShapeGame2
             shadowFish.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        double dropRate = DefaultDropRate;
-        double dropSize = DefaultDropSize;
-        double dropGravity = DefaultDropGravity;
+
         DateTime lastFrameDrawn = DateTime.MinValue;
         DateTime predNextFrame = DateTime.MinValue;
         double actualFrameTime = 0;
@@ -525,14 +514,7 @@ namespace ShapeGame2
             {
 
 
-                if (joystick != null && nui == null)
-                {
-                    double angle = joystick.State.X * 30 / 100;
-                    fish1.TurnFish(angle);
 
-                    roboticfish.RobotAngle = angle;
-
-                }
 
                 // Every so often, notify what our actual framerate is
 
