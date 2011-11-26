@@ -508,6 +508,7 @@ namespace ShapeGame2
             }
         }
 
+        double oldangle = 0.0;
         private void HandleGameTimer(int param)
         {
             try
@@ -533,6 +534,7 @@ namespace ShapeGame2
                     fish1.inputAngle = recommendedAngle;
 
                 double offsetChange = fish1.maxFishOffset / 150.0 * vortices.speed * actualFrameTime * fish1.inputAngle / 600.0;
+
                 if (!fish1.MoveHorizontally(offsetChange, screenRect.Width, actualFrameTime / 1000.0, vortices.scaledSpeed))
                     fish1.UpdateTail(actualFrameTime / 1000.0);
                 playfield.Children.Add(fish1);
@@ -554,7 +556,11 @@ namespace ShapeGame2
                                 TactileFeedback();
                             // make the flow faster
                             if ((frameCount % 100) == 0)
-                                vortices.speed += 0.1;
+                            {
+                                double diff = Math.Abs(oldangle - fish1.inputAngle);
+                                vortices.speed += 0.1 * diff;
+                            }
+                            oldangle = fish1.inputAngle;
                             vortices.Draw(playfield.Children);
                             break;
                         }
