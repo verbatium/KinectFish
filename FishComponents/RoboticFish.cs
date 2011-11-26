@@ -72,6 +72,7 @@ namespace FishComponents
                                 //if data found when connection succesfull
                                 isready = true;
                                 OnConnected(EventArgs.Empty);
+                                break;
                             }
                         }
                     }
@@ -97,8 +98,8 @@ namespace FishComponents
         {
             return val.Contains("[root@netus]/root#");
         }
-        double maxAngle = 30;
-        double minAngle = -30;
+        double maxAngle = 15;
+        double minAngle = -15;
         byte motorCommand(double angle)
         {
             angle = Math.Max(angle, minAngle);

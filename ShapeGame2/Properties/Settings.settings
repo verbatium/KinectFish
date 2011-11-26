@@ -9,10 +9,10 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="RobotFishPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">COM4</Value>
+      <Value Profile="(Default)">COM7</Value>
     </Setting>
     <Setting Name="FeedbackPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">COM5</Value>
+      <Value Profile="(Default)">COM6</Value>
     </Setting>
   </Settings>
 </SettingsFile>

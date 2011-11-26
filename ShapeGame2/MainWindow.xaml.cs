@@ -78,8 +78,10 @@ namespace ShapeGame2
         double swimDistance = 0; // total distance the fish has already moved
         //public SerialConnector serialWindow;
         //TODO: ADD Comport configuration
-        public FeedBack feedback = new FeedBack(Properties.Settings.Default.FeedbackPort);
-        public RoboticFish roboticfish = new RoboticFish(Properties.Settings.Default.RobotFishPort);
+       
+
+        public FeedBack feedback = new FeedBack("COM6");
+        public RoboticFish roboticfish = new RoboticFish("COM7");
         //List<SingleVortex> redVortices = new List<SingleVortex>();
         //System.Timers.Timer redVortexTimer;
         SimpleJoystick joystick;
@@ -117,18 +119,18 @@ namespace ShapeGame2
                     StartGame();
             }
         }
-        Particle p = new Particle();
+        //Particle p = new Particle();
         public MainWindow()
         {
             InitializeComponent();
 
-            p.Status = Status.Unknown;
+            //p.Status = Status.Unknown;
 
-            p.Radius = 35;
-            p.Mass = p.Radius * .01;
-            p.Opacity = p.Radius * .02;
-            Canvas.SetTop(p, 100     );
-            Canvas.SetLeft(p, 100);
+            //p.Radius = 35;
+            //p.Mass = p.Radius * .01;
+            //p.Opacity = p.Radius * .02;
+            //Canvas.SetTop(p, 100     );
+            //Canvas.SetLeft(p, 100);
 
             if (Runtime.Kinects.Count > 0)
                 nui = Runtime.Kinects[0]; // new style of opening Kinects, instead of "nui = new Runtime();"
@@ -205,7 +207,8 @@ namespace ShapeGame2
                     //fourLineFish.TurnFish(angle);
                     fish1.TurnFish(angle);
                      //seleton.Children.Add(getFishBody(data.Joints, brush));
-                    roboticfish.RobotAngle = angle;
+                    if (GamePhase == GamePhases.Started)
+                        roboticfish.RobotAngle = angle;
                 }
                 iSkeleton++;
             } // for each skeleton
@@ -265,8 +268,9 @@ namespace ShapeGame2
 
             //System.Windows.Vector v1 = new System.Windows.Vector(c.X-b.X,c.Y - b.Y);
             System.Windows.Vector v2 = new System.Windows.Vector(b.X - a.X, b.Y - a.Y);
-
-            return AngleConstrain(2*(v2.Angle() - 90.0), -30, 30);//AngleConstrain(-NormalizeAngle(180.0 - v2.Angle()), -30, 30);
+            double ang = AngleConstrain(2*(v2.Angle() - 90.0), -30, 30);//AngleConstrain(-NormalizeAngle(180.0 - v2.Angle()), -30, 30);
+            //Console.WriteLine(ang);
+            return ang;
         }
        public static Double AngleConstrain(double angle, double Min, double Max)
         {
@@ -486,7 +490,9 @@ namespace ShapeGame2
             {
                 double angle = joystick.State.X * 30 / 100;
                 fish1.TurnFish(angle);
-                roboticfish.RobotAngle = angle;
+
+                    roboticfish.RobotAngle = angle;
+
             }
 
             // Every so often, notify what our actual framerate is
@@ -497,6 +503,8 @@ namespace ShapeGame2
 
             // if you change this, remember to change dataRate variable in turnFish()
             //if ((frameCount % 2) == 0) // if fps is 50, this means "at 25 Hz"
+            if (GamePhase != GamePhases.Started)
+                roboticfish.RobotAngle = 0;
             roboticfish.turnFish(); // move the robot fish, if necessary
 
             // Draw new Wpf scene by adding all objects to canvas
@@ -513,9 +521,9 @@ namespace ShapeGame2
 
            // p.Status = (Status)_r.Next(1, 9);
 
-            Canvas.SetLeft(p, fish1.NosePosition.X - p.ActualWidth/2);
-            Canvas.SetTop(p, fish1.NosePosition.Y - 2*p.ActualHeight);
-            playfield.Children.Add(p);
+            //Canvas.SetLeft(p, fish1.NosePosition.X - p.ActualWidth/2);
+            //Canvas.SetTop(p, fish1.NosePosition.Y - 2*p.ActualHeight);
+            //playfield.Children.Add(p);
 
             switch (GamePhase)
             {
