@@ -671,7 +671,9 @@ namespace ShapeGame2
                 //const double crashRadius = 120;
                 if (redDistance < playfield.ActualHeight / 8 || blueDistance < playfield.ActualHeight / 8)
                 {
-                    vortices.speed = 0.7;
+                    vortices.speed *= 0.95;
+                    if (vortices.speed < 0.3)
+                        vortices.speed = 0.3;
                     fish1.StartCrashAnimation();
                 }
 
@@ -777,7 +779,7 @@ namespace ShapeGame2
             countdownValue = GameTime;
             swimDistance = 0;
             distanceLabel.Content = swimDistance;
-            vortices.speed = 0.3;
+            vortices.speed = 4.3;
             vortices.StartFlow();
         }
         public void StartDemo()
