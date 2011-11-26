@@ -115,6 +115,7 @@ namespace ShapeGame2
                     byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                     feedback.SetFanSpeeds(motors);
                     StartButton.Visibility = System.Windows.Visibility.Visible;
+                    GameOver_fadeinout(GameOverLabel);
                 }
                 else if (GamePhase == GamePhases.Countdown)
                     StartGame();
@@ -275,11 +276,7 @@ namespace ShapeGame2
 
         void GameOver_Completed(object sender, EventArgs e)
         {
-            //switch (e.ToString())
-            //{
-            //    case "GameOverLabel": break;
-            //    default: break;
-            //}
+            GamePhase = GamePhases.Standby;
         }
 
         private void PortChanged(object sender, EventArgs e)
@@ -604,9 +601,9 @@ namespace ShapeGame2
                         break;
                     }
                 case GamePhases.GameOver:
-                    GameOver_fadeinout(GameOverLabel);
+                   
                     vortices.Draw(playfield.Children);
-                    GamePhase = GamePhases.Standby;
+
                     break;
             }
             
