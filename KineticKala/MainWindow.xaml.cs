@@ -368,10 +368,7 @@ namespace KineticKala
             double s = ((a.Y - c.Y) * (b.X - a.X) - (a.X - c.X) * (b.Y - a.Y)) / r_denomenator;
 
             double distanceLine = Math.Abs(s) * Math.Sqrt(r_denomenator);
-            double distanceSegment;
-            //
-            // (xx,yy) is the point on the lineSegment closest to (cx,cy)
-            //
+
 
             Point x = new Point(px, py);
 

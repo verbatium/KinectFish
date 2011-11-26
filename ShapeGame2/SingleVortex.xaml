@@ -29,6 +29,8 @@
                 </RadialGradientBrush>
             </Ellipse.Fill>
         </Ellipse>
+        <Path Data="M175.5,0.49998765 C86.5,120.50041 0.5,1.5000022 0.5,1.5000022" Height="54.594" Canvas.Left="61.5" Stroke="Black" Canvas.Top="198.5" Width="176" StrokeStartLineCap="Triangle" Stretch="Fill" StrokeThickness="2" StrokeEndLineCap="Round"/>
+        <Path Data="M64,217 L61.5,201.5 75.5,202.5" Fill="Black" Height="16.5" Canvas.Left="58.125" Stretch="Fill" Stroke="Black" Canvas.Top="197" Width="15"/>
     </Canvas>
     <UserControl.Resources>
         <Storyboard x:Key="Flow" SpeedRatio="0.3" Completed="AnimationFinished">

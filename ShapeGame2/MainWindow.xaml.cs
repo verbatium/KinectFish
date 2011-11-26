@@ -127,7 +127,9 @@ namespace ShapeGame2
 
 #if DEBUG
     angleSlider.Visibility = System.Windows.Visibility.Visible;
-    stackPanel1.Visibility = System.Windows.Visibility.Visible;
+    angleLabel.Visibility = System.Windows.Visibility.Visible;
+    spedLabel.Visibility = System.Windows.Visibility.Visible;
+    angleSlider.Focus();
 #endif
 
             //p.Status = Status.Unknown;
@@ -141,16 +143,7 @@ namespace ShapeGame2
             if (Runtime.Kinects.Count > 0)
                 nui = Runtime.Kinects[0]; // new style of opening Kinects, instead of "nui = new Runtime();"
 
-            // Restore window state to that last used
-            Rect bounds = Properties.Settings.Default.PrevWinPosition;
-            if (bounds.Right != bounds.Left)
-            {
-                this.Top = bounds.Top;
-                this.Left = bounds.Left;
-                this.Height = bounds.Height;
-                this.Width = bounds.Width;
-            }
-            this.WindowState = (WindowState)Properties.Settings.Default.WindowState;
+
             //fourLineFish = this.FindName("UCFish") as FourLineFish;
             
 
@@ -189,24 +182,27 @@ namespace ShapeGame2
 
         void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
-            SkeletonFrame skeletonFrame = e.SkeletonFrame;
-            int iSkeleton = 0;
-            //TODO trycatch
-            foreach (SkeletonData data in skeletonFrame.Skeletons)
+            try
             {
-                if (SkeletonTrackingState.Tracked == data.TrackingState)
+                SkeletonFrame skeletonFrame = e.SkeletonFrame;
+                int iSkeleton = 0;
+                foreach (SkeletonData data in skeletonFrame.Skeletons)
                 {
+                    if (SkeletonTrackingState.Tracked == data.TrackingState)
+                    {
+                        double angle = getFishAngle(data.Joints);
+                        fish1.TurnFish(angle);
+                        if (GamePhase == GamePhases.Started)
+                            roboticfish.RobotAngle = angle;
+                    }
+                    iSkeleton++;
+                } // for each skeleton
+            }
+            catch (Exception)
+            {
+              //  throw;
+            }
 
-                    double angle = getFishAngle(data.Joints);
-                    //debugLabelCenter.Content = angle;
-                    //fourLineFish.TurnFish(angle);
-                    fish1.TurnFish(angle);
-                     //seleton.Children.Add(getFishBody(data.Joints, brush));
-                    if (GamePhase == GamePhases.Started)
-                        roboticfish.RobotAngle = angle;
-                }
-                iSkeleton++;
-            } // for each skeleton
         }
         private void ButtonPressed()
         {
@@ -515,7 +511,8 @@ namespace ShapeGame2
             try
             {
 
-
+                angleLabel.Content = Math.Round(fish1.inputAngle,2);
+                spedLabel.Content = Math.Round(vortices.speed,2);
 
 
                 // Every so often, notify what our actual framerate is
@@ -753,7 +750,7 @@ namespace ShapeGame2
             countdownValue = GameTime;
             swimDistance = 0;
             distanceLabel.Content = swimDistance;
-            vortices.speed = 4.3;
+            vortices.speed = 0.3;
             vortices.StartFlow();
         }
         public void StartDemo()
