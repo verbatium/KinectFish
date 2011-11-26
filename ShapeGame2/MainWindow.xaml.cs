@@ -127,6 +127,7 @@ namespace ShapeGame2
 
 #if DEBUG
     angleSlider.Visibility = System.Windows.Visibility.Visible;
+    stackPanel1.Visibility = System.Windows.Visibility.Visible;
 #endif
 
             //p.Status = Status.Unknown;
