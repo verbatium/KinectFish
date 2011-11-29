@@ -35,7 +35,7 @@
     <UserControl.Resources>
         <Storyboard x:Key="Flow" SpeedRatio="0.3" Completed="AnimationFinished">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="Vortex">
-                <EasingDoubleKeyFrame KeyTime="0:0:5" Value="1500"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:10" Value="3000"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimation 
                 x:Name="RotationAnimation" 
