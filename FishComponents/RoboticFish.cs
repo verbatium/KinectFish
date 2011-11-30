@@ -58,6 +58,7 @@ namespace FishComponents
                         //start programm
                         robotFishPort.WriteLine("./pwm -b");
                         OnConnected(EventArgs.Empty);
+                        break;
                     }
 
                     //analize data for output from fis
