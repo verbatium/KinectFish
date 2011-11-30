@@ -55,6 +55,10 @@ namespace FishComponents
             return true;
         }
 
+        public void StopFans()
+        {
+            SetFanSpeeds(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
+        }
         byte[] motorAddress = { 161, 162, 163, 164, 165, 166, 167, 168 }; // left to right
         //byte[] motorAddress = { 168, 167, 166, 165, 160, 160, 164, 163, 162, 161 }; // for 8 ventilators
         byte[] prevMotorSpeeds = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

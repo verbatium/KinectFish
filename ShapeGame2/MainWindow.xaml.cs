@@ -111,8 +111,7 @@ namespace ShapeGame2
                 {
                     GamePhase = GamePhases.GameOver;
                     vortices.StopFlow();
-                    byte[] motors = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-                    feedback.SetFanSpeeds(motors);
+                    feedback.StopFans();
                     StartButton.Visibility = System.Windows.Visibility.Visible;
                     GameOver_fadeinout(GameOverLabel);
                 }
@@ -719,7 +718,7 @@ namespace ShapeGame2
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            feedback.SetFanSpeeds(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
+            feedback.StopFans();
             roboticfish.rapidCenter();
             runningGameThread = false;
             Properties.Settings.Default.PrevWinPosition = this.RestoreBounds;
@@ -775,7 +774,7 @@ namespace ShapeGame2
             distanceLabel.Content = swimDistance;
             vortices.speed = 0.3;
             vortices.StopFlow();
-
+            feedback.StopFans();
         }
 
     }
