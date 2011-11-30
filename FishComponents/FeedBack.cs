@@ -108,12 +108,12 @@ namespace FishComponents
         private void ResetPressed()
         {
             //FeedbackConnectButton.Content = "Reset Pressed";
-            //OnChanged(EventArgs.Empty);
+            OnChanged(EventArgs.Empty);
         }
         private void ResetUnPressed()
         {
             //FeedbackConnectButton.Content = "Reset Un Pressed";
-            OnChanged(EventArgs.Empty);
+            //OnChanged(EventArgs.Empty);
         }
 
         public event EventHandler Changed;
@@ -123,6 +123,19 @@ namespace FishComponents
         {
             if (Changed != null)
                 Changed(this, e);
+        }
+
+        public bool isButtonDown()
+        {
+            try
+            {
+                return feedbackPort.CtsHolding;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
     }
 }

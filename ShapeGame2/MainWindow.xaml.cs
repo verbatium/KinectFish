@@ -206,6 +206,24 @@ namespace ShapeGame2
             }
 
         }
+
+        DispatcherTimer debounceTimer = new DispatcherTimer();
+        void startDebounce()
+        {
+            if (debounceTimer.IsEnabled)
+                return;
+            debounceTimer.Interval = TimeSpan.FromMilliseconds(10);
+            debounceTimer.Tick += new EventHandler(endDebounce);
+            debounceTimer.Start();
+        }
+
+        private void endDebounce(Object sender, EventArgs args)
+        {
+            debounceTimer.Stop();
+            if(feedback.isButtonDown())
+                Dispatcher.Invoke(DispatcherPriority.Normal, new Action(ButtonPressed));
+        }
+
         private void ButtonPressed()
         {
             switch (GamePhase)
@@ -277,7 +295,7 @@ namespace ShapeGame2
 
         private void PortChanged(object sender, EventArgs e)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(ButtonPressed));
+            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(startDebounce));
         }
 
         private double getFishAngle(Microsoft.Research.Kinect.Nui.JointsCollection joints)
