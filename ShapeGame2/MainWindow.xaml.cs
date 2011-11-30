@@ -555,10 +555,8 @@ namespace ShapeGame2
                             if ((frameCount % 10) == 0)
                                 TactileFeedback();
                             // make the flow faster
-                            if ((frameCount % 100) == 0)
+                            if ((frameCount % 25) == 0)
                             {
-                                if (Math.Sign(oldangle * fish1.Angle) < 0)
-                                    vortices.speed += 0.5;
                                 vortices.speed += 0.1;
                             }
                             oldangle = fish1.inputAngle;
