@@ -27,7 +27,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Microsoft.Research.Kinect.Nui;
+using Microsoft.Kinect;
+using Microsoft.Kinect.Toolkit;
+using Microsoft.Samples.Kinect.WpfViewers;
 using System.Timers;
 
 // Since the timer resolution defaults to about 10ms precisely, we need to
@@ -120,8 +122,22 @@ namespace ShapeGame2
             }
         }
         //Particle p = new Particle();
+
+        public static readonly DependencyProperty KinectSensorManagerProperty =
+            DependencyProperty.Register(
+                "KinectSensorManager",
+                typeof(KinectSensorManager),
+                typeof(MainWindow),
+                new PropertyMetadata(null));
+
+        private readonly KinectSensorChooser sensorChooser = new KinectSensorChooser();
+
         public MainWindow()
         {
+            this.KinectSensorManager = new KinectSensorManager();
+            this.KinectSensorManager.KinectSensorChanged += this.KinectSensorChanged;
+            this.DataContext = this.KinectSensorManager;
+
             InitializeComponent();
 
 #if DEBUG
@@ -142,9 +158,12 @@ namespace ShapeGame2
             //Canvas.SetTop(p, 100     );
             //Canvas.SetLeft(p, 100);
 
-            if (Runtime.Kinects.Count > 0)
-                nui = Runtime.Kinects[0]; // new style of opening Kinects, instead of "nui = new Runtime();"
+            this.SensorChooserUI.KinectSensorChooser = sensorChooser;
+            sensorChooser.Start();
 
+            // Bind the KinectSensor from the sensorChooser to the KinectSensor on the KinectSensorManager
+            var kinectSensorBinding = new Binding("Kinect") { Source = this.sensorChooser };
+            BindingOperations.SetBinding(this.KinectSensorManager, KinectSensorManager.KinectSensorProperty, kinectSensorBinding);
 
             //fourLineFish = this.FindName("UCFish") as FourLineFish;
             
@@ -160,6 +179,55 @@ namespace ShapeGame2
             shadowFish.Visibility = System.Windows.Visibility.Hidden;
         }
 
+        public KinectSensorManager KinectSensorManager
+        {
+            get { return (KinectSensorManager)GetValue(KinectSensorManagerProperty); }
+            set { SetValue(KinectSensorManagerProperty, value); }
+        }
+
+
+        #region Kinect discovery + setup
+
+        private void KinectSensorChanged(object sender, KinectSensorManagerEventArgs<KinectSensor> args)
+        {
+            if (null != args.OldValue)
+            {
+                this.UninitializeKinectServices(args.OldValue);
+            }
+
+            if (null != args.NewValue)
+            {
+                this.InitializeKinectServices(this.KinectSensorManager, args.NewValue);
+            }
+        }
+
+        // Kinect enabled apps should customize which Kinect services it initializes here.
+        private void InitializeKinectServices(KinectSensorManager kinectSensorManager, KinectSensor sensor)
+        {
+            // Application should enable all streams first.
+            kinectSensorManager.ColorFormat = ColorImageFormat.RgbResolution640x480Fps30;
+            kinectSensorManager.ColorStreamEnabled = true;
+
+            sensor.SkeletonFrameReady += this.nui_SkeletonFrameReady;
+            kinectSensorManager.TransformSmoothParameters = new TransformSmoothParameters
+            {
+                Smoothing = 0.5f,
+                Correction = 0.5f,
+                Prediction = 0.5f,
+                JitterRadius = 0.05f,
+                MaxDeviationRadius = 0.04f
+            };
+            kinectSensorManager.SkeletonStreamEnabled = true;
+            kinectSensorManager.KinectSensorEnabled = true;
+        }
+
+        // Kinect enabled apps should uninitialize all Kinect services that were initialized in InitializeKinectServices() here.
+        private void UninitializeKinectServices(KinectSensor sensor)
+        {
+            sensor.SkeletonFrameReady -= this.nui_SkeletonFrameReady;
+        }
+
+        #endregion Kinect discovery + setup
 
         DateTime lastFrameDrawn = DateTime.MinValue;
         DateTime predNextFrame = DateTime.MinValue;
@@ -172,33 +240,40 @@ namespace ShapeGame2
         double targetFramerate = MaxFramerate;
         int frameCount = 0;
         bool runningGameThread = false;
-        bool nuiInitialized = false;
-
 
         SoundPlayer popSound = new SoundPlayer();
         SoundPlayer hitSound = new SoundPlayer();
         SoundPlayer squeezeSound = new SoundPlayer();
 
-        Runtime nui;
-
+        private Skeleton[] skeletonData;
 
         void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             try
             {
-                SkeletonFrame skeletonFrame = e.SkeletonFrame;
-                int iSkeleton = 0;
-                foreach (SkeletonData data in skeletonFrame.Skeletons)
+                SkeletonFrame skeletonFrame = e.OpenSkeletonFrame();
+                
+                if (skeletonFrame != null)
                 {
-                    if (SkeletonTrackingState.Tracked == data.TrackingState)
+                    int iSkeleton = 0;
+                    if ((this.skeletonData == null) || (this.skeletonData.Length != skeletonFrame.SkeletonArrayLength))
                     {
-                        double angle = getFishAngle(data.Joints);
-                        fish1.TurnFish(angle);
-                        if (GamePhase == GamePhases.Started)
-                            roboticfish.RobotAngle = angle;
+                        this.skeletonData = new Skeleton[skeletonFrame.SkeletonArrayLength];
                     }
-                    iSkeleton++;
-                } // for each skeleton
+                    skeletonFrame.CopySkeletonDataTo(this.skeletonData);
+
+                    foreach (Skeleton data in this.skeletonData)
+                    {
+                        if (SkeletonTrackingState.Tracked == data.TrackingState)
+                        {
+                            double angle = getFishAngle(data.Joints);
+                            fish1.TurnFish(angle);
+                            if (GamePhase == GamePhases.Started)
+                                roboticfish.RobotAngle = angle;
+                        }
+                        iSkeleton++;
+                    } // for each skeleton
+                }
             }
             catch (Exception)
             {
@@ -298,18 +373,18 @@ namespace ShapeGame2
             Dispatcher.Invoke(DispatcherPriority.Normal, new Action(startDebounce));
         }
 
-        private double getFishAngle(Microsoft.Research.Kinect.Nui.JointsCollection joints)
+        private double getFishAngle(Microsoft.Kinect.JointCollection joints)
         {
 
-            Point a = getDisplayPosition(joints[JointID.Head]);
-            a = getDisplayPosition(joints[JointID.ShoulderCenter]);
+            Point a = getDisplayPosition(joints[JointType.Head]);
+            a = getDisplayPosition(joints[JointType.ShoulderCenter]);
 
-            Point b = getDisplayPosition(joints[JointID.Spine]);
+            Point b = getDisplayPosition(joints[JointType.Spine]);
 
             //Point c = new Point(a.X, b.Y + (b.Y-a.Y));
             //Point c = Average(
-            //getDisplayPosition(joints[JointID.AnkleLeft]),
-            //getDisplayPosition(joints[JointID.AnkleRight]));
+            //getDisplayPosition(joints[Joint.AnkleLeft]),
+            //getDisplayPosition(joints[Joint.AnkleRight]));
 
             //System.Windows.Vector v1 = new System.Windows.Vector(c.X-b.X,c.Y - b.Y);
             System.Windows.Vector v2 = new System.Windows.Vector(b.X - a.X, b.Y - a.Y);
@@ -336,49 +411,14 @@ namespace ShapeGame2
         }
 
        private Point getDisplayPosition(Joint joint)
-        {
-            float depthX, depthY;
-            nui.SkeletonEngine.SkeletonToDepthImage(joint.Position, out depthX, out depthY);
-            depthX = depthX * 320; //convert to 320, 240 space
-            depthY = depthY * 240; //convert to 320, 240 space
-            int colorX, colorY;
-            ImageViewArea iv = new ImageViewArea();
-            // only ImageResolution.Resolution640x480 is supported at this point
-            nui.NuiCamera.GetColorPixelCoordinatesFromDepthPixel(ImageResolution.Resolution640x480, iv, (int)depthX, (int)depthY, (short)0, out colorX, out colorY);
+       {
+           int colorX, colorY;
+           ColorImagePoint colorPoint = sensorChooser.Kinect.MapSkeletonPointToColor(joint.Position, ColorImageFormat.RgbResolution640x480Fps30);
+           colorX = colorPoint.X;
+           colorY = colorPoint.Y;
 
-            // map back to skeleton.Width & skeleton.Height
-            return new Point((int)(playfield.ActualWidth * colorX / 640.0), (int)(playfield.ActualHeight * colorY / 480));
-        }
-        
-
-        private bool InitializeNui()
-        {
-            UninitializeNui();
-            if (nui == null)
-                return false;
-            try
-            {
-                nui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
-            }
-            catch (Exception _Exception)
-            {
-                Console.WriteLine(_Exception.ToString());
-                return false;
-            }
-
-            nui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex);
-            nui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color);
-            nui.SkeletonEngine.TransformSmooth = true;
-            nuiInitialized = true;
-            return true;
-        }
-
-        private void UninitializeNui()
-        {
-            if ((nui != null) && (nuiInitialized))
-                nui.Uninitialize();
-            nuiInitialized = false;
-        }
+           return new Point((int)(playfield.ActualWidth * colorX / 640.0), (int)(playfield.ActualHeight * colorY / 480));
+       }
 
         private void Playfield_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -451,14 +491,6 @@ namespace ShapeGame2
             playfield.ClipToBounds = true;
 
             UpdatePlayfieldSize();
-
-
-
-            if ((nui != null) && InitializeNui())
-            {
-                //nui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_ColorFrameReady);
-                nui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(nui_SkeletonFrameReady);
-            }
 
             popSound.Stream = Properties.Resources.Pop_5;
             hitSound.Stream = Properties.Resources.Hit_2;
@@ -744,7 +776,6 @@ namespace ShapeGame2
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            UninitializeNui();
             Environment.Exit(0);
         }
 

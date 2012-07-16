@@ -1,13 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageProcessing", "ImageProcessing\ImageProcessing.csproj", "{7F08C49D-17D5-4230-97DF-41A9FD77126D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishControl", "FishControl\FishControl.csproj", "{5311BE55-5AFA-4DC8-AABE-23467356AC36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeGame2", "ShapeGame2\ShapeGame2.csproj", "{A71546F2-C5DE-4EA9-A049-5E4C704CAAB3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD} = {C6F9C31B-6130-4443-A5CC-EF0664552ECD}
+		{FF45A74E-4856-4ECF-BF93-100BB3D69FFA} = {FF45A74E-4856-4ECF-BF93-100BB3D69FFA}
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E} = {4DE23893-27E7-423F-9BB6-BA21DAC2C45E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KineticKala", "KineticKala\KineticKala.csproj", "{FF45A74E-4856-4ECF-BF93-100BB3D69FFA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD} = {C6F9C31B-6130-4443-A5CC-EF0664552ECD}
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E} = {4DE23893-27E7-423F-9BB6-BA21DAC2C45E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{593DDCF4-BA11-4468-BE62-4B64D5C444E4}"
 EndProject
@@ -22,10 +31,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishComponents", "FishCompo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishControllTest", "FishControllTest\FishControllTest.csproj", "{8DBB03D4-4365-4D91-8D1C-82C48388E1C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Samples.Kinect.WpfViewers", "..\KinectWpfViewers\Microsoft.Samples.Kinect.WpfViewers.csproj", "{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Kinect.Toolkit", "..\Microsoft.Kinect.Toolkit\Microsoft.Kinect.Toolkit.csproj", "{C6F9C31B-6130-4443-A5CC-EF0664552ECD}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = KinectFish.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -105,8 +115,31 @@ Global
 		{8DBB03D4-4365-4D91-8D1C-82C48388E1C0}.Release|Mixed Platforms.Build.0 = Release|x86
 		{8DBB03D4-4365-4D91-8D1C-82C48388E1C0}.Release|x86.ActiveCfg = Release|x86
 		{8DBB03D4-4365-4D91-8D1C-82C48388E1C0}.Release|x86.Build.0 = Release|x86
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C6F9C31B-6130-4443-A5CC-EF0664552ECD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = KinectFish.vsmdi
 	EndGlobalSection
 EndGlobal

@@ -11,7 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.Research.Kinect.Nui;
+using Microsoft.Kinect;
+using Microsoft.Kinect.Toolkit;
+using Microsoft.Samples.Kinect.WpfViewers;
 using KineticKala;
 namespace KineticKala
 {
@@ -20,12 +22,78 @@ namespace KineticKala
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly DependencyProperty KinectSensorManagerProperty =
+            DependencyProperty.Register(
+                "KinectSensorManager",
+                typeof(KinectSensorManager),
+                typeof(MainWindow),
+                new PropertyMetadata(null));
+
+        private readonly KinectSensorChooser sensorChooser = new KinectSensorChooser();
         public MainWindow()
         {
+            this.KinectSensorManager = new KinectSensorManager();
+            this.KinectSensorManager.KinectSensorChanged += this.KinectSensorChanged;
+            this.DataContext = this.KinectSensorManager;
+
             InitializeComponent();
+
+            this.SensorChooserUI.KinectSensorChooser = sensorChooser;
+            sensorChooser.Start();
+
+            // Bind the KinectSensor from the sensorChooser to the KinectSensor on the KinectSensorManager
+            var kinectSensorBinding = new Binding("Kinect") { Source = this.sensorChooser };
+            BindingOperations.SetBinding(this.KinectSensorManager, KinectSensorManager.KinectSensorProperty, kinectSensorBinding);
+        }
+        public KinectSensorManager KinectSensorManager
+        {
+            get { return (KinectSensorManager)GetValue(KinectSensorManagerProperty); }
+            set { SetValue(KinectSensorManagerProperty, value); }
         }
 
-        Runtime nui;
+        #region Kinect discovery + setup
+
+        private void KinectSensorChanged(object sender, KinectSensorManagerEventArgs<KinectSensor> args)
+        {
+            if (null != args.OldValue)
+            {
+                this.UninitializeKinectServices(args.OldValue);
+            }
+
+            if (null != args.NewValue)
+            {
+                this.InitializeKinectServices(this.KinectSensorManager, args.NewValue);
+            }
+        }
+
+        // Kinect enabled apps should customize which Kinect services it initializes here.
+        private void InitializeKinectServices(KinectSensorManager kinectSensorManager, KinectSensor sensor)
+        {
+            // Application should enable all streams first.
+            kinectSensorManager.ColorFormat = ColorImageFormat.RgbResolution640x480Fps30;
+            kinectSensorManager.ColorStreamEnabled = true;
+
+            sensor.SkeletonFrameReady += this.nui_SkeletonFrameReady;
+            kinectSensorManager.TransformSmoothParameters = new TransformSmoothParameters
+            {
+                Smoothing = 0.5f,
+                Correction = 0.5f,
+                Prediction = 0.5f,
+                JitterRadius = 0.05f,
+                MaxDeviationRadius = 0.04f
+            };
+            kinectSensorManager.SkeletonStreamEnabled = true;
+            kinectSensorManager.KinectSensorEnabled = true;
+        }
+
+        // Kinect enabled apps should uninitialize all Kinect services that were initialized in InitializeKinectServices() here.
+        private void UninitializeKinectServices(KinectSensor sensor)
+        {
+            sensor.SkeletonFrameReady -= this.nui_SkeletonFrameReady;
+        }
+
+        #endregion Kinect discovery + setup
+
         int totalFrames = 0;
         int lastFrames = 0;
         DateTime lastTime = DateTime.MaxValue;
@@ -33,72 +101,71 @@ namespace KineticKala
         const int RED_IDX = 2;
         const int GREEN_IDX = 1;
         const int BLUE_IDX = 0;
-        byte[] depthFrame32 = new byte[320 * 240 * 4];
+        short[] depthFrame32 = new short[320 * 240 * 4];
 
-        Dictionary<JointID, Brush> jointColors =
-            new Dictionary<JointID, Brush>(){
-            {JointID.HipCenter,new SolidColorBrush(Color.FromRgb(169,176,155))},
-            {JointID.Spine,new SolidColorBrush(Color.FromRgb(169,176,155))},
-            {JointID.ShoulderCenter,new SolidColorBrush(Color.FromRgb(168,230,29))},
-            {JointID.Head,new SolidColorBrush(Color.FromRgb(200,0,0))},
+        Dictionary<JointType, Brush> JointTypeColors =
+            new Dictionary<JointType, Brush>(){
+            {JointType.HipCenter,new SolidColorBrush(Color.FromRgb(169,176,155))},
+            {JointType.Spine,new SolidColorBrush(Color.FromRgb(169,176,155))},
+            {JointType.ShoulderCenter,new SolidColorBrush(Color.FromRgb(168,230,29))},
+            {JointType.Head,new SolidColorBrush(Color.FromRgb(200,0,0))},
 
-            {JointID.ShoulderLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.ElbowLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.WristLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.HandLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.ShoulderRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.ElbowRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.WristRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.HandRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.HipLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.KneeLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.AnkleLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.FootLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.HipRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.KneeRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.AnkleRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
-            {JointID.FootRight,new SolidColorBrush(Color.FromRgb(200,0,0))}
+            {JointType.ShoulderLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.ElbowLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.WristLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.HandLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.ShoulderRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.ElbowRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.WristRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.HandRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.HipLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.KneeLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.AnkleLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.FootLeft,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.HipRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.KneeRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.AnkleRight,new SolidColorBrush(Color.FromRgb(200,0,0))},
+            {JointType.FootRight,new SolidColorBrush(Color.FromRgb(200,0,0))}
             };
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            nui  = new Runtime();
-            try
-            {
-                nui.Initialize(RuntimeOptions.UseDepthAndPlayerIndex | RuntimeOptions.UseSkeletalTracking | RuntimeOptions.UseColor);
-            }
-            catch (Exception)
-            {
-                return;
-                //throw;
-            }
-            try
-            {
-                nui.VideoStream.Open(ImageStreamType.Video, 2, ImageResolution.Resolution640x480, ImageType.Color);
-                nui.DepthStream.Open(ImageStreamType.Depth, 2, ImageResolution.Resolution320x240, ImageType.DepthAndPlayerIndex);
-
-            }
-            catch (Exception)
-            {
-                return; 
-             //   throw;
-            }
             lastTime = DateTime.Now;
-            //nui.DepthFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_DepthFrameReady);
-            nui.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(nui_SkeletonFrameReady);
-            //nui.VideoFrameReady += new EventHandler<ImageFrameReadyEventArgs>(nui_ColorFrameReady);
-
-
         }
 
-        void nui_ColorFrameReady(object sender, ImageFrameReadyEventArgs e)
+        byte[] pixelData;
+        void nui_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
         {
-            PlanarImage Image = e.ImageFrame.Image;
+            bool receivedData = false;
+            using (ColorImageFrame colorImageFrame = e.OpenColorImageFrame())
+            {
+                if (colorImageFrame != null)
+                {
+                    if (pixelData == null) //allocate the first time
+                    {
+                        pixelData = new byte[colorImageFrame.PixelDataLength];
+                    }
+                    colorImageFrame.CopyPixelDataTo(pixelData);
+                    receivedData = true;
+                }
+                else
+                {
+                    // apps processing of image data is taking too long, it got more than 2 frames behind.
+                    // the data is no longer avabilable.
+                }
+            }
+            if (receivedData)
+            {
+                // DISPLAY OR PROCESS IMAGE DATA IN pixelData HERE
+            }
             
         }
+
+        private Skeleton[] skeletonData;
+
         void nui_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
-            SkeletonFrame skeletonFrame = e.SkeletonFrame;
+            SkeletonFrame skeletonFrame = e.OpenSkeletonFrame();
             int iSkeleton = 0;
             Brush[] brushes = new Brush[6];
             brushes[0] = new SolidColorBrush(Color.FromRgb(255, 0, 0));
@@ -109,75 +176,79 @@ namespace KineticKala
             brushes[5] = new SolidColorBrush(Color.FromRgb(128, 128, 255));
 
             skeleton.Children.Clear();
-            foreach (SkeletonData data in skeletonFrame.Skeletons)
+            if (skeletonFrame != null)
             {
-                if (SkeletonTrackingState.Tracked == data.TrackingState)
+                if ((this.skeletonData == null) || (this.skeletonData.Length != skeletonFrame.SkeletonArrayLength))
                 {
-                    // Draw bones
-                    Brush brush = brushes[iSkeleton % brushes.Length];
-                    //skeleton.Children.Add(getBodySegment(data.Joints, brush, JointID.HipCenter, JointID.Spine, JointID.ShoulderCenter, JointID.Head));
-                    //skeleton.Children.Add(getBodySegment(data.Joints, brush, JointID.ShoulderCenter, JointID.ShoulderLeft, JointID.ElbowLeft, JointID.WristLeft, JointID.HandLeft));
-                    //skeleton.Children.Add(getBodySegment(data.Joints, brush, JointID.ShoulderCenter, JointID.ShoulderRight, JointID.ElbowRight, JointID.WristRight, JointID.HandRight));
-                    //skeleton.Children.Add(getBodySegment(data.Joints, brush, JointID.HipCenter, JointID.HipLeft, JointID.KneeLeft, JointID.AnkleLeft, JointID.FootLeft));
-                    //skeleton.Children.Add(getBodySegment(data.Joints, brush, JointID.HipCenter, JointID.HipRight, JointID.KneeRight, JointID.AnkleRight, JointID.FootRight));
-                    skeleton.Children.Add(getFishBody(data.Joints, brush));
-            
-                    
-                    
-                    // Draw joints
-                    //foreach (Joint joint in data.Joints)
-                    //{
-                    //    Point jointPos = getDisplayPosition(joint);
-                    //    Line jointLine = new Line();
-                    //    jointLine.X1 = jointPos.X - 3;
-                    //    jointLine.X2 = jointLine.X1 + 6;
-                    //    jointLine.Y1 = jointLine.Y2 = jointPos.Y;
-                    //    jointLine.Stroke = jointColors[joint.ID];
-                    //    jointLine.StrokeThickness = 6;
-                    //    skeleton.Children.Add(jointLine);
-                    //}
+                    this.skeletonData = new Skeleton[skeletonFrame.SkeletonArrayLength];
                 }
-                iSkeleton++;
-            } // for each skeleton
-        }
-        public Point getDisplayPosition(Joint joint)
-        {
-            float depthX, depthY;
-            nui.SkeletonEngine.SkeletonToDepthImage(joint.Position, out depthX, out depthY);
-            depthX = depthX * 320; //convert to 320, 240 space
-            depthY = depthY * 240; //convert to 320, 240 space
-            int colorX, colorY;
-            ImageViewArea iv = new ImageViewArea();
-            // only ImageResolution.Resolution640x480 is supported at this point
-            nui.NuiCamera.GetColorPixelCoordinatesFromDepthPixel(ImageResolution.Resolution640x480, iv, (int)depthX, (int)depthY, (short)0, out colorX, out colorY);
+                skeletonFrame.CopySkeletonDataTo(this.skeletonData);
+                foreach (Skeleton data in this.skeletonData)
+                {
+                    if (SkeletonTrackingState.Tracked == data.TrackingState)
+                    {
+                        // Draw bones
+                        Brush brush = brushes[iSkeleton % brushes.Length];
+                        //skeleton.Children.Add(getBodySegment(data.Joints, brush, Joint.HipCenter, Joint.Spine, Joint.ShoulderCenter, Joint.Head));
+                        //skeleton.Children.Add(getBodySegment(data.Joints, brush, Joint.ShoulderCenter, Joint.ShoulderLeft, Joint.ElbowLeft, Joint.WristLeft, Joint.HandLeft));
+                        //skeleton.Children.Add(getBodySegment(data.Joints, brush, Joint.ShoulderCenter, Joint.ShoulderRight, Joint.ElbowRight, Joint.WristRight, Joint.HandRight));
+                        //skeleton.Children.Add(getBodySegment(data.Joints, brush, Joint.HipCenter, Joint.HipLeft, Joint.KneeLeft, Joint.AnkleLeft, Joint.FootLeft));
+                        //skeleton.Children.Add(getBodySegment(data.Joints, brush, Joint.HipCenter, Joint.HipRight, Joint.KneeRight, Joint.AnkleRight, Joint.FootRight));
+                        skeleton.Children.Add(getFishBody(data.Joints, brush));
 
-            // map back to skeleton.Width & skeleton.Height
+
+
+                        // Draw joints
+                        //foreach (Joint joint in data.Joints)
+                        //{
+                        //    Point jointPos = getDisplayPosition(joint);
+                        //    Line jointLine = new Line();
+                        //    jointLine.X1 = jointPos.X - 3;
+                        //    jointLine.X2 = jointLine.X1 + 6;
+                        //    jointLine.Y1 = jointLine.Y2 = jointPos.Y;
+                        //    jointLine.Stroke = jointColors[joint.ID];
+                        //    jointLine.StrokeThickness = 6;
+                        //    skeleton.Children.Add(jointLine);
+                        //}
+                    }
+                    iSkeleton++;
+                } // for each skeleton
+            }
+        }
+
+        private Point getDisplayPosition(Joint joint)
+        {
+            int colorX, colorY;
+            ColorImagePoint colorPoint = sensorChooser.Kinect.MapSkeletonPointToColor(joint.Position, ColorImageFormat.RgbResolution640x480Fps30);
+            colorX = colorPoint.X;
+            colorY = colorPoint.Y;
+
             return new Point((int)(skeleton.Width * colorX / 640.0), (int)(skeleton.Height * colorY / 480));
         }
 
-        public Polyline getFishBody(Microsoft.Research.Kinect.Nui.JointsCollection joints, Brush brush)
+        public Polyline getFishBody(Microsoft.Kinect.JointCollection joints, Brush brush)
         {
             PointCollection points = new PointCollection(6);
 
-            points.Add(getDisplayPosition(joints[JointID.Head]));
-           // points.Add(getDisplayPosition(joints[JointID.ShoulderCenter]));
-            points.Add(getDisplayPosition(joints[JointID.Spine]));
-           // points.Add(getDisplayPosition(joints[JointID.HipCenter]));
+            points.Add(getDisplayPosition(joints[JointType.Head]));
+           // points.Add(getDisplayPosition(joints[Joint.ShoulderCenter]));
+            points.Add(getDisplayPosition(joints[JointType.Spine]));
+           // points.Add(getDisplayPosition(joints[Joint.HipCenter]));
 
             //points.Add(Average(
-            //getDisplayPosition(joints[JointID.HipRight]),
-            //getDisplayPosition(joints[JointID.HipLeft]))
+            //getDisplayPosition(joints[Joint.HipRight]),
+            //getDisplayPosition(joints[Joint.HipLeft]))
             //);
 
 
             //points.Add(Average(
-            //getDisplayPosition(joints[JointID.KneeLeft]),
-            //getDisplayPosition(joints[JointID.KneeRight]))
+            //getDisplayPosition(joints[Joint.KneeLeft]),
+            //getDisplayPosition(joints[Joint.KneeRight]))
             //);
 
             points.Add(Average(
-            getDisplayPosition(joints[JointID.AnkleLeft]),
-            getDisplayPosition(joints[JointID.AnkleRight]))
+            getDisplayPosition(joints[JointType.AnkleLeft]),
+            getDisplayPosition(joints[JointType.AnkleRight]))
             );
 
             Polyline polyline = new Polyline();
@@ -186,15 +257,15 @@ namespace KineticKala
             polyline.StrokeThickness = 5;
             return polyline;
         }
-        Path fish(Microsoft.Research.Kinect.Nui.JointsCollection joints, Brush brush)
+        Path fish(Microsoft.Kinect.JointCollection joints, Brush brush)
         {
             PathFigure myPathFigure = new PathFigure();
             
             Point a =  Average(
-            getDisplayPosition(joints[JointID.AnkleLeft]),
-            getDisplayPosition(joints[JointID.AnkleRight]) );
-            Point b = getDisplayPosition(joints[JointID.Head]);
-            Point c = getDisplayPosition(joints[JointID.Spine]);
+            getDisplayPosition(joints[JointType.AnkleLeft]),
+            getDisplayPosition(joints[JointType.AnkleRight]));
+            Point b = getDisplayPosition(joints[JointType.Head]);
+            Point c = getDisplayPosition(joints[JointType.Spine]);
 
             c = multiplyDistance( a, b, c, 2);
             
@@ -383,7 +454,7 @@ namespace KineticKala
             return new Point(c.X - dx * k, c.Y -dy * k);
         }
 
-        Polyline getBodySegment(Microsoft.Research.Kinect.Nui.JointsCollection joints, Brush brush, params JointID[] ids)
+        Polyline getBodySegment(Microsoft.Kinect.JointCollection joints, Brush brush, params JointType[] ids)
         {
             PointCollection points = new PointCollection(ids.Length);
             for (int i = 0; i < ids.Length; ++i)
@@ -398,15 +469,37 @@ namespace KineticKala
             return polyline;
         }
 
-        void nui_DepthFrameReady(object sender, ImageFrameReadyEventArgs e)
+        short[] depthPixelData;
+        void nui_DepthFrameReady(object sender, DepthImageFrameReadyEventArgs e)
         {
-            PlanarImage Image = e.ImageFrame.Image;
-            byte[] convertedDepthFrame = convertDepthFrame(Image.Bits);
+            bool receivedData = false;
+            using (DepthImageFrame depthImageFrame = e.OpenDepthImageFrame())
+            {
+                if (depthImageFrame != null)
+                {
+                    if (depthPixelData == null) //allocate the first time
+                    {
+                        depthPixelData = new short[depthImageFrame.PixelDataLength];
+                    }
+                    depthImageFrame.CopyPixelDataTo(depthPixelData);
+                    receivedData = true;
+                }
+                else
+                {
+                    // apps processing of image data took too long; it got more than 2 frames behind.
+                    // the data is no longer avabilable.
+                }
+            }
+            if (receivedData)
+            {
+                // DISPLAY OR PROCESS IMAGE DATA IN pixelData HERE
+            }
+            short[] convertedDepthFrame = convertDepthFrame(depthPixelData);
 
         }
         // Converts a 16-bit grayscale depth frame which includes player indexes into a 32-bit frame
         // that displays different players in different colors
-        byte[] convertDepthFrame(byte[] depthFrame16)
+        short[] convertDepthFrame(short[] depthFrame16)
         {
             for (int i16 = 0, i32 = 0; i16 < depthFrame16.Length && i32 < depthFrame32.Length; i16 += 2, i32 += 4)
             {
