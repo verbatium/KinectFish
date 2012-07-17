@@ -1,0 +1,17 @@
+Open source software to demonstrate robot fish built in
+Tallinn University of Technology Centre for Biorobotics
+as part of FILOSE (FIsh LOcomotion and SEnsing) project.
+
+To compile, you need:
+AForge.NET Framework (tested version 2.2.4.1)
+Kinect for Windows SDK v1.5 (earlier code requires beta2)
+Microsoft Expression blend SDK for .NET 4 (for full screen support)
+WPF Toolkit (tested version 3.5.50211.1)
+Microsoft Visual C# 2010 (tested Visual Studio Express and Ultimate)
+
+Serial port drivers for fish and fans:
+PL-2303 USB-to-Serial
+Silicon Laboratories CP210x VCP Drivers
+
+Kinect requires Windows 7 or later versions and requires a good USB 2.0 hub to itself.
+Plug serial port converters to other hubs.
